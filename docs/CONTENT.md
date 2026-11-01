@@ -7,10 +7,10 @@ id: eiken2                       # ファイル名と同じにする（小文字
 title: 英検2級・TOEIC600レベル   # メニューに表示される名前
 description: 日常・ビジネスの基本語彙   # 任意
 questions:
-  - answer: postponed            # 書き取る綴り（小文字 a-z のみ）
-    sentence: The meeting was postponed until Monday.   # 読み上げる例文
-    meaning: 延期された          # 答えの意味（出題中に表示）
-    translation: 会議は月曜日まで延期された。         # 例文の和訳（解答後に表示）
+  - answer: postponed            # 例文の中の重要語（小文字 a-z のみ。解答後に強調表示）
+    sentence: The meeting was postponed until Monday.   # 読み上げて、まるごと書き取らせる例文
+    meaning: 延期された          # 重要語の意味（正解したときに表示）
+    translation: 会議は月曜日まで延期された。         # 例文の和訳（正解したときに表示）
     tags: [business]             # 任意
     id: postponed-2              # 任意（同じ answer を2回使うときだけ。下記参照）
     note: 自分用メモ             # 任意（ゲームには配信されない）
@@ -20,7 +20,10 @@ questions:
 
 - `answer` は例文に出てくる形そのまま（`postpone` ではなく `postponed` など）。例文の中に**単語として**含まれている必要があります（`post` は `postponed` の一部なので不可）。
 - 文頭で大文字になっていても構いません（`However, ...` に対して `answer: however`）。
-- 同じ単語が例文に複数回出てくる場合、空欄になるのは最初の1つです。
+- プレイヤーが書き取るのは `sentence` 全体です。入力するのは英字だけで、空白と記号は自動で埋まります。
+- `sentence` に使えるのは英字・空白と `. , ? ! ; : ' " -` だけです。数字は英語で書いてください（`7` → `seven`）。アクセント付きの文字（`café` など）も入力できないので使えません。
+- 日本語（`meaning` と `translation`）は出題中には表示されず、正解したときだけ表示されます。
+- 同じ単語が例文に複数回出てくる場合、強調表示されるのは最初の1つです。
 - `answer` にアポストロフィやハイフン、スペースは使えません（画面のキーボードが a〜z のみのため）。
 - 同じ問題集の中で同じ `answer` は1回だけです。同じ単語を別の例文でも出したいときは、2つ目以降に `id` を付けます。
 

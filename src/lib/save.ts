@@ -24,11 +24,13 @@ export function sanitizeProgress(v: unknown): Progress {
   const p = newProgress();
   if (!isObj(v)) return p;
   if (typeof v.name === "string") p.name = v.name.slice(0, 20);
-  for (const k of ["leg", "legDone", "totalKm", "laps", "answered", "correctFirst"] as const) {
+  // 以前の形式にあった legDone / totalKm（区間の途中の進み）は読まない → 出発地からやり直し
+  for (const k of ["leg", "laps", "answered", "correctFirst"] as const) {
     const n = v[k];
     if (typeof n === "number" && Number.isFinite(n) && n >= 0) p[k] = n;
   }
   p.leg = Math.floor(p.leg);
+  p.laps = Math.floor(p.laps);
   return p;
 }
 

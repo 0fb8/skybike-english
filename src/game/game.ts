@@ -1,14 +1,21 @@
 // 1回のプレイの進行（DOM・音声・保存に依存しない。テスト対象）。
 // 画面は state を読んで描くだけ、入力は Game のメソッドを呼ぶだけにする。
 // 時刻はすべて呼び出し側から ms で渡す（テストで時間を進められるように）。
+//
+// ルール:
+// - 例文を聞いて、まるごと書き取る（英字だけ入力。空白と記号は自動で埋まる）
+// - 高度は時間とともに下がり、正しい文字を 1 文字書くたびに少し上がる。打ち間違えても下がらない
+// - 区間（都市→都市）の問題数を解くと到着。途中で高度 0 になったら墜落してその渡航は失敗、
+//   メニューに戻り、次は出発地からやり直し
 import type { Config, PlayQuestion } from "../content/schema";
-import { advance, altitudeGain, crashSetback, type Progress } from "../lib/quiz";
+import { letterTarget } from "../content/text";
+import { completeLeg, type Progress } from "../lib/quiz";
 
 export type Mode =
   | "idle" //    メニュー
   | "play" //    出題中
   | "review" //  解答後、次の問題までの間
-  | "crash" //   墜落中
+  | "crash" //   墜落中（終わるとメニューへ）
   | "arrived"; // 都市に到着
 
 export interface AnswerResult {
@@ -20,10 +27,15 @@ export interface AnswerResult {
 export interface GameState {
   mode: Mode;
   progress: Progress;
+  /** 今の渡航で進んだ問題数（飛行船のブースト中は 1 問で複数進む）。保存しない */
+  legDone: number;
   /** 0..100。0 で墜落 */
   altitude: number;
   question: PlayQuestion | null;
-  typed: string;
+  /** 書き取る英字（小文字） */
+  target: string;
+  /** 正しく書けた文字数 */
+  typed: number;
   isAirship: boolean;
   /** 出題ごとに増える番号。前の問題の読み上げ終了通知を無視するのに使う */
   turn: number;
@@ -31,17 +43,17 @@ export interface GameState {
   speaking: boolean;
   /** この問題で一度でも打ち間違えたか */
   missed: boolean;
-  /** 読み上げが終わった時刻（解答時間の起点） */
-  answerStart: number;
   boostUntil: number;
   /** review / crash が終わる時刻 */
   phaseUntil: number;
   arrivedAfterReview: boolean;
   crashT: number;
-  /** 打ち間違えたときの画面の赤み 0..1 */
+  /** 打ち間違えたときの画面の赤み 0..1（見た目だけ。高度は変わらない） */
   flash: number;
   /** 直前の解答結果（review / crash 中に表示する） */
   result: AnswerResult | null;
+  /** 直前の渡航が墜落で終わった（メニューで知らせる） */
+  lastFlightFailed: boolean;
 }
 
 export type GameEvent =
@@ -66,7 +78,7 @@ export interface GameOptions {
 
 export const CRASH_MS = 2800;
 const NO_REVIEW_MS = 450;
-const WRONG_EXTRA_MS = 800;
+const PASS_EXTRA_MS = 800;
 
 export class Game {
   readonly state: GameState;
@@ -77,9 +89,10 @@ export class Game {
     this.cfg = o.config;
     this.random = o.random ?? Math.random;
     this.state = {
-      mode: "idle", progress: o.progress, altitude: o.config.altitude.start,
-      question: null, typed: "", isAirship: false, turn: 0, speaking: false, missed: false,
-      answerStart: 0, boostUntil: 0, phaseUntil: 0, arrivedAfterReview: false, crashT: 0, flash: 0, result: null,
+      mode: "idle", progress: o.progress, legDone: 0, altitude: o.config.altitude.start,
+      question: null, target: "", typed: 0, isAirship: false, turn: 0, speaking: false, missed: false,
+      boostUntil: 0, phaseUntil: 0, arrivedAfterReview: false, crashT: 0, flash: 0, result: null,
+      lastFlightFailed: false,
     };
   }
 
@@ -89,18 +102,20 @@ export class Game {
 
   // ---------- 入力 ----------
 
+  /** 出発地から渡航を始める */
   start(now: number): void {
     const s = this.state;
     if (s.mode !== "idle" && s.mode !== "arrived") return;
-    s.altitude = this.cfg.altitude.start;
+    Object.assign(s, { altitude: this.cfg.altitude.start, legDone: 0, boostUntil: 0, lastFlightFailed: false });
     this.next(now);
   }
 
+  /** 渡航をやめる（途中の進みは失われ、次は出発地から） */
   quit(): void {
     const s = this.state;
     if (s.mode === "idle") return;
     this.o.emit({ type: "stopSpeaking" });
-    Object.assign(s, { mode: "idle", question: null, result: null, speaking: false });
+    Object.assign(s, { mode: "idle", question: null, result: null, speaking: false, legDone: 0, boostUntil: 0 });
     this.o.emit({ type: "progress" });
   }
 
@@ -109,11 +124,8 @@ export class Game {
     this.o.emit({ type: "progress" });
   }
 
-  speechEnded(turn: number, now: number): void {
-    const s = this.state;
-    if (turn !== s.turn || !s.speaking) return;
-    s.speaking = false;
-    s.answerStart = now;
+  speechEnded(turn: number): void {
+    if (turn === this.state.turn) this.state.speaking = false;
   }
 
   replay(): void {
@@ -122,30 +134,26 @@ export class Game {
   }
 
   letter(ch: string, now: number): void {
-    const s = this.state, q = s.question;
-    if (s.mode !== "play" || !q) return;
-    if (ch === q.answer[s.typed.length]) {
-      s.typed += ch;
-      if (s.typed === q.answer) this.correct(now);
+    const s = this.state;
+    if (s.mode !== "play" || !s.question) return;
+    if (ch.toLowerCase() === s.target[s.typed]) {
+      s.typed++;
+      s.altitude = Math.min(100, s.altitude + this.cfg.altitude.gainPerLetter);
+      if (s.typed === s.target.length) this.correct(now);
     } else {
-      s.altitude = Math.max(0, s.altitude - this.cfg.altitude.wrongPenalty);
       s.flash = 1;
       s.missed = true;
       this.o.emit({ type: "wrongLetter", letter: ch });
     }
   }
 
-  backspace(): void { if (this.state.mode === "play") this.state.typed = this.state.typed.slice(0, -1); }
-  clearTyped(): void { if (this.state.mode === "play") this.state.typed = ""; }
-
   pass(now: number): void {
     const s = this.state, q = s.question;
     if (s.mode !== "play" || !q) return;
     s.speaking = false;
     this.o.emit({ type: "stopSpeaking" });
-    s.altitude = Math.max(0, s.altitude - this.cfg.altitude.passPenalty);
     s.progress.answered++;
-    this.finish(now, { ok: false, message: `正解は ${q.answer}（${q.meaning}）`, question: q }, false);
+    this.finish(now, { ok: false, message: "パス。正解はこちら", question: q }, false);
   }
 
   // ---------- 時間経過 ----------
@@ -164,8 +172,8 @@ export class Game {
       if (s.arrivedAfterReview) this.arrive();
       else this.next(now);
     } else if (s.mode === "crash") {
-      s.altitude = a.start;
-      this.next(now);
+      // 渡航失敗。メニューに戻り、次は出発地から
+      Object.assign(s, { mode: "idle", result: null, legDone: 0, boostUntil: 0, altitude: a.start, lastFlightFailed: true });
     }
   }
 
@@ -176,32 +184,34 @@ export class Game {
     const airship = !this.isBoosting(now) && this.random() < this.cfg.airship.probability;
     const q = this.o.draw({ airship });
     if (!q) {
-      Object.assign(s, { mode: "idle", question: null, result: null });
+      Object.assign(s, { mode: "idle", question: null, result: null, legDone: 0 });
       this.o.emit({ type: "noQuestions" });
       return;
     }
     s.turn++;
-    Object.assign(s, { mode: "play", question: q, isAirship: airship, typed: "", missed: false, result: null, speaking: true, answerStart: now });
-    this.o.emit({ type: "speak", turn: s.turn, first: true, text: q.sentence, airship: s.isAirship });
+    Object.assign(s, {
+      mode: "play", question: q, target: letterTarget(q.sentence), typed: 0, isAirship: airship,
+      missed: false, result: null, speaking: true,
+    });
+    this.o.emit({ type: "speak", turn: s.turn, first: true, text: q.sentence, airship });
   }
 
   private correct(now: number): void {
     const s = this.state, q = s.question!, ship = this.cfg.airship;
-    const seconds = s.speaking ? 0 : (now - s.answerStart) / 1000;
     s.speaking = false;
-    s.altitude = Math.min(100, s.altitude + altitudeGain(this.cfg.altitude, seconds));
     const boosting = this.isBoosting(now);
     s.progress.answered++;
     if (!s.missed) s.progress.correctFirst++;
 
-    let message = seconds < 4 ? "すばらしい！ ↑↑" : seconds < 9 ? "OK！ ↑" : "なんとか…";
+    let message = s.missed ? "正解！" : "ノーミスで正解！";
     if (s.isAirship) {
       s.boostUntil = now + ship.boostSeconds * 1000;
       message = `飛行船クリア！ ${ship.boostSeconds}秒間スピード${ship.multiplier}倍！`;
     }
-    const r = advance(s.progress, boosting ? ship.multiplier : 1, this.perLeg, this.o.legs);
-    s.progress = r.progress;
-    this.finish(now, { ok: true, message, question: q }, r.arrived);
+    s.legDone = Math.min(this.perLeg, s.legDone + (boosting ? ship.multiplier : 1));
+    const arrived = s.legDone >= this.perLeg;
+    if (arrived) s.progress = completeLeg(s.progress, this.o.legs.length);
+    this.finish(now, { ok: true, message, question: q }, arrived);
   }
 
   private finish(now: number, result: AnswerResult, arrived: boolean): void {
@@ -209,7 +219,7 @@ export class Game {
     s.mode = "review";
     s.result = result;
     s.arrivedAfterReview = arrived;
-    s.phaseUntil = now + (d.showReview ? d.reviewMs + (result.ok ? 0 : WRONG_EXTRA_MS) : NO_REVIEW_MS);
+    s.phaseUntil = now + (d.showReview ? d.reviewMs + (result.ok ? 0 : PASS_EXTRA_MS) : NO_REVIEW_MS);
     this.o.emit({ type: "progress" });
   }
 
@@ -217,15 +227,13 @@ export class Game {
     const s = this.state;
     s.speaking = false;
     this.o.emit({ type: "stopSpeaking" });
-    const r = crashSetback(s.progress, this.cfg.altitude.crashSetback, this.perLeg, this.o.legs);
-    s.progress = r.progress;
-    if (s.question) s.result = { ok: false, message: `ザブーン！ 海に墜落… ${r.back}問ぶん戻された`, question: s.question };
-    Object.assign(s, { mode: "crash", crashT: 0, question: null, phaseUntil: now + CRASH_MS });
+    if (s.question) s.result = { ok: false, message: "ザブーン！ 海に墜落… この渡航は失敗", question: s.question };
+    Object.assign(s, { mode: "crash", crashT: 0, question: null, legDone: 0, phaseUntil: now + CRASH_MS });
     this.o.emit({ type: "progress" });
   }
 
   private arrive(): void {
     this.o.emit({ type: "stopSpeaking" });
-    Object.assign(this.state, { mode: "arrived", question: null, result: null });
+    Object.assign(this.state, { mode: "arrived", question: null, result: null, legDone: 0 });
   }
 }

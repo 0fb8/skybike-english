@@ -5,6 +5,8 @@ import { containsWord } from "./text";
 
 /** キーボードで入力できる文字。入力方法を増やすときはここを広げる。 */
 export const ANSWER_PATTERN = /^[a-z]+$/;
+/** 例文に使える文字。英字は入力し、空白と記号は自動で埋まる（数字などは入力できないので使わない） */
+export const SENTENCE_PATTERN = /^[A-Za-z .,?!;:'"-]+$/;
 
 /** 問題集 id・問題 id に使える文字 */
 const ID_PATTERN = /^[a-z0-9-]+$/;
@@ -17,13 +19,13 @@ export const QuestionSchema = z
      * 同じ問題集で同じ answer を別の例文で出したいときだけ付ける。
      */
     id: z.string().regex(ID_PATTERN, "id は小文字英数字とハイフンのみ").optional(),
-    /** 書き取る綴り。例文に出てくる形のまま（例: postponed） */
+    /** 例文の中の重要語。例文に出てくる形のまま（例: postponed）。解答後に強調表示する */
     answer: z.string().regex(ANSWER_PATTERN, "answer は小文字 a-z のみ"),
-    /** 読み上げる例文。answer を単語として含むこと */
-    sentence: z.string().min(1),
-    /** answer の意味（日本語） */
+    /** 読み上げて、まるごと書き取らせる例文。answer を単語として含むこと */
+    sentence: z.string().regex(SENTENCE_PATTERN, "sentence に使えるのは英字・空白と . , ? ! ; : ' \" - だけです（数字は英語で書く）"),
+    /** answer の意味（日本語。正解後に表示） */
     meaning: z.string().min(1),
-    /** 例文の和訳 */
+    /** 例文の和訳（正解後に表示） */
     translation: z.string().min(1),
     /** 任意: 分類用のタグ */
     tags: z.array(z.string()).optional(),
@@ -95,9 +97,8 @@ export const ConfigSchema = z
     order: z.enum(["shuffle", "sequential"]),
     display: z
       .object({
-        sentence: z.enum(["blank", "hidden"]),
+        /** 出題中、まだ書いていない部分を "_" で見せる（単語の長さと記号がわかる） */
         showLetterCount: z.boolean(),
-        showMeaning: z.boolean(),
         showReview: z.boolean(),
         reviewMs: z.number().int().min(0),
       })
@@ -116,12 +117,7 @@ export const ConfigSchema = z
         start: z.number().min(1).max(100),
         decayPerSec: z.number().min(0),
         decayIncreasePerLap: z.number().min(0),
-        gainMax: z.number().min(0),
-        gainMin: z.number().min(0),
-        gainFalloffPerSec: z.number().min(0),
-        wrongPenalty: z.number().min(0),
-        passPenalty: z.number().min(0),
-        crashSetback: z.number().min(0).max(1),
+        gainPerLetter: z.number().min(0),
       })
       .strict(),
     airship: z
@@ -129,7 +125,6 @@ export const ConfigSchema = z
         probability: z.number().min(0).max(1),
         boostSeconds: z.number().min(0),
         multiplier: z.number().int().min(1),
-        showMeaning: z.boolean(),
       })
       .strict(),
   })

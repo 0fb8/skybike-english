@@ -16,13 +16,11 @@ questionsPerLeg: 15
 order: shuffle
 
 display:
-  # blank: 空欄つき例文を表示 / hidden: 例文は表示しない（音だけ）
-  sentence: blank
+  # 出題中、まだ書いていない部分を "_" で見せる（単語の長さと記号がわかる）
   showLetterCount: true
-  showMeaning: true
-  # 解答後に例文全体と和訳を表示する
+  # 正解後に例文全体と和訳を表示する（和訳は正解したときだけ出る）
   showReview: true
-  reviewMs: 2600
+  reviewMs: 3200
 
 speech:
   rate: 0.9
@@ -48,20 +46,15 @@ speech:
     accentQuestions: 20
 
 altitude:
-  # 高度は 0〜100。0 で墜落。読み上げが終わってから減り始める。
+  # 高度は 0〜100。時間とともに下がり、0 で墜落（その区間は失敗してメニューに戻る）。
+  # 読み上げが終わってから下がり始める。打ち間違えても下がらない。
   start: 55
-  decayPerSec: 2.0
-  decayIncreasePerLap: 0.4
-  gainMax: 28
-  gainMin: 8
-  gainFalloffPerSec: 1.6
-  wrongPenalty: 5
-  passPenalty: 12
-  # 墜落時に戻される割合（1区間の問題数に対して）
-  crashSetback: 0.3
+  decayPerSec: 4.0
+  decayIncreasePerLap: 0.5
+  # 正しい文字を 1 文字書くたびに上がる量（例文は平均 40 文字ほど）
+  gainPerLetter: 2.5
 
 airship:
   probability: 0.12
   boostSeconds: 25
   multiplier: 2
-  showMeaning: false

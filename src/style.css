@@ -24,13 +24,15 @@ button:active { transform:translateY(1px); }
 .b-quit { background:var(--green); color:#fff; }
 .b-listen { background:var(--accent); color:#fff; }
 #sentenceBox { min-height:64px; border:1.5px dashed #bbb; border-radius:8px; padding:6px 8px; font-size:15px; line-height:1.45; display:flex; flex-direction:column; justify-content:center; }
-#sentenceBox .blank { display:inline-block; border-bottom:2px solid #333; min-width:3em; text-align:center; font-family:"Courier New",monospace; letter-spacing:1px; color:#999; }
+#sentenceBox .dictation { font:600 17px/1.5 "Courier New",monospace; word-break:break-word; }
+#sentenceBox .dictation .rest { color:#aaa; }
+#sentenceBox .cur { display:inline-block; width:.55em; height:1em; background:#222; vertical-align:-2px; animation:blink 1s steps(2) infinite; }
 #sentenceBox .hit { background:#fff2a8; font-weight:700; }
 #sentenceBox .tr { font-size:12px; color:#666; margin-top:3px; }
 #sentenceBox .muted { color:#999; font-size:13px; }
-#kbd { display:grid; grid-template-columns:repeat(10,1fr); gap:4px; }
-#kbd button { padding:9px 0; font:700 17px "Courier New",monospace; border-width:1.5px; border-radius:6px; }
-#kbd .wide { grid-column:span 2; font-size:13px; }
+#kbd { display:flex; flex-direction:column; gap:4px; }
+#kbd .krow { display:flex; gap:4px; justify-content:center; }
+#kbd button { flex:0 0 calc((100% - 36px) / 10); padding:9px 0; font:700 17px "Courier New",monospace; border-width:1.5px; border-radius:6px; }
 #feedback { text-align:center; height:20px; font-weight:700; font-size:14px; }
 .ok { color:var(--green); font-weight:700; } .ng { color:var(--accent); font-weight:700; }
 .overlay { position:absolute; inset:0; background:#fff; display:none; flex-direction:column; }

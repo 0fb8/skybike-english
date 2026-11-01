@@ -6,11 +6,11 @@
 import "./style.css";
 import { config, sets } from "virtual:content";
 import type { PlayQuestion } from "./content/schema";
-import { escapeHtml as esc, splitAtAnswer } from "./content/text";
+import { currentWord, escapeHtml as esc, maskLetters, revealSentence, splitAtAnswer } from "./content/text";
 import { CITIES } from "./data/route";
 import { Game, type AnswerResult, type GameEvent, type GameState, type Mode } from "./game/game";
 import { legDistances } from "./lib/geo";
-import { QuestionBag } from "./lib/quiz";
+import { QuestionBag, totalKm } from "./lib/quiz";
 import { loadSave, writeSave } from "./lib/save";
 import { speak, stopSpeaking, unlockAudio } from "./lib/speech";
 import { audioUrl, pickAccentQuestion, ttsAccent } from "./lib/voices";
@@ -68,7 +68,7 @@ function onGameEvent(e: GameEvent) {
       if (!e.first) { speak(req); break; }
       setTimeout(() => {
         if (game.state.turn !== e.turn || game.state.mode !== "play") return;
-        speak(req, () => game.speechEnded(e.turn, performance.now()));
+        speak(req, () => game.speechEnded(e.turn));
       }, SPEAK_DELAY_MS);
       break;
     }
@@ -106,20 +106,22 @@ async function start() {
 }
 
 // ---------- 表示部品 ----------
-function blankSentence(q: PlayQuestion) {
-  const parts = splitAtAnswer(q.sentence, q.answer);
-  if (!parts) return esc(q.sentence);
-  const blank = config.display.showLetterCount ? "_ ".repeat(q.answer.length).trim() : "＿＿＿";
-  return `${esc(parts.before)}<span class="blank">${blank}</span>${esc(parts.after)}`;
+/** 書き取り中の例文（書けた部分 → カーソル → 残りの伏せ字） */
+function dictationHtml(q: PlayQuestion, typed: number) {
+  const { done, rest } = revealSentence(q.sentence, typed);
+  const tail = config.display.showLetterCount ? `<span class="rest">${esc(maskLetters(rest))}</span>` : "";
+  return `<div class="dictation">${esc(done)}<span class="cur"></span>${tail}</div>`;
 }
 function highlightSentence(q: PlayQuestion) {
   const parts = splitAtAnswer(q.sentence, q.answer);
   if (!parts) return esc(q.sentence);
   return `${esc(parts.before)}<span class="hit">${esc(parts.match)}</span>${esc(parts.after)}`;
 }
+/** 解答後の表示。日本語（和訳・重要語の意味）は正解したときだけ出す */
 function reviewHtml(r: AnswerResult) {
-  return `<div class="${r.ok ? "ok" : "ng"}">${esc(r.message)}</div><div>${highlightSentence(r.question)}</div>` +
-    (r.question.translation ? `<div class="tr">${esc(r.question.translation)}</div>` : "");
+  const q = r.question;
+  return `<div class="${r.ok ? "ok" : "ng"}">${esc(r.message)}</div><div>${highlightSentence(q)}</div>` +
+    (r.ok ? `<div class="tr">${esc(q.translation)}</div><div class="tr"><b>${esc(q.answer)}</b>：${esc(q.meaning)}</div>` : "");
 }
 function feedback(text: string, cls = "") {
   const e = $("feedback");
@@ -150,17 +152,19 @@ function showMap(on: boolean) {
   if (!on) return;
   const p = game.state.progress, name = p.name || "あなた";
   $("mapName").textContent = name;
-  $("mapTotal").textContent = Math.round(p.totalKm).toLocaleString();
-  drawMap($<HTMLCanvasElement>("mapCanvas"), { totalKm: p.totalKm, nextIndex: (p.leg + 1) % CITIES.length, name, legs: LEGS });
+  const km = totalKm(p, LEGS);
+  $("mapTotal").textContent = Math.round(km).toLocaleString();
+  drawMap($<HTMLCanvasElement>("mapCanvas"), { totalKm: km, nextIndex: (p.leg + 1) % CITIES.length, name, legs: LEGS });
 }
 
 function showMenu(s: GameState) {
-  const p = s.progress;
-  const remaining = p.legDone ? `・残り${game.perLeg - Math.floor(p.legDone)}問` : "";
+  const p = s.progress, here = CITIES[p.leg % CITIES.length];
+  const failed = s.lastFlightFailed ? `<div class="ng">海に墜落して渡航失敗… ${esc(here.ja)}からもう一度！</div>` : "";
   showMap(true);
   showPanel(`
     ${p.name ? `<h2>${esc(p.name)} さん、おかえり！</h2>` : `<h2>空とぶ自転車で世界一周</h2><div>なまえ：<input id="nameInput" maxlength="8" placeholder="なまえ"></div>`}
-    <div>次の目的地は <b>${esc(nextCity().name)}</b>（${game.perLeg}問${remaining}）</div>
+    ${failed}
+    <div>${esc(here.ja)}から <b>${esc(nextCity().name)}</b> へ（${game.perLeg}問）</div>
     <button class="big" id="btnStart">スタート</button>
     ${setsHtml()}${stampsHtml(p.laps)}${statsHtml(s)}`);
   document.querySelectorAll<HTMLInputElement>("[data-set]").forEach((cb) => (cb.onchange = () => {
@@ -195,27 +199,27 @@ function onModeChange(from: Mode | null, to: Mode, s: GameState) {
 
 // ---------- プレイ中の表示（関係する値が変わったときだけ書き換える） ----------
 function renderPlay(s: GameState) {
-  const q = s.question, d = config.display;
+  const q = s.question;
   if (!q) { $("wordBar").innerHTML = ""; $("meaning").textContent = ""; }
   else {
-    const rest = d.showLetterCount ? `<span class="rest">${"·".repeat(Math.max(0, q.answer.length - s.typed.length - 1))}</span>` : "";
-    $("wordBar").innerHTML = esc(s.typed) + (s.typed.length < q.answer.length ? `<span class="cur"></span>${rest}` : "");
-    const showMeaning = s.isAirship ? config.airship.showMeaning : d.showMeaning;
+    // 上画面: 入力中の単語
+    const w = currentWord(q.sentence, s.typed);
+    const rest = config.display.showLetterCount ? `<span class="rest">${"·".repeat(Math.max(0, w.restLetters - 1))}</span>` : "";
+    $("wordBar").innerHTML = esc(w.done) + (w.restLetters ? `<span class="cur"></span>${rest}` : "");
+    // 出題中は日本語を出さない
     $("meaning").innerHTML = s.isAirship
-      ? `✈ 飛行船！ <b>${esc(nextCity().region)}</b>なまり${showMeaning ? "：" + esc(q.meaning) : "の例文を聞き取ろう"}`
-      : showMeaning ? esc(q.meaning) : "";
+      ? `✈ 飛行船！ <b>${esc(nextCity().region)}</b>なまりの例文を聞き取ろう`
+      : "🔊 例文をまるごと書き取ろう";
   }
   if (s.mode === "play" && q) {
-    $("sentenceBox").innerHTML = d.sentence === "hidden"
-      ? `<span class="muted">🔊 例文を聞いて、空欄に入る単語を書こう</span>`
-      : `<div>${blankSentence(q)}</div>`;
-  } else if (s.result && (s.mode === "crash" || (s.mode === "review" && d.showReview))) {
+    $("sentenceBox").innerHTML = dictationHtml(q, s.typed);
+  } else if (s.result && (s.mode === "crash" || (s.mode === "review" && config.display.showReview))) {
     $("sentenceBox").innerHTML = reviewHtml(s.result);
   }
   const p = s.progress, n = game.perLeg;
   $("dest").textContent = "→ " + nextCity().ja;
-  $("remain").textContent = "あと " + Math.max(0, Math.round((LEGS[p.leg] * (n - p.legDone)) / n)).toLocaleString() + "km";
-  $("count").textContent = s.mode === "play" || s.mode === "review" ? `${Math.floor(p.legDone)} / ${n}問` : "";
+  $("remain").textContent = "あと " + Math.max(0, Math.round((LEGS[p.leg] * (n - s.legDone)) / n)).toLocaleString() + "km";
+  $("count").textContent = s.mode === "play" || s.mode === "review" ? `${Math.floor(s.legDone)} / ${n}問` : "";
 }
 
 // ---------- メインループ ----------
@@ -230,7 +234,7 @@ function loop(now: number) {
   const s = game.state;
 
   if (s.mode !== lastMode) { onModeChange(lastMode, s.mode, s); lastMode = s.mode; }
-  const view = [s.mode, s.turn, s.typed, s.isAirship, s.result?.message, s.progress.legDone, s.progress.leg].join("|");
+  const view = [s.mode, s.turn, s.typed, s.isAirship, s.result?.message, s.legDone, s.progress.leg].join("|");
   if (view !== lastView) { renderPlay(s); lastView = view; }
 
   const boosting = game.isBoosting(now) && game.isFlying();
@@ -251,13 +255,17 @@ function loop(now: number) {
 
 // ---------- 入力 ----------
 function buildKeyboard() {
-  const kb = $("kbd");
-  const add = (label: string, fn: () => void, cls = "") => {
-    const b = document.createElement("button"); b.textContent = label; b.className = cls; b.onclick = fn; kb.appendChild(b);
-  };
-  for (const ch of "qwertyuiopasdfghjklzxcvbnm") add(ch, () => game.letter(ch, performance.now()));
-  add("書き直し", () => game.clearTyped(), "wide");
-  add("⌫", () => game.backspace(), "wide");
+  for (const keys of ["qwertyuiop", "asdfghjkl", "zxcvbnm"]) {
+    const row = document.createElement("div");
+    row.className = "krow";
+    for (const ch of keys) {
+      const b = document.createElement("button");
+      b.textContent = ch;
+      b.onclick = () => game.letter(ch, performance.now());
+      row.appendChild(b);
+    }
+    $("kbd").appendChild(row);
+  }
 }
 document.addEventListener("keydown", (e) => {
   const t = e.target as HTMLElement;
@@ -267,7 +275,6 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Enter" && startBtn && (mode === "idle" || mode === "arrived")) { startBtn.click(); e.preventDefault(); return; }
   if (mode !== "play") return;
   if (/^[a-zA-Z]$/.test(e.key)) { game.letter(e.key.toLowerCase(), performance.now()); e.preventDefault(); }
-  else if (e.key === "Backspace") { game.backspace(); e.preventDefault(); }
   else if (e.key === " ") { game.replay(); e.preventDefault(); }
 });
 $("btnListen").onclick = () => game.replay();
