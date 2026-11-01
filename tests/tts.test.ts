@@ -2,6 +2,7 @@ import { cpSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
+import { parseDocument } from "yaml";
 import { loadContent } from "../scripts/content";
 import { audioHash, audioJobs, pickForAccent } from "../scripts/tts/jobs";
 import { LocalStore } from "../scripts/tts/store";
@@ -12,6 +13,17 @@ import { audioUrl, pickAccentQuestion, pickSpeaker, ttsAccent } from "../src/lib
 const root = join(import.meta.dirname, "..");
 const content = loadContent(join(root, "content"));
 const config = content.config!;
+
+/** speech.tts.storage を指定した値にした content/ の複製（undefined なら storage を消す）。本物の config.yaml の storage に左右されないため */
+function contentCopy(storage: { bucket: string; baseUrl: string } | undefined): string {
+  const dir = mkdtempSync(join(tmpdir(), "content-"));
+  cpSync(join(root, "content"), dir, { recursive: true });
+  const doc = parseDocument(readFileSync(join(dir, "config.yaml"), "utf8"));
+  if (storage) doc.setIn(["speech", "tts", "storage"], storage);
+  else doc.deleteIn(["speech", "tts", "storage"]);
+  writeFileSync(join(dir, "config.yaml"), String(doc));
+  return dir;
+}
 
 describe("audioJobs", () => {
   const jobs = audioJobs(config, content.sets);
@@ -53,8 +65,9 @@ describe("audioJobs", () => {
   });
 });
 
-describe("contentPlugin", () => {
-  const load = (audioDir: string, id: string, contentDir?: string) => {
+describe("contentPlugin（音声を audio/ に置くとき）", () => {
+  const contentDir = contentCopy(undefined);
+  const load = (audioDir: string, id: string) => {
     const plugin = contentPlugin({ root, audioDir, contentDir });
     return (plugin.load as (id: string) => string).call({}, "\0" + id);
   };
@@ -80,12 +93,7 @@ describe("contentPlugin", () => {
 });
 
 describe("contentPlugin（音声を S3 に置くとき）", () => {
-  // config.yaml に storage を足した content/ の複製
-  const dir = mkdtempSync(join(tmpdir(), "content-"));
-  cpSync(join(root, "content"), dir, { recursive: true });
-  const yaml = readFileSync(join(dir, "config.yaml"), "utf8")
-    .replace("    accentQuestions:", "    storage: { bucket: b, baseUrl: \"https://cdn.example\" }\n    accentQuestions:");
-  writeFileSync(join(dir, "config.yaml"), yaml);
+  const dir = contentCopy({ bucket: "test-bucket", baseUrl: "https://cdn.example" });
 
   it("全部の音声に配信元の URL を付け、ビルドには含めない", () => {
     const plugin = contentPlugin({ root, contentDir: dir, audioDir: mkdtempSync(join(tmpdir(), "audio-")) });
@@ -99,6 +107,7 @@ describe("contentPlugin（音声を S3 に置くとき）", () => {
     const code = (plugin.load as (id: string) => string).call({}, "\0virtual:content");
     expect(code).toContain("accents");
     expect(code).not.toContain("storage");
+    expect(code).not.toContain("test-bucket");
   });
 });
 
