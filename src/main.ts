@@ -10,6 +10,7 @@ import { currentWord, escapeHtml as esc, maskLetters, revealSentence, splitAtAns
 import { CITIES } from "./data/route";
 import { Game, type AnswerResult, type GameEvent, type GameState, type Mode } from "./game/game";
 import { legDistances } from "./lib/geo";
+import { historyList, recordOutcome, type Outcome } from "./lib/history";
 import { QuestionBag, totalKm } from "./lib/quiz";
 import { loadSave, writeSave } from "./lib/save";
 import { prefetchAudio, speak, stopSpeaking, unlockAudio } from "./lib/speech";
@@ -88,6 +89,7 @@ function onGameEvent(e: GameEvent) {
     }
     case "stopSpeaking": stopSpeaking(); break;
     case "wrongLetter": feedback(`× ${e.letter}`, "ng"); break;
+    case "outcome": save.history = recordOutcome(save.history, e.question.key, e.outcome, Date.now()); break; // 続く progress で保存される
     case "progress": persist(); break;
     case "noQuestions": feedback("出題できる問題がありません", "ng"); break;
   }
@@ -180,12 +182,14 @@ function showMenu(s: GameState) {
     ${failed}
     <div>${esc(here.ja)}から <b>${esc(nextCity().name)}</b> へ（${game.perLeg}問）</div>
     <button class="big" id="btnStart">スタート</button>
+    ${reviewButtonHtml()}
     ${setsHtml()}${stampsHtml(p.laps)}${statsHtml(s)}`);
   document.querySelectorAll<HTMLInputElement>("[data-set]").forEach((cb) => (cb.onchange = () => {
     save.enabledSets = [...document.querySelectorAll<HTMLInputElement>("[data-set]:checked")].map((c) => c.dataset.set!);
     writeSave(save);
   }));
   $("btnStart").onclick = start;
+  bindReviewButton(() => showMenu(game.state));
 }
 
 function showArrive(s: GameState) {
@@ -199,8 +203,98 @@ function showArrive(s: GameState) {
     <h2>${esc(here.ja)}（${esc(here.name)}）に到着！</h2>${lapMsg}
     <div>次の目的地は <b>${esc(nextCity().name)}</b></div>
     <button class="big" id="btnStart">スタート</button>
+    ${reviewButtonHtml()}
     ${stampsHtml(p.laps)}${statsHtml(s)}`);
   $("btnStart").onclick = start;
+  bindReviewButton(() => showArrive(game.state));
+}
+
+// ---------- 復習（出題された問題の一覧と、その音声） ----------
+type ReviewFilter = "all" | Outcome;
+const OUTCOME_LABEL: Record<Outcome, string> = { correct: "✔ 正解", failed: "✖ 答えられなかった" };
+const FILTER_LABEL: Record<ReviewFilter, string> = { all: "すべて", failed: "答えられなかった", correct: "正解" };
+
+const reviewButtonHtml = () => {
+  const n = Object.keys(save.history).length;
+  return n ? `<button id="btnReview">📖 復習（${n}問）</button>` : "";
+};
+function bindReviewButton(back: () => void) {
+  const b = document.getElementById("btnReview");
+  if (b) b.onclick = () => void showReview("all", back);
+}
+
+/** 記録にある問題の問題集を読み込み、キー → 問題 の表を返す（問題集から消えた問題は入らない） */
+async function reviewQuestions(): Promise<Map<string, PlayQuestion>> {
+  const ids = new Set(Object.keys(save.history).map((k) => k.split("/")[0]));
+  await Promise.all(sets.filter((s) => ids.has(s.id) && !loadedSets.has(s.id)).map(async (s) => loadedSets.set(s.id, await s.load())));
+  return new Map([...ids].flatMap((id) => loadedSets.get(id) ?? []).map((q) => [q.key, q]));
+}
+
+/** 声の名前（config.yaml の speakers のキー）を表示用に（tiffany → Tiffany） */
+const speakerLabel = (name: string) => name.charAt(0).toUpperCase() + name.slice(1);
+
+/** ボタンの文字を少しの間だけ変える */
+function flashLabel(b: HTMLButtonElement, text: string) {
+  const original = b.dataset.label ?? b.textContent ?? "";
+  b.dataset.label = original;
+  b.textContent = text;
+  setTimeout(() => (b.textContent = original), 1500);
+}
+
+async function showReview(filter: ReviewFilter, back: () => void) {
+  let questions: Map<string, PlayQuestion>;
+  try {
+    questions = await reviewQuestions();
+  } catch (err) {
+    feedback("問題データを読み込めませんでした", "ng");
+    console.error(err);
+    return;
+  }
+  const titles = new Map(sets.map((s) => [s.id, s.title]));
+  const rows = historyList(save.history, filter).filter((e) => questions.has(e.key));
+  const date = (at: number) => new Date(at).toLocaleDateString("ja-JP", { month: "numeric", day: "numeric" });
+  const items = rows.map((e) => {
+    const q = questions.get(e.key)!;
+    const counts = [e.correct && `正解 ${e.correct}回`, e.failed && `答えられず ${e.failed}回`].filter(Boolean).join("・");
+    // 声ごとに聴くボタン（音声ファイルが無い問題はブラウザの声で 1 つ）
+    const speakers = Object.keys(q.audio?.speakers ?? {});
+    const plays = (speakers.length ? speakers : [""]).map((name) =>
+      `<button class="rv-play" data-key="${esc(e.key)}" data-speaker="${esc(name)}">🔊 ${name ? esc(speakerLabel(name)) : "聴く"}</button>`).join("");
+    return `<li class="rv-item">
+      <div class="rv-body">
+        <div class="${e.last === "correct" ? "ok" : "ng"}">${OUTCOME_LABEL[e.last]}</div>
+        <div class="rv-en">${highlightSentence(q)}</div>
+        <div class="tr">${esc(q.translation)}</div>
+        <div class="tr"><b>${esc(q.answer)}</b>：${esc(q.meaning)}</div>
+        <div class="rv-meta">${esc(titles.get(q.setId) ?? q.setId)}・${counts}・最後は ${date(e.at)}</div>
+        <div class="rv-actions">${plays}<button class="rv-copy" data-key="${esc(e.key)}">📋 英文をコピー</button></div>
+      </div></li>`;
+  });
+  const tabs = (Object.keys(FILTER_LABEL) as ReviewFilter[]).map((f) =>
+    `<button class="rv-tab ${f === filter ? "on" : ""}" data-filter="${f}">${FILTER_LABEL[f]}</button>`).join("");
+  showPanel(`<h2>復習</h2>
+    <div class="rv-tabs">${tabs}</div>
+    ${items.length ? `<ul class="rv-list">${items.join("")}</ul>` : `<div class="small">まだありません</div>`}
+    <button id="btnBack">戻る</button>`);
+
+  document.querySelectorAll<HTMLButtonElement>(".rv-tab").forEach((b) => (b.onclick = () => void showReview(b.dataset.filter as ReviewFilter, back)));
+  document.querySelectorAll<HTMLButtonElement>(".rv-play").forEach((b) => (b.onclick = () => {
+    const q = questions.get(b.dataset.key!);
+    if (!q) return;
+    unlockAudio(); // クリックの処理中に呼ぶ必要がある
+    speak({ text: q.sentence, url: audioUrl(q, false, undefined, b.dataset.speaker || undefined), langs: config.speech.voice, rate: config.speech.rate });
+  }));
+  document.querySelectorAll<HTMLButtonElement>(".rv-copy").forEach((b) => (b.onclick = async () => {
+    const q = questions.get(b.dataset.key!);
+    if (!q) return;
+    try {
+      await navigator.clipboard.writeText(q.sentence);
+      flashLabel(b, "✔ コピーしました");
+    } catch {
+      flashLabel(b, "コピーできませんでした");
+    }
+  }));
+  $("btnBack").onclick = () => { stopSpeaking(); back(); };
 }
 
 function onModeChange(from: Mode | null, to: Mode, s: GameState) {

@@ -54,3 +54,16 @@ button:active { transform:translateY(1px); }
 #playArea { display:flex; flex-direction:column; gap:8px; }
 .small { font-size:12px; color:#666; } .center { text-align:center; }
 .stats { font-size:12px; color:#444; }
+/* 復習 */
+.rv-tabs { display:flex; gap:6px; }
+.rv-tab { font-size:12px; padding:5px 10px; }
+.rv-tab.on { background:var(--ink); color:#fff; }
+.rv-list { list-style:none; margin:0; padding:0; width:100%; max-height:340px; overflow-y:auto; text-align:left; display:flex; flex-direction:column; gap:8px; }
+.rv-item { display:flex; gap:8px; align-items:flex-start; border:1.5px solid #ccc; border-radius:8px; padding:8px; background:#fff; }
+.rv-actions { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+.rv-actions button { font-size:12px; padding:4px 8px; }
+.rv-body { display:flex; flex-direction:column; gap:2px; font-size:14px; min-width:0; }
+.rv-en .hit { background:#fff2a8; font-weight:700; }
+.rv-body .tr { font-size:12px; color:#666; }
+.rv-meta { font-size:11px; color:#888; }
+

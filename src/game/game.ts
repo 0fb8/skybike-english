@@ -10,6 +10,7 @@
 import type { Config, PlayQuestion } from "../content/schema";
 import { letterTarget } from "../content/text";
 import { completeLeg, type Progress } from "../lib/quiz";
+import type { Outcome } from "../lib/history";
 
 export type Mode =
   | "idle" //    メニュー
@@ -63,6 +64,8 @@ export type GameEvent =
   | { type: "wrongLetter"; letter: string }
   /** progress が変わった（保存どき） */
   | { type: "progress" }
+  /** 問題の結果（復習用の記録）。途中で打ち間違えても最後まで書ければ correct、墜落・パスは failed。やめた問題は出さない */
+  | { type: "outcome"; question: PlayQuestion; outcome: Outcome }
   | { type: "noQuestions" };
 
 export interface GameOptions {
@@ -153,6 +156,7 @@ export class Game {
     s.speaking = false;
     this.o.emit({ type: "stopSpeaking" });
     s.progress.answered++;
+    this.o.emit({ type: "outcome", question: q, outcome: "failed" });
     this.finish(now, { ok: false, message: "パス。正解はこちら", question: q }, false);
   }
 
@@ -211,6 +215,7 @@ export class Game {
     s.legDone = Math.min(this.perLeg, s.legDone + (boosting ? ship.multiplier : 1));
     const arrived = s.legDone >= this.perLeg;
     if (arrived) s.progress = completeLeg(s.progress, this.o.legs.length);
+    this.o.emit({ type: "outcome", question: q, outcome: "correct" });
     this.finish(now, { ok: true, message, question: q }, arrived);
   }
 
@@ -227,7 +232,10 @@ export class Game {
     const s = this.state;
     s.speaking = false;
     this.o.emit({ type: "stopSpeaking" });
-    if (s.question) s.result = { ok: false, message: "ザブーン！ 海に墜落… この渡航は失敗", question: s.question };
+    if (s.question) {
+      s.result = { ok: false, message: "ザブーン！ 海に墜落… この渡航は失敗", question: s.question };
+      this.o.emit({ type: "outcome", question: s.question, outcome: "failed" });
+    }
     Object.assign(s, { mode: "crash", crashT: 0, question: null, legDone: 0, phaseUntil: now + CRASH_MS });
     this.o.emit({ type: "progress" });
   }

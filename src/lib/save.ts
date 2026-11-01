@@ -1,8 +1,9 @@
 // 保存データの形式。形式を変えるときは SAVE_VERSION を上げ、migrate() に古い形からの変換を足す。
+import { sanitizeHistory, type History } from "./history";
 import { newProgress, type Progress } from "./quiz";
 import { loadJSON, removeKey, saveJSON } from "./storage";
 
-export const SAVE_VERSION = 1;
+export const SAVE_VERSION = 2;
 const KEY = "save";
 
 export interface SaveData {
@@ -12,9 +13,11 @@ export interface SaveData {
   bag: string[];
   /** プレイヤーが選んだ問題集。null は config.yaml の初期設定に従う */
   enabledSets: string[] | null;
+  /** 出題された問題の記録（復習画面用。版 2 で追加） */
+  history: History;
 }
 
-export const emptySave = (): SaveData => ({ version: SAVE_VERSION, progress: newProgress(), bag: [], enabledSets: null });
+export const emptySave = (): SaveData => ({ version: SAVE_VERSION, progress: newProgress(), bag: [], enabledSets: null, history: {} });
 
 const isObj = (v: unknown): v is Record<string, unknown> => typeof v === "object" && v !== null && !Array.isArray(v);
 const strings = (v: unknown): string[] | null => (Array.isArray(v) && v.every((x) => typeof x === "string") ? v : null);
@@ -36,12 +39,14 @@ export function sanitizeProgress(v: unknown): Progress {
 
 /** 保存されていた値（どの版でも）を現在の形にする */
 export function migrate(raw: unknown): SaveData {
-  if (!isObj(raw) || raw.version !== SAVE_VERSION) return emptySave();
+  // 版 1 → 2: 出題の記録（history）を追加。ほかは同じ
+  if (!isObj(raw) || (raw.version !== 1 && raw.version !== SAVE_VERSION)) return emptySave();
   return {
     version: SAVE_VERSION,
     progress: sanitizeProgress(raw.progress),
     bag: strings(raw.bag) ?? [],
     enabledSets: raw.enabledSets === null ? null : strings(raw.enabledSets),
+    history: raw.version === 1 ? {} : sanitizeHistory(raw.history),
   };
 }
 

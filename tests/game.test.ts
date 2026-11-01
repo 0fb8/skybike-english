@@ -150,6 +150,20 @@ describe("Game", () => {
     expect(game.state.progress.answered).toBe(1);
   });
 
+  it("問題の結果を記録用に知らせる（打ち間違えても書き切れば正解、墜落・パスは答えられなかった、やめたら出さない）", () => {
+    const outcomes = (events: GameEvent[]) => events.flatMap((e) => (e.type === "outcome" ? [[e.question.sentence, e.outcome]] : []));
+    const a = setup();
+    a.game.start(0);
+    a.type("x"); a.type("imok"); a.game.tick(1000, 0); // 打ち間違えてから正解
+    a.game.pass(1000); a.game.tick(5000, 0);           // パス
+    a.endSpeech(); a.game.tick(5100, 10);              // 墜落
+    expect(outcomes(a.events)).toEqual([["I'm ok.", "correct"], ["Go now!", "failed"], ["Yes, sir.", "failed"]]);
+    const b = setup();
+    b.game.start(0);
+    b.game.quit();
+    expect(outcomes(b.events)).toEqual([]);
+  });
+
   it("問題が尽きたらメニューに戻る", () => {
     const { game, events } = setup({ questions: [] });
     game.start(0);
