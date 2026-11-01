@@ -34,12 +34,14 @@ export interface DraftItem {
 }
 
 /**
- * 答えにしない語: 間投詞・あいさつ・相づち。文の中で書き取るのは自然だが、覚える単語としての価値が低い。
+ * 答えにしない語: 間投詞・あいさつ・相づち、ごく基本の接続詞など。文の中で書き取るのは自然だが、覚える単語としての価値が低い。
  * CEFR-J では yeah・yes が副詞、hello・thanks が名詞として載っているので、品詞ではなくここで外す
  */
 export const NOT_ANSWERS = new Set([
   "yeah", "yes", "okay", "ok", "hello", "hi", "hey", "bye", "goodbye", "thanks", "oh", "ah", "wow", "oops", "ouch",
-  "hooray", "yay", "alas", "gee", "goodness", "damn", "uh", "um", "hmm",
+  "hooray", "yay", "alas", "gee", "goodness", "damn", "uh", "um", "hmm", "mrs",
+  // ごく基本の接続詞・指示語（単語表で別の品詞としても載っているので、機能語として外れない）
+  "and", "but", "that",
 ]);
 
 /** 既存の問題で使っている単語（原形）。同じ語を二度出さないため */
@@ -49,12 +51,20 @@ export function usedHeadwords(sets: QuestionSet[], list: WordList): Set<string> 
   return used;
 }
 
-/** 答えの単語の候補（基準のレベルの単語で、キーボードで打てて、まだ使っていないもの）。seed で順番が決まる */
-export function candidateHeadwords(list: WordList, criteria: LevelCriteria, used: Set<string>, seed: number): string[] {
+/**
+ * 答えの単語の候補（基準のレベルの単語で、キーボードで打てて、まだ使っていないもの）。seed で順番が決まる。
+ * functionWords（機能語としてだけ載っている語）のうち A1 のもの（the・you・this・can など）は、覚える単語にならないので外す。
+ * A2 以上の機能語（several・nobody・myself など）は残す。abbreviations（DVD・TV などの略語）も外す
+ */
+export function candidateHeadwords(
+  list: WordList, criteria: LevelCriteria, used: Set<string>, seed: number,
+  functionWords: Set<string> = new Set(), abbreviations: Set<string> = new Set(),
+): string[] {
   // 使った語とその変化形の候補（tangle を使っていれば tangled も除く。逆も）
   const family = new Set([...used].flatMap(inflections));
   const words = [...list]
-    .filter(([w, l]) => criteria.answer.includes(l) && /^[a-z]{3,}$/.test(w) && !NOT_ANSWERS.has(w) && !family.has(w) && !inflections(w).some((c) => used.has(c)))
+    .filter(([w, l]) => criteria.answer.includes(l) && /^[a-z]{3,}$/.test(w) && !NOT_ANSWERS.has(w) && !abbreviations.has(w) && !(l === "A1" && functionWords.has(w))
+      && !family.has(w) && !inflections(w).some((c) => used.has(c)))
     .map(([w]) => w)
     .sort();
   // 再現できるシャッフル（mulberry32）

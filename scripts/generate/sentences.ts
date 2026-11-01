@@ -14,7 +14,7 @@ import type { Question } from "../../src/content/schema";
 import { loadContent } from "../content";
 import { americanIssues, loadSpellingTable } from "../levels/american";
 import { lookup } from "../levels/analyze";
-import { loadWordList } from "../levels/wordlist";
+import { loadAbbreviations, loadFunctionWords, loadWordList } from "../levels/wordlist";
 import { candidateHeadwords, requestPrompt, retryPrompt, systemPrompt, usedHeadwords, validateItem, type DraftItem } from "./draft";
 
 const MODEL = "claude-opus-5-5";
@@ -50,7 +50,9 @@ const have = existing?.questions.length ?? 0;
 const need = Math.max(0, target - have);
 const taken = usedHeadwords(sets, list);
 // イギリス式の綴り（organise）やイギリス英語の語（parcel）は答えの候補にしない
-const pool = candidateHeadwords(list, criteria, taken, Date.now() & 0xffff).filter((w) => !americanIssues(w, spelling).length);
+const lists = join(root, "content", "wordlists");
+const pool = candidateHeadwords(list, criteria, taken, Date.now() & 0xffff, loadFunctionWords(lists), loadAbbreviations(lists))
+  .filter((w) => !americanIssues(w, spelling).length);
 console.log(`${levelId}（${criteria.title}）: いま ${have} 問、あと ${need} 問作ります。答えの候補 ${pool.length} 語（${criteria.answer.join("・")}、未使用）`);
 
 if (dryRun) {

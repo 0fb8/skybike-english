@@ -8,6 +8,8 @@ questionSets:
   #   enabled: false
   # - id: pre1
   #   enabled: false
+  - id: a1
+    enabled: true
   - id: a2
     enabled: true
   - id: b1
@@ -87,6 +89,12 @@ airship:
 #   othersAbove: othersMax を超えてよい語の数
 #   words:       例文の語数の範囲（書き取りの負担。暫定値で、実際の例文を見て調整する）
 levels:
+  a1:
+    title: CEFR A1
+    answer: [A1]
+    othersMax: A1
+    othersAbove: 1
+    words: [3, 6]
   a2:
     title: CEFR A2
     answer: [A2]

@@ -31,6 +31,38 @@ export function loadWordList(dir: string): WordList {
   return list;
 }
 
+/** 機能語の品詞（冠詞・代名詞・be/do/have 動詞・助動詞など） */
+const FUNCTION_POS = new Set(["determiner", "pronoun", "be-verb", "do-verb", "have-verb", "modal auxiliary", "infinitive-to"]);
+
+/** 機能語としてだけ載っている語（the・you・this・can など。名詞や動詞としても載っていれば入れない） */
+export function loadFunctionWords(dir: string): Set<string> {
+  const pos = new Map<string, Set<string>>();
+  for (const f of WORDLIST_FILES) {
+    const [header, ...rows] = parseCsv(readFileSync(join(dir, f), "utf8").replace(/^\uFEFF/, ""));
+    const hi = header.indexOf("headword"), pi = header.indexOf("pos");
+    for (const r of rows) {
+      for (const variant of (r[hi] ?? "").split("/")) {
+        const w = variant.trim().toLowerCase();
+        if (!w || /\s/.test(w)) continue;
+        if (!pos.has(w)) pos.set(w, new Set());
+        pos.get(w)!.add((r[pi] ?? "").trim());
+      }
+    }
+  }
+  return new Set([...pos].filter(([, ps]) => [...ps].every((p) => FUNCTION_POS.has(p))).map(([w]) => w));
+}
+
+/** 大文字の略語として載っている語（DVD・TV・DNA など。小文字にして引くと dvd などになる） */
+export function loadAbbreviations(dir: string): Set<string> {
+  const out = new Set<string>();
+  for (const f of WORDLIST_FILES) {
+    const [header, ...rows] = parseCsv(readFileSync(join(dir, f), "utf8").replace(/^\uFEFF/, ""));
+    const hi = header.indexOf("headword");
+    for (const r of rows) for (const v of (r[hi] ?? "").split("/")) if (/^[A-Z0-9]{2,}$/.test(v.trim())) out.add(v.trim().toLowerCase());
+  }
+  return out;
+}
+
 /** 引用符（"..."、"" はエスケープ）に対応した CSV の読み込み */
 export function parseCsv(text: string): string[][] {
   const rows: string[][] = [];

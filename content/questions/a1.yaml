@@ -1,0 +1,506 @@
+# 問題集: CEFR A1
+# npm run content:generate で作成。書式は docs/CONTENT.md を参照
+id: a1
+title: CEFR A1
+level: a1
+questions:
+  - answer: good
+    sentence: This soup tastes really good!
+    meaning: おいしい、良い
+    translation: このスープ、本当においしい！
+    note: "自動生成 2026-11-01 claude-opus-5-5: good [A1]"
+  - answer: always
+    sentence: She always calls me on Sundays.
+    meaning: いつも
+    translation: 彼女はいつも日曜日に電話をくれる。
+    note: "自動生成 2026-11-01 claude-opus-5-5: always [A1]"
+  - answer: live
+    sentence: We live near the station.
+    meaning: 住む
+    translation: 私たちは駅の近くに住んでいます。
+    note: "自動生成 2026-11-01 claude-opus-5-5: live [A1]"
+  - answer: hard
+    sentence: This test is really hard.
+    meaning: 難しい
+    translation: このテスト、すごく難しい。
+    note: "自動生成 2026-11-01 claude-opus-5-5: hard [A1]"
+  - answer: high
+    sentence: Prices are so high now.
+    meaning: 高い
+    translation: 今は物価がとても高い。
+    note: "自動生成 2026-11-01 claude-opus-5-5: high [A1]"
+  - answer: table
+    sentence: Can you set the table?
+    meaning: テーブル、食卓
+    translation: 食卓の準備をしてくれる？
+    note: "自動生成 2026-11-01 claude-opus-5-5: table [A1]"
+  - answer: bed
+    sentence: I'm going to bed early.
+    meaning: ベッド、寝床
+    translation: 今日は早く寝るね。
+    note: "自動生成 2026-11-01 claude-opus-5-5: bed [A1]"
+  - answer: red
+    sentence: I love your red shoes!
+    meaning: 赤い
+    translation: その赤い靴、すてきだね！
+    note: "自動生成 2026-11-01 claude-opus-5-5: red [A1]"
+  - answer: rain
+    sentence: It's going to rain later.
+    meaning: 雨が降る
+    translation: あとで雨が降りそうだよ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: rain [A1]"
+  - answer: pick
+    sentence: Can you pick me up?
+    meaning: （車で）迎えに行く
+    translation: 車で迎えに来てくれる？
+    note: "自動生成 2026-11-01 claude-opus-5-5: pick [A1]"
+  - answer: with
+    sentence: Come with me, please.
+    meaning: 〜と一緒に
+    translation: 一緒に来てください。
+    note: "自動生成 2026-11-01 claude-opus-5-5: with [A1]"
+  - answer: use
+    sentence: Can I use your pen?
+    meaning: 使う
+    translation: あなたのペンを使ってもいいですか？
+    note: "自動生成 2026-11-01 claude-opus-5-5: use [A1]"
+  - answer: over
+    sentence: The game is over.
+    meaning: 終わって
+    translation: 試合は終わりました。
+    note: "自動生成 2026-11-01 claude-opus-5-5: over [A1]"
+  - answer: start
+    sentence: What time does work start?
+    meaning: 始まる
+    translation: 仕事は何時に始まりますか？
+    note: "自動生成 2026-11-01 claude-opus-5-5: start [A1]"
+  - answer: phone
+    sentence: I can't find my phone!
+    meaning: 電話、携帯電話
+    translation: 携帯が見つからない！
+    note: "自動生成 2026-11-01 claude-opus-5-5: phone [A1]"
+  - answer: real
+    sentence: Is that a real flower?
+    meaning: 本物の
+    translation: それは本物の花ですか？
+    note: "自動生成 2026-11-01 claude-opus-5-5: real [A1]"
+  - answer: point
+    sentence: That's a good point.
+    meaning: 論点、指摘
+    translation: それはいい指摘ですね。
+    note: "自動生成 2026-11-01 claude-opus-5-5: point [A1]"
+  - answer: party
+    sentence: Are you coming to the party?
+    meaning: パーティー
+    translation: パーティーに来る？
+    note: "自動生成 2026-11-01 claude-opus-5-5: party [A1]"
+  - answer: dark
+    sentence: It's so dark in here.
+    meaning: 暗い
+    translation: ここはすごく暗いね。
+    note: "自動生成 2026-11-01 claude-opus-5-5: dark [A1]"
+  - answer: hurry
+    sentence: Hurry up, we're late!
+    meaning: 急ぐ
+    translation: 急いで、遅れてるよ！
+    note: "自動生成 2026-11-01 claude-opus-5-5: hurry [A1]"
+  - answer: well
+    sentence: I didn't sleep well last night.
+    meaning: よく、十分に
+    translation: 昨夜はよく眠れなかった。
+    note: "自動生成 2026-11-01 claude-opus-5-5: well [A1]"
+  - answer: room
+    sentence: Please clean your room today.
+    meaning: 部屋
+    translation: 今日は自分の部屋を掃除してね。
+    note: "自動生成 2026-11-01 claude-opus-5-5: room [A1]"
+  - answer: small
+    sentence: This shirt is too small.
+    meaning: 小さい
+    translation: このシャツは小さすぎる。
+    note: "自動生成 2026-11-01 claude-opus-5-5: small [A1]"
+  - answer: usually
+    sentence: I usually walk to work.
+    meaning: たいてい、普段は
+    translation: 私は普段、歩いて仕事に行きます。
+    note: "自動生成 2026-11-01 claude-opus-5-5: usually [A1]"
+  - answer: store
+    sentence: I need milk from the store.
+    meaning: 店
+    translation: お店で牛乳を買わなきゃ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: store [A1]"
+  - answer: lunch
+    sentence: Let's get lunch together tomorrow.
+    meaning: 昼食
+    translation: 明日一緒にお昼を食べようよ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: lunch [A1]"
+  - answer: mother
+    sentence: My mother is a great cook.
+    meaning: 母
+    translation: 母は料理がとても上手です。
+    note: "自動生成 2026-11-01 claude-opus-5-5: mother [A1]"
+  - answer: doctor
+    sentence: You should see a doctor.
+    meaning: 医者
+    translation: お医者さんに診てもらったほうがいいよ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: doctor [A1]"
+  - answer: between
+    sentence: Come sit between us!
+    meaning: 〜の間に
+    translation: 私たちの間に座りなよ！
+    note: "自動生成 2026-11-01 claude-opus-5-5: between [A1]"
+  - answer: where
+    sentence: Where is the bathroom?
+    meaning: どこに
+    translation: トイレはどこですか？
+    note: "自動生成 2026-11-01 claude-opus-5-5: where [A1]"
+  - answer: around
+    sentence: Let's walk around the park.
+    meaning: ～の周りを、～をぐるっと
+    translation: 公園をぐるっと歩こうよ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: around [A1]"
+  - answer: light
+    sentence: Can you turn off the light?
+    meaning: 明かり、電気
+    translation: 電気を消してくれる？
+    note: "自動生成 2026-11-01 claude-opus-5-5: light [A1]"
+  - answer: moment
+    sentence: Just a moment, I'm coming!
+    meaning: 少しの間、ちょっと
+    translation: ちょっと待って、今行くよ！
+    note: "自動生成 2026-11-01 claude-opus-5-5: moment [A1]"
+  - answer: sell
+    sentence: They sell good coffee here.
+    meaning: 売る
+    translation: ここはおいしいコーヒーを売っているよ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: sell [A1]"
+  - answer: four
+    sentence: We have four cats.
+    meaning: 4つの、4匹の
+    translation: うちには猫が4匹いるよ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: four [A1]"
+  - answer: taught
+    sentence: My dad taught me to swim.
+    meaning: 教える
+    translation: 父が泳ぎ方を教えてくれた。
+    note: "自動生成 2026-11-01 claude-opus-5-5: teach [A1]"
+  - answer: excuse
+    sentence: Excuse me, is this yours?
+    meaning: 許す（Excuse me：すみません）
+    translation: すみません、これはあなたのですか？
+    note: "自動生成 2026-11-01 claude-opus-5-5: excuse [A1]"
+  - answer: read
+    sentence: I read every night before bed.
+    meaning: 読む
+    translation: 毎晩寝る前に本を読むよ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: read [A1]"
+  - answer: very
+    sentence: Thank you very much!
+    meaning: とても
+    translation: 本当にありがとうございます！
+    note: "自動生成 2026-11-01 claude-opus-5-5: very [A1]"
+  - answer: from
+    sentence: Where are you from?
+    meaning: 〜から、〜出身
+    translation: どちらの出身ですか？
+    note: "自動生成 2026-11-01 claude-opus-5-5: from [A1]"
+  - answer: help
+    sentence: Can you help me with this?
+    meaning: 手伝う
+    translation: これ、手伝ってくれる？
+    note: "自動生成 2026-11-01 claude-opus-5-5: help [A1]"
+  - answer: again
+    sentence: Can you say that again?
+    meaning: もう一度
+    translation: もう一度言ってくれますか？
+    note: "自動生成 2026-11-01 claude-opus-5-5: again [A1]"
+  - answer: buy
+    sentence: Let's buy her flowers.
+    meaning: 買う
+    translation: 彼女に花を買おうよ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: buy [A1]"
+  - answer: idea
+    sentence: I have an idea!
+    meaning: 考え、アイデア
+    translation: いいこと思いついた！
+    note: "自動生成 2026-11-01 claude-opus-5-5: idea [A1]"
+  - answer: ready
+    sentence: Dinner is ready, everyone!
+    meaning: 準備ができた
+    translation: みんな、夕ご飯できたよ！
+    note: "自動生成 2026-11-01 claude-opus-5-5: ready [A1]"
+  - answer: plan
+    sentence: What's your plan this weekend?
+    meaning: 予定、計画
+    translation: 今週末の予定は何？
+    note: "自動生成 2026-11-01 claude-opus-5-5: plan [A1]"
+  - answer: car
+    sentence: Whose car is this?
+    meaning: 車
+    translation: これは誰の車？
+    note: "自動生成 2026-11-01 claude-opus-5-5: car [A1]"
+  - answer: dog
+    sentence: Can I walk your dog?
+    meaning: 犬
+    translation: あなたの犬を散歩させてもいい？
+    note: "自動生成 2026-11-01 claude-opus-5-5: dog [A1]"
+  - answer: give
+    sentence: Give me five minutes, okay?
+    meaning: 与える・くれる
+    translation: 5分ちょうだい、いい？
+    note: "自動生成 2026-11-01 claude-opus-5-5: give [A1]"
+  - answer: back
+    sentence: I'll be right back.
+    meaning: 戻って
+    translation: すぐ戻るね。
+    note: "自動生成 2026-11-01 claude-opus-5-5: back [A1]"
+  - answer: will
+    sentence: I will be there soon.
+    meaning: 〜するつもりだ・〜だろう
+    translation: すぐそっちに着くよ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: will [A1]"
+  - answer: why
+    sentence: Why are you so happy today?
+    meaning: なぜ
+    translation: 今日はどうしてそんなに機嫌がいいの？
+    note: "自動生成 2026-11-01 claude-opus-5-5: why [A1]"
+  - answer: visited
+    sentence: We visited my uncle last summer.
+    meaning: 訪ねる
+    translation: 去年の夏、おじを訪ねたよ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: visit [A1]"
+  - answer: spent
+    sentence: I spent too much money.
+    meaning: （お金を）使う
+    translation: お金を使いすぎちゃった。
+    note: "自動生成 2026-11-01 claude-opus-5-5: spend [A1]"
+  - answer: kitchen
+    sentence: Something smells good in the kitchen.
+    meaning: 台所
+    translation: 台所から何かいい匂いがする。
+    note: "自動生成 2026-11-01 claude-opus-5-5: kitchen [A1]"
+  - answer: weather
+    sentence: The weather is nice today.
+    meaning: 天気
+    translation: 今日はいい天気だね。
+    note: "自動生成 2026-11-01 claude-opus-5-5: weather [A1]"
+  - answer: sad
+    sentence: That movie was so sad.
+    meaning: 悲しい
+    translation: あの映画、すごく悲しかった。
+    note: "自動生成 2026-11-01 claude-opus-5-5: sad [A1]"
+  - answer: see
+    sentence: See you next week!
+    meaning: 会う
+    translation: また来週ね！
+    note: "自動生成 2026-11-01 claude-opus-5-5: see [A1]"
+  - answer: eat
+    sentence: What do you want to eat?
+    meaning: 食べる
+    translation: 何が食べたい？
+    note: "自動生成 2026-11-01 claude-opus-5-5: eat [A1]"
+  - answer: write
+    sentence: Please write your name here.
+    meaning: 書く
+    translation: ここに名前を書いてください。
+    note: "自動生成 2026-11-01 claude-opus-5-5: write [A1]"
+  - answer: world
+    sentence: She wants to travel the world.
+    meaning: 世界
+    translation: 彼女は世界を旅したいと思っている。
+    note: "自動生成 2026-11-01 claude-opus-5-5: world [A1]"
+  - answer: until
+    sentence: Wait here until I call.
+    meaning: 〜まで
+    translation: 私が電話するまでここで待っていて。
+    note: "自動生成 2026-11-01 claude-opus-5-5: until [A1]"
+  - answer: break
+    sentence: Let's take a short break.
+    meaning: 休憩
+    translation: 少し休憩しよう。
+    note: "自動生成 2026-11-01 claude-opus-5-5: break [A1]"
+  - answer: interested
+    sentence: Are you interested in art?
+    meaning: 興味がある
+    translation: アートに興味はある？
+    note: "自動生成 2026-11-01 claude-opus-5-5: interested [A1]"
+  - answer: careful
+    sentence: Be careful, the plate is hot!
+    meaning: 気をつける
+    translation: 気をつけて、お皿が熱いよ！
+    note: "自動生成 2026-11-01 claude-opus-5-5: careful [A1]"
+  - answer: famous
+    sentence: This town is famous for apples.
+    meaning: 有名な
+    translation: この町はりんごで有名だ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: famous [A1]"
+  - answer: top
+    sentence: I live on the top floor.
+    meaning: 一番上の
+    translation: 私は最上階に住んでいる。
+    note: "自動生成 2026-11-01 claude-opus-5-5: top [A1]"
+  - answer: want
+    sentence: I want a new bike.
+    meaning: 欲しい
+    translation: 新しい自転車が欲しいな。
+    note: "自動生成 2026-11-01 claude-opus-5-5: want [A1]"
+  - answer: now
+    sentence: I'm busy right now.
+    meaning: 今
+    translation: 今ちょっと忙しいんだ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: now [A1]"
+  - answer: day
+    sentence: Have a nice day!
+    meaning: 日、一日
+    translation: よい一日を！
+    note: "自動生成 2026-11-01 claude-opus-5-5: day [A1]"
+  - answer: year
+    sentence: Happy New Year!
+    meaning: 年
+    translation: あけましておめでとう！
+    note: "自動生成 2026-11-01 claude-opus-5-5: year [A1]"
+  - answer: free
+    sentence: Are you free tonight?
+    meaning: 暇な、空いている
+    translation: 今夜空いてる？
+    note: "自動生成 2026-11-01 claude-opus-5-5: free [A1]"
+  - answer: much
+    sentence: How much is this bag?
+    meaning: （値段が）いくら
+    translation: このバッグはいくらですか？
+    note: "自動生成 2026-11-01 claude-opus-5-5: much [A1]"
+  - answer: news
+    sentence: Did you see the news?
+    meaning: ニュース
+    translation: ニュース見た？
+    note: "自動生成 2026-11-01 claude-opus-5-5: news [A1]"
+  - answer: city
+    sentence: The city is busy at night.
+    meaning: 街、都市
+    translation: その街は夜もにぎやかだ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: city [A1]"
+  - answer: face
+    sentence: Wash your face and hands.
+    meaning: 顔
+    translation: 顔と手を洗いなさい。
+    note: "自動生成 2026-11-01 claude-opus-5-5: face [A1]"
+  - answer: hurts
+    sentence: My leg really hurts.
+    meaning: 痛む
+    translation: 脚がすごく痛い。
+    note: "自動生成 2026-11-01 claude-opus-5-5: hurt [A1]"
+  - answer: one
+    sentence: I only have one sister.
+    meaning: 一人の、一つの
+    translation: 私には姉妹が一人しかいません。
+    note: "自動生成 2026-11-01 claude-opus-5-5: one [A1]"
+  - answer: down
+    sentence: Please sit down, everyone.
+    meaning: 下に（座る）
+    translation: 皆さん、どうぞ座ってください。
+    note: "自動生成 2026-11-01 claude-opus-5-5: down [A1]"
+  - answer: problem
+    sentence: No problem, happy to help!
+    meaning: 問題
+    translation: 大丈夫だよ、喜んで手伝うよ！
+    note: "自動生成 2026-11-01 claude-opus-5-5: problem [A1]"
+  - answer: own
+    sentence: She has her own room now.
+    meaning: 自分自身の
+    translation: 彼女は今、自分の部屋を持っています。
+    note: "自動生成 2026-11-01 claude-opus-5-5: own [A1]"
+  - answer: love
+    sentence: We love going to the beach.
+    meaning: 大好きである
+    translation: 私たちはビーチに行くのが大好きです。
+    note: "自動生成 2026-11-01 claude-opus-5-5: love [A1]"
+  - answer: picture
+    sentence: Can you take our picture?
+    meaning: 写真
+    translation: 私たちの写真を撮ってもらえますか？
+    note: "自動生成 2026-11-01 claude-opus-5-5: picture [A1]"
+  - answer: drink
+    sentence: Drink some water, it's hot.
+    meaning: 飲む
+    translation: 水を飲んで、暑いから。
+    note: "自動生成 2026-11-01 claude-opus-5-5: drink [A1]"
+  - answer: drive
+    sentence: My brother can't drive yet.
+    meaning: 運転する
+    translation: 弟はまだ運転ができません。
+    note: "自動生成 2026-11-01 claude-opus-5-5: drive [A1]"
+  - answer: won
+    sentence: Our team won again!
+    meaning: 勝つ
+    translation: 私たちのチームがまた勝った！
+    note: "自動生成 2026-11-01 claude-opus-5-5: win [A1]"
+  - answer: move
+    sentence: Can you move your bag?
+    meaning: 動かす
+    translation: かばんをどかしてもらえますか？
+    note: "自動生成 2026-11-01 claude-opus-5-5: move [A1]"
+  - answer: how
+    sentence: How was your first day?
+    meaning: どうだった
+    translation: 初日はどうだった？
+    note: "自動生成 2026-11-01 claude-opus-5-5: how [A1]"
+  - answer: after
+    sentence: I'll call you after dinner.
+    meaning: 〜の後で
+    translation: 夕食の後で電話するね。
+    note: "自動生成 2026-11-01 claude-opus-5-5: after [A1]"
+  - answer: talk
+    sentence: Can we talk for a minute?
+    meaning: 話す
+    translation: ちょっと話せる？
+    note: "自動生成 2026-11-01 claude-opus-5-5: talk [A1]"
+  - answer: open
+    sentence: Is the bank open now?
+    meaning: 開いている
+    translation: 銀行は今開いてる？
+    note: "自動生成 2026-11-01 claude-opus-5-5: open [A1]"
+  - answer: turn
+    sentence: Turn left at the bus stop.
+    meaning: 曲がる
+    translation: バス停で左に曲がって。
+    note: "自動生成 2026-11-01 claude-opus-5-5: turn [A1]"
+  - answer: meet
+    sentence: Nice to meet you!
+    meaning: 会う
+    translation: はじめまして！
+    note: "自動生成 2026-11-01 claude-opus-5-5: meet [A1]"
+  - answer: wrong
+    sentence: Sorry, wrong number.
+    meaning: 間違った
+    translation: すみません、番号を間違えました。
+    note: "自動生成 2026-11-01 claude-opus-5-5: wrong [A1]"
+  - answer: both
+    sentence: I like both of them.
+    meaning: 両方
+    translation: どっちも好きだよ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: both [A1]"
+  - answer: already
+    sentence: I already ate, thanks.
+    meaning: もう、すでに
+    translation: もう食べたよ、ありがとう。
+    note: "自動生成 2026-11-01 claude-opus-5-5: already [A1]"
+  - answer: often
+    sentence: Do you often eat out?
+    meaning: よく、しばしば
+    translation: よく外食するの？
+    note: "自動生成 2026-11-01 claude-opus-5-5: often [A1]"
+  - answer: about
+    sentence: Tell me about your family.
+    meaning: 〜について
+    translation: あなたの家族について教えて。
+    note: "自動生成 2026-11-01 claude-opus-5-5: about [A1]"
+  - answer: long
+    sentence: That was a long day.
+    meaning: 長い
+    translation: 長い一日だったね。
+    note: "自動生成 2026-11-01 claude-opus-5-5: long [A1]"
+  - answer: nice
+    sentence: Your friends are really nice.
+    meaning: 親切な、感じのいい
+    translation: あなたの友達、本当にいい人たちだね。
+    note: "自動生成 2026-11-01 claude-opus-5-5: nice [A1]"

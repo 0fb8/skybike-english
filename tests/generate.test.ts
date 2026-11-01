@@ -2,7 +2,7 @@ import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { candidateHeadwords, normalizeJapanese, requestPrompt, sameFamily, usedHeadwords, validateItem } from "../scripts/generate/draft";
 import { loadSpellingTable } from "../scripts/levels/american";
-import { loadWordList } from "../scripts/levels/wordlist";
+import { loadAbbreviations, loadFunctionWords, loadWordList } from "../scripts/levels/wordlist";
 import type { LevelCriteria } from "../src/content/schema";
 
 const list = loadWordList(join(import.meta.dirname, "..", "content", "wordlists"));
@@ -24,6 +24,18 @@ describe("candidateHeadwords", () => {
     expect(pool).not.toContain("tangled");
     expect(sameFamily("tangle", "tangled")).toBe(true);
     expect(sameFamily("cultural", "culturally")).toBe(false);
+  });
+  it("A1 の機能語（the・you・this・can など）は答えの候補にしない。A2 以上の機能語は残す", () => {
+    const fw = loadFunctionWords(join(import.meta.dirname, "..", "content", "wordlists"));
+    expect(fw.has("the")).toBe(true);
+    expect(fw.has("book")).toBe(false);
+    const abbr = loadAbbreviations(join(import.meta.dirname, "..", "content", "wordlists"));
+    const a1 = candidateHeadwords(list, { ...criteria, answer: ["A1"] }, new Set(), 1, fw, abbr);
+    for (const w of ["the", "you", "this", "they", "was", "dvd"]) expect(a1).not.toContain(w);
+    expect(a1).toContain("book");
+    expect(a1).toContain("can"); // 名詞（缶）としても載っているので残す
+    const a2 = candidateHeadwords(list, { ...criteria, answer: ["A2"] }, new Set(), 1, fw);
+    expect(a2).toContain("myself");
   });
   it("間投詞・あいさつは答えの候補にしない", () => {
     const a2: LevelCriteria = { ...criteria, answer: ["A2"] };
