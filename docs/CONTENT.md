@@ -4,9 +4,9 @@
 
 ```yaml
 id: eiken2                       # ファイル名と同じにする（小文字英数字とハイフン）
-title: 英検2級・TOEIC600レベル   # メニューに表示される名前
+title: 英検2級レベル（仮）       # メニューに表示される名前
 description: 日常・ビジネスの基本語彙   # 任意
-level: toeic600                  # 任意（例文のレベルの基準。config.yaml の levels のキー。下記「例文のレベル」）
+level: b1                        # 任意（例文のレベルの基準。config.yaml の levels のキー。下記「例文のレベル」）
 questions:
   - answer: postponed            # 例文の中の重要語（小文字 a-z のみ。解答後に強調表示）
     sentence: The meeting was postponed until Monday.   # 読み上げて、まるごと書き取らせる例文
@@ -64,9 +64,19 @@ questionSets:
 問題集に `level` を書くと、`npm run content:levels` が例文の単語のレベルを判定し、基準に合わない例文を一覧にします。`npm run content:check` も件数だけ警告します（エラーにはしません）。
 
 - 単語のレベルは CEFR（A1〜C2）で、`content/wordlists/` の単語表（CEFR-J Wordlist・Octanove C1/C2）から引きます。変化形は原形に戻して引きます（`postponed` → `postpone`、`went` → `go`）
-- 基準は `config.yaml` の `levels` に書きます（答えの単語のレベル、答え以外の単語の上限、上限を超えてよい語数、語数の範囲）。点数帯と CEFR の対応は ETS が公表している TOEIC L&R と CEFR の対応に合わせています
+- 基準は `config.yaml` の `levels` に書きます（答えの単語のレベル、答え以外の単語の上限、上限を超えてよい語数、語数の範囲）。答えはそのレベルで覚える語、ほかの語はそのレベルまでに覚えている語、という考え方です
 - 文の途中の大文字で始まる語で、単語表に無いもの（人名・地名）は判定から外します
 - 判定の限界: 品詞は見分けないので、同じ綴りの語は一番易しい品詞のレベルになります。`according to` のような 2 語以上の見出しはまだ使っていません。単語表（約 9,900 語）に無い語は `?` と表示され、上限を超える語として数えます
+
+### 例文を自動で作る
+
+`npm run content:generate -- --level b1` は、Claude API（Claude Opus 5.5）に例文を作らせ、上の基準で判定して合格したものだけを `content/questions/b1.yaml` に追記します（無ければ作ります）。
+
+- 答えの単語は、基準のレベルの単語のうち、既存の問題集でまだ使っていないものから候補を選び、その中から「実際によく使われる語」を Claude に選ばせます
+- 不合格の文は、理由を伝えて 2 回まで直させます。それでもだめなら捨てます
+- 各問題の `note` に、生成日・モデル・見出し語とそのレベルが入ります
+- `config.yaml` の `questionSets` に入れるまでは出題されないので、中身（特に和訳）を確認してから入れてください
+- 認証は `ANTHROPIC_API_KEY` か `ant auth login`。100 問で数十万トークン程度です（実行の最後に料金の目安を表示します）。`--dry-run` なら API を呼ばずに指示文を確認できます
 
 ## 音声
 

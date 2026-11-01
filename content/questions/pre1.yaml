@@ -1,9 +1,9 @@
-# 問題集: 英検準1級・TOEIC800レベル
+# 問題集: 英検準1級レベル（仮）
 # 書式は docs/CONTENT.md を参照
 id: pre1
-title: 英検準1級・TOEIC800レベル
+title: 英検準1級レベル（仮）
 description: ビジネス・社会・科学の発展語彙
-level: toeic800
+level: b2
 questions:
   - answer: inevitable
     sentence: Some delays are inevitable when you travel during the holidays.

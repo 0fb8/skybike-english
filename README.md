@@ -24,6 +24,7 @@ npm run dev        # http://localhost:5173 で起動（YAML を保存すると�
 | `npm run dev` | 開発サーバー起動 |
 | `npm run check` | 問題データの検証 → 型チェック → テスト（CI と同じ） |
 | `npm run content:check` | 問題データの検証だけ |
+| `npm run content:generate -- --level <名前>` | Claude API で例文を作り、レベルの基準に合格したものだけを `content/questions/<名前>.yaml` に追記する（100 問になるまで。`--count`、`--dry-run`。料金がかかる） |
 | `npm run content:levels` | 例文の単語のレベル（CEFR）を判定して、問題集の基準に合わない例文を一覧にする（`-- --all` で全部、`-- --set <id>` で1つ） |
 | `npm run tts` | 例文の音声を生成して S3 に置く（未生成分だけ。要 AWS 認証。`-- --dry-run` で件数だけ確認） |
 | `npm run build` | 本番用ビルド（`dist/`） |
@@ -38,8 +39,8 @@ content/
 ├── config.yaml            # 1区間の問題数、表示、読み上げ速度、高度の増減、飛行船、例文のレベルの基準など
 ├── wordlists/             # 単語のレベル表（CEFR-J・Octanove C1/C2。出典とライセンスは中の README）
 └── questions/
-    ├── eiken2.yaml        # 英検2級・TOEIC600レベル（110問）
-    └── pre1.yaml          # 英検準1級・TOEIC800レベル（110問）
+    ├── eiken2.yaml        # 英検2級レベル（仮。110問）
+    └── pre1.yaml          # 英検準1級レベル（仮。110問）
 ```
 
 書式は [docs/CONTENT.md](docs/CONTENT.md) を参照してください。保存すると `npm run content:check`（CI でも実行）が次のような誤りを検出します。
@@ -73,6 +74,7 @@ scripts/
 ├── content.ts           # content/ の読み込みと検証
 ├── check-content.ts     # 検証だけ行う（CI 用）
 ├── vite-plugin-content.ts  # 検証した問題データと生成済み音声をゲームに取り込む
+├── generate/            # 例文の自動生成（draft.ts: 候補選び・指示文・検証、sentences.ts: Claude API を呼んで追記）
 ├── levels/              # 例文のレベル判定（wordlist.ts: 単語表、lemma.ts: 変化形 → 原形、analyze.ts: 判定、report.ts）
 └── tts/                 # 音声の生成（jobs.ts: 作るファイルの一覧、provider.ts: サービスの差し替え口、polly.ts、store.ts: 置き場所（S3 / audio/））
 infra/                   # AWS CDK（音声の S3・CloudFront と CI 用の IAM ロール）

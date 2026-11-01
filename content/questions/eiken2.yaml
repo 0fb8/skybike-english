@@ -1,9 +1,9 @@
-# 問題集: 英検2級・TOEIC600レベル
+# 問題集: 英検2級レベル（仮）
 # 書式は docs/CONTENT.md を参照
 id: eiken2
-title: 英検2級・TOEIC600レベル
+title: 英検2級レベル（仮）
 description: 日常・ビジネスの基本語彙
-level: toeic600
+level: b1
 questions:
   - answer: postpone
     sentence: We had to postpone the meeting until next Monday.

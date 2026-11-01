@@ -69,35 +69,29 @@ airship:
   boostSeconds: 25
   multiplier: 2
 
-# 例文のレベルの基準。問題集の level で選び、npm run content:levels で判定する（基準外は警告）。
+# 例文のレベルの基準（CEFR）。問題集の level で選び、npm run content:levels で判定する（基準外は警告）。
 # 単語のレベルは content/wordlists/ の CEFR の単語表（CEFR-J・Octanove C1/C2）で決める。
-# 点数帯と CEFR の対応は ETS が公表している TOEIC L&R と CEFR の対応（B1: 550 点〜、B2: 785 点〜、C1: 945 点〜）による。
-#   answer:      答えの単語のレベル（その点数帯で覚える語）
-#   othersMax:   答え以外の単語の上限（その点数帯の人が無理なく聞き取れる語）。単語表に無い語は上限超えとみなす
+# 考え方: 答えはそのレベルで覚える語、ほかの語はそのレベルまでに覚えている語（＝そのレベルの人が無理なく聞き取れる文）。
+#   answer:      答えの単語のレベル
+#   othersMax:   答え以外の単語の上限。単語表に無い語は上限超えとみなす
 #   othersAbove: othersMax を超えてよい語の数
 #   words:       例文の語数の範囲（書き取りの負担。暫定値で、実際の例文を見て調整する）
 levels:
-  toeic600:
-    title: TOEIC 600点
+  b1:
+    title: CEFR B1
     answer: [B1]
     othersMax: B1
     othersAbove: 1
     words: [6, 12]
-  toeic700:
-    title: TOEIC 700点
-    answer: [B2]
-    othersMax: B1
-    othersAbove: 1
-    words: [8, 14]
-  toeic800:
-    title: TOEIC 800点
+  b2:
+    title: CEFR B2
     answer: [B2]
     othersMax: B2
     othersAbove: 1
-    words: [10, 16]
-  toeic900:
-    title: TOEIC 900点
+    words: [8, 16]
+  c1:
+    title: CEFR C1
     answer: [C1]
-    othersMax: B2
+    othersMax: C1
     othersAbove: 1
-    words: [12, 20]
+    words: [10, 20]
