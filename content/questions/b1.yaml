@@ -17,7 +17,7 @@ questions:
   - answer: delete
     sentence: Can you delete that photo? I look terrible in it.
     meaning: 削除する
-    translation: その写真を消してくれない?私、ひどい顔で写ってるから。
+    translation: その写真を消してくれない？私、ひどい顔で写ってるから。
     note: "自動生成 2026-11-01 claude-opus-5-5: delete [B1]"
   - answer: studio
     sentence: My sister just moved into a small studio near the station.
@@ -168,7 +168,7 @@ questions:
   - answer: meanwhile
     sentence: I'll start cooking dinner; meanwhile, can you set the table?
     meaning: その間に
-    translation: 私は夕食を作り始めるから、その間にテーブルの準備をしてくれる?
+    translation: 私は夕食を作り始めるから、その間にテーブルの準備をしてくれる？
     note: "自動生成 2026-11-01 claude-opus-5-5: meanwhile [B1]"
   - answer: climate
     sentence: The climate here is much warmer than I expected.
@@ -178,7 +178,7 @@ questions:
   - answer: trash
     sentence: Can you take the trash out before you go to bed?
     meaning: ゴミ
-    translation: 寝る前にゴミを出してくれる?
+    translation: 寝る前にゴミを出してくれる？
     note: "自動生成 2026-11-01 claude-opus-5-5: trash [B1]"
   - answer: rid
     sentence: We finally got rid of that old couch in the living room.
@@ -193,7 +193,7 @@ questions:
   - answer: cultural
     sentence: The city has a big cultural festival every summer.
     meaning: 文化の、文化的な
-    translation: その街では毎年夏に大きな文化祭りがあります。
+    translation: その街では毎年夏に大きな文化の祭典があります。
     note: "自動生成 2026-11-01 claude-opus-5-5: cultural [B1]"
   - answer: confusion
     sentence: Sorry for the confusion; the meeting is actually on Thursday.

@@ -22,7 +22,7 @@ questions:
   - answer: microphone
     sentence: Can everyone in the back hear me, or should I use the microphone?
     meaning: マイク
-    translation: 後ろの皆さん、聞こえますか?それともマイクを使ったほうがいいですか?
+    translation: 後ろの皆さん、聞こえますか？それともマイクを使ったほうがいいですか？
     note: "自動生成 2026-11-01 claude-opus-5-5: microphone [B2]"
   - answer: sprayed
     sentence: She sprayed water on the plants before leaving for work this morning.
@@ -42,7 +42,7 @@ questions:
   - answer: separately
     sentence: Can we pay separately? I only had a salad and a coffee.
     meaning: 別々に
-    translation: 別々に払えますか?私はサラダとコーヒーだけだったので。
+    translation: 別々に払えますか？私はサラダとコーヒーだけだったので。
     note: "自動生成 2026-11-01 claude-opus-5-5: separately [B2]"
   - answer: exceeded
     sentence: Our electric bill exceeded two hundred dollars last month, which
@@ -84,7 +84,7 @@ questions:
     sentence: My family avoids talking about anything politically sensitive at
       holiday dinners.
     meaning: 政治的に
-    translation: うちの家族は休日の夕食の席で、政治的に微妙な話題は避けている。
+    translation: うちの家族は、祝日（感謝祭など）の食事の席では政治的に微妙な話題を避けている。
     note: "自動生成 2026-11-01 claude-opus-5-5: politically [B2]"
   - answer: margin
     sentence: Our team won the game by a narrow margin in the final minute.
@@ -176,7 +176,7 @@ questions:
   - answer: exaggerate
     sentence: Don't exaggerate, the line wasn't three hours long!
     meaning: 大げさに言う
-    translation: 大げさに言わないで、列は3時間も長くなかったよ！
+    translation: 大げさに言わないで。3時間も並んでないでしょ！
     note: "自動生成 2026-11-01 claude-opus-5-5: exaggerate [B2]"
   - answer: peel
     sentence: Can you peel the potatoes while I start the soup?
@@ -242,7 +242,7 @@ questions:
   - answer: wipe
     sentence: Could you wipe the table before we put the plates out?
     meaning: 拭く
-    translation: お皿を並べる前にテーブルを拭いてくれる?
+    translation: お皿を並べる前にテーブルを拭いてくれる？
     note: "自動生成 2026-11-01 claude-opus-5-5: wipe [B2]"
   - answer: cable
     sentence: I forgot my charging cable, so my phone died halfway through the trip.
@@ -260,10 +260,10 @@ questions:
     translation: 川沿いの桜の木は、ほんの1、2週間しか咲かない。
     note: "自動生成 2026-11-01 claude-opus-5-5: cherry [B2]"
   - answer: previously
-    sentence: I previously worked at a small bakery before I started my own business.
+    sentence: I previously worked at a bakery, so I know how to make bread.
     meaning: 以前に
-    translation: 自分の店を始める前は、以前小さなパン屋で働いていました。
-    note: "自動生成 2026-11-01 claude-opus-5-5: previously [B2]"
+    translation: 以前パン屋で働いていたので、パンの作り方はわかります。
+    note: "自動生成 2026-11-01 claude-opus-5-5: previously [B2]。重複した言い回しを手で修正"
   - answer: casually
     sentence: He casually mentioned that he's moving to another city next month.
     meaning: 何気なく
@@ -292,7 +292,7 @@ questions:
   - answer: lobby
     sentence: I'll wait for you in the hotel lobby around seven, okay?
     meaning: ロビー
-    translation: 七時ごろホテルのロビーで待ってるね、いい?
+    translation: 七時ごろホテルのロビーで待ってるね、いい？
     note: "自動生成 2026-11-01 claude-opus-5-5: lobby [B2]"
   - answer: tolerate
     sentence: I can tolerate the cold, but I really can't stand humid summers.
@@ -307,7 +307,7 @@ questions:
   - answer: width
     sentence: Can you measure the width of the window so we can buy curtains?
     meaning: 幅
-    translation: カーテンを買えるように、窓の幅を測ってくれる?
+    translation: カーテンを買えるように、窓の幅を測ってくれる？
     note: "自動生成 2026-11-01 claude-opus-5-5: width [B2]"
   - answer: investment
     sentence: Buying a good pair of running shoes was the best investment I've made
@@ -363,7 +363,7 @@ questions:
   - answer: particular
     sentence: Is there a particular reason you want to leave the party so early?
     meaning: 特定の
-    translation: パーティーをそんなに早く出たい特別な理由でもあるの?
+    translation: パーティーをそんなに早く出たい特別な理由でもあるの？
     note: "自動生成 2026-11-01 claude-opus-5-5: particular [B2]"
   - answer: western
     sentence: We drove through the western part of the state on our way home.
@@ -380,11 +380,6 @@ questions:
     meaning: 大人びた、成熟した
     translation: 彼女はまだ12歳だけど、年の割にとても大人びている。
     note: "自動生成 2026-11-01 claude-opus-5-5: mature [B2]"
-  - answer: suck
-    sentence: The weather's going to suck all weekend, so let's just watch movies.
-    meaning: 最悪である(口語)
-    translation: 週末はずっと天気が最悪みたいだから、映画でも観てようよ。
-    note: "自動生成 2026-11-01 claude-opus-5-5: suck [B2]"
   - answer: evolving
     sentence: Our plans for the trip kept evolving as more friends wanted to join.
     meaning: 変化していく、発展する
@@ -419,7 +414,7 @@ questions:
   - answer: eyebrow
     sentence: She raised an eyebrow when I told her I'd already eaten the whole cake.
     meaning: 眉
-    translation: ケーキを丸ごと食べてしまったと言ったら、彼女は眉をひそめた。
+    translation: ケーキを丸ごと食べてしまったと言ったら、彼女はけげんそうに眉を上げた。
     note: "自動生成 2026-11-01 claude-opus-5-5: eyebrow [B2]"
   - answer: gradual
     sentence: The change was gradual, so most people didn't notice the prices going up.
@@ -513,3 +508,8 @@ questions:
     meaning: 日焼け
     translation: いい感じに日焼けしたね！休暇中ずっとビーチにいたの？
     note: "自動生成 2026-11-01 claude-opus-5-5: tan [B2]"
+  - answer: administrative
+    sentence: I spend half my day on administrative work instead of actually teaching.
+    meaning: 事務的な、管理上の
+    translation: 私は一日の半分を、実際に教える代わりに事務作業に費やしている。
+    note: "自動生成 2026-11-01 claude-opus-5-5: administrative [B2]"

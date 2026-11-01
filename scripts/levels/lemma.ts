@@ -127,8 +127,11 @@ little:less,least`
 
 const VOWEL = /[aeiou]/;
 
-/** 原形の候補（易しい判定から順。最初の要素は語そのもの） */
-export function baseCandidates(word: string): string[] {
+/**
+ * 原形の候補（易しい判定から順。最初の要素は語そのもの）。
+ * derivations: false なら変化形（複数形・過去形・-ing・比較級）だけで、副詞 → 形容詞（-ly）はたどらない
+ */
+export function baseCandidates(word: string, { derivations = true }: { derivations?: boolean } = {}): string[] {
   const w = word.toLowerCase();
   const out = [w];
   const add = (s: string) => { if (s.length >= 2 && !out.includes(s)) out.push(s); };
@@ -145,7 +148,7 @@ export function baseCandidates(word: string): string[] {
   };
   for (const suffix of ["ing", "ed", "es", "s", "est", "er"]) stem(suffix);
   // 副詞 → 形容詞（quickly → quick、happily → happy、gently → gentle）
-  if (w.endsWith("ly") && w.length > 4) {
+  if (derivations && w.endsWith("ly") && w.length > 4) {
     const s = w.slice(0, -2);
     add(s);
     if (s.endsWith("i")) add(s.slice(0, -1) + "y");

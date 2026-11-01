@@ -1,6 +1,6 @@
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { candidateHeadwords, usedHeadwords, validateItem } from "../scripts/generate/draft";
+import { candidateHeadwords, normalizeJapanese, requestPrompt, sameFamily, usedHeadwords, validateItem } from "../scripts/generate/draft";
 import { loadSpellingTable } from "../scripts/levels/american";
 import { loadWordList } from "../scripts/levels/wordlist";
 import type { LevelCriteria } from "../src/content/schema";
@@ -17,6 +17,13 @@ describe("candidateHeadwords", () => {
     expect(a).not.toContain("postpone");
     expect(candidateHeadwords(list, criteria, used, 1)).toEqual(a);
     expect(candidateHeadwords(list, criteria, used, 2)).not.toEqual(a);
+  });
+  it("使った語の変化形にあたる語も候補から外す（-ly の副詞は別の語）", () => {
+    const c2: LevelCriteria = { ...criteria, answer: ["B2", "C1"] };
+    const pool = candidateHeadwords(list, c2, new Set(["tangle"]), 1);
+    expect(pool).not.toContain("tangled");
+    expect(sameFamily("tangle", "tangled")).toBe(true);
+    expect(sameFamily("cultural", "culturally")).toBe(false);
   });
   it("既存の問題の答えは原形で数える", () => {
     expect(usedHeadwords([{ id: "s", title: "s", questions: [{ answer: "increased", sentence: "Sales increased.", meaning: "m", translation: "t" }] }], list)).toEqual(new Set(["increase"]));
@@ -36,6 +43,19 @@ describe("validateItem", () => {
     const c = ctx();
     c.taken.add("launch");
     expect(validateItem(item, c)).toHaveProperty("issues");
+  });
+  it("使用済みの語の変化形は不合格、和訳の ? ! は全角にそろえる", () => {
+    const c = ctx();
+    c.taken.add("launch");
+    const r = validateItem({ ...item, headword: "launch" }, c);
+    expect("issues" in r && r.issues.join()).toContain("already used");
+    const ok = validateItem({ ...item, translation: "公開したの?すごい!" }, ctx());
+    expect("question" in ok && ok.question.translation).toBe("公開したの？すごい！");
+    expect(normalizeJapanese(" 何? ")).toBe("何？");
+  });
+  it("指示文に既存の文を載せる", () => {
+    expect(requestPrompt(["a"], 1, ["We met at the cafe."])).toContain("- We met at the cafe.");
+    expect(requestPrompt(["a"], 1)).not.toContain("already in this set");
   });
   it("イギリス式の綴りは不合格", () => {
     const r = validateItem({ ...item, sentence: "They launched the app at the new sports centre." }, ctx());

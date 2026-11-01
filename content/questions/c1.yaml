@@ -262,12 +262,6 @@ questions:
     meaning: フェイシャルエステ
     translation: 姉が誕生日にフェイシャルエステをプレゼントしてくれて、肌の調子がこれまでになく良い。
     note: "自動生成 2026-11-01 claude-opus-5-5: facial [C1]"
-  - answer: evokes
-    sentence: The smell of fresh bread always evokes memories of my grandmother's
-      kitchen on Sunday mornings.
-    meaning: 呼び起こす
-    translation: 焼きたてのパンの匂いは、いつも日曜の朝の祖母の台所の思い出を呼び起こす。
-    note: "自動生成 2026-11-01 claude-opus-5-5: evoke [C1]"
   - answer: riveting
     sentence: I meant to read one chapter before bed, but the book was so riveting I
       finished it.
@@ -555,12 +549,6 @@ questions:
     meaning: 広々とした
     translation: 新しいアパートは前の家よりずっと広々としていて、特にキッチンが広い。
     note: "自動生成 2026-11-01 claude-opus-5-5: spacious [C1]"
-  - answer: tangled
-    sentence: My headphones always get tangled in my bag, no matter how carefully I
-      put them away.
-    meaning: 絡まった
-    translation: どんなに丁寧にしまっても、ヘッドホンはいつもかばんの中で絡まってしまう。
-    note: "自動生成 2026-11-01 claude-opus-5-5: tangled [C1]"
   - answer: twitching
     sentence: My left eye keeps twitching, probably because I haven't been sleeping
       enough lately.
@@ -590,3 +578,15 @@ questions:
     meaning: 描写
     translation: その番組の看護師の描き方はまったく現実離れしていると苦情を言う視聴者もいた。
     note: "自動生成 2026-11-01 claude-opus-5-5: depiction [C1]"
+  - answer: snails
+    sentence: After the rain, there were snails all over the sidewalk, so I had to
+      watch where I stepped.
+    meaning: カタツムリ
+    translation: 雨の後、歩道一面にカタツムリがいたので、足元に気をつけて歩かなければならなかった。
+    note: "自動生成 2026-11-01 claude-opus-5-5: snail [C1]"
+  - answer: violet
+    sentence: She painted her bedroom walls a soft violet, and it looks amazing with
+      the white curtains.
+    meaning: すみれ色、紫色
+    translation: 彼女は寝室の壁を淡いすみれ色に塗ったが、白いカーテンととてもよく合っている。
+    note: "自動生成 2026-11-01 claude-opus-5-5: violet [C1]"

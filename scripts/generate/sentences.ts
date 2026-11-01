@@ -90,7 +90,9 @@ while (accepted.length < need && pool.length) {
   const n = Math.min(PER_REQUEST, need - accepted.length);
   const offered = new Set(pool.splice(0, n * OFFER));
   const ctx = { list, spelling, criteria, offered, taken };
-  const messages: Anthropic.Beta.BetaMessageParam[] = [{ role: "user", content: requestPrompt([...offered], n) }];
+  // 同じ場面を繰り返さないよう、問題集にある文（今回作った分も）を見せる
+  const existingSentences = [...(existing?.questions ?? []), ...accepted.map((a) => a.question)].map((q) => q.sentence);
+  const messages: Anthropic.Beta.BetaMessageParam[] = [{ role: "user", content: requestPrompt([...offered], n, existingSentences) }];
 
   let failed: { item: DraftItem; issues: string[] }[] = [];
   for (let round = 0; round <= RETRIES; round++) {

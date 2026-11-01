@@ -13,6 +13,8 @@ import { audioUrl, pickAccentQuestion, pickSpeaker, ttsAccent } from "../src/lib
 const root = join(import.meta.dirname, "..");
 const content = loadContent(join(root, "content"));
 const config = content.config!;
+/** 出題に入っている最初の問題集（特定の問題集の名前に依存しないため） */
+const SET = config.questionSets[0].id;
 
 /** speech.tts.storage を指定した値にした content/ の複製（undefined なら storage を消す）。本物の config.yaml の storage に左右されないため */
 function contentCopy(storage: { bucket: string; baseUrl: string } | undefined): string {
@@ -33,7 +35,8 @@ describe("audioJobs", () => {
   const forSpeaker = (name: string) => jobs.filter((j) => j.kind === "speaker" && j.slot === name);
 
   it("全問を全員ぶん、なまりごとに決まった数の音声を作る", () => {
-    const total = content.sets.reduce((n, s) => n + s.questions.length, 0);
+    const served = new Set(config.questionSets.map((s) => s.id));
+    const total = content.sets.filter((s) => served.has(s.id)).reduce((n, s) => n + s.questions.length, 0);
     for (const name of speakerNames) expect(forSpeaker(name)).toHaveLength(total);
     expect(jobs.filter((j) => j.kind === "accent" && j.slot === "en-GB")).toHaveLength(tts.accentQuestions);
   });
@@ -73,18 +76,19 @@ describe("contentPlugin（音声を audio/ に置くとき）", () => {
   };
 
   it("音声が無ければ問題だけを出す", () => {
-    const code = load(mkdtempSync(join(tmpdir(), "audio-")), "virtual:content/set/eiken2");
+    const code = load(mkdtempSync(join(tmpdir(), "audio-")), `virtual:content/set/${SET}`);
     expect(code).not.toContain("import ");
     expect(code).not.toContain("audio:");
   });
   it("生成済みの音声だけを import して問題に付ける", () => {
     const dir = mkdtempSync(join(tmpdir(), "audio-"));
     const all = audioJobs(config, content.sets);
-    const job = all.find((j) => j.key.startsWith("eiken2/") && j.slot === "en-GB")!;
+    const job = all.find((j) => j.slot === "en-GB")!;
+    const setId = job.key.split("/")[0];
     const spk = all.find((j) => j.key === job.key && j.kind === "speaker" && j.slot === "nate")!;
     writeFileSync(join(dir, `${job.hash}.mp3`), "");
     writeFileSync(join(dir, `${spk.hash}.mp3`), "");
-    const code = load(dir, "virtual:content/set/eiken2");
+    const code = load(dir, `virtual:content/set/${setId}`);
     expect(code.match(/^import /gm)).toHaveLength(2);
     expect(code).toContain(`/audio/${job.hash}.mp3?no-inline`);
     expect(code).toMatch(/speakers: \{ "nate": a\d \}/);
@@ -97,8 +101,8 @@ describe("contentPlugin（音声を S3 に置くとき）", () => {
 
   it("全部の音声に配信元の URL を付け、ビルドには含めない", () => {
     const plugin = contentPlugin({ root, contentDir: dir, audioDir: mkdtempSync(join(tmpdir(), "audio-")) });
-    const code = (plugin.load as (id: string) => string).call({}, "\0virtual:content/set/eiken2");
-    const job = audioJobs(loadContent(dir).config!, content.sets).find((j) => j.key.startsWith("eiken2/") && j.slot === "nate")!;
+    const code = (plugin.load as (id: string) => string).call({}, `\0virtual:content/set/${SET}`);
+    const job = audioJobs(loadContent(dir).config!, content.sets).find((j) => j.key.startsWith(`${SET}/`) && j.slot === "nate")!;
     expect(code).not.toContain("import ");
     expect(code).toContain(`"nate": "https://cdn.example/audio/${job.hash}.mp3"`);
   });
