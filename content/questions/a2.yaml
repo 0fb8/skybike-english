@@ -1,0 +1,506 @@
+# 問題集: CEFR A2
+# npm run content:generate で作成。書式は docs/CONTENT.md を参照
+id: a2
+title: CEFR A2
+level: a2
+questions:
+  - answer: follow
+    sentence: Just follow me, it's this way.
+    meaning: ついて行く
+    translation: ついて来て、こっちだよ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: follow [A2]"
+  - answer: bit
+    sentence: I'm a bit tired today.
+    meaning: 少し
+    translation: 今日はちょっと疲れてる。
+    note: "自動生成 2026-11-01 claude-opus-5-5: bit [A2]"
+  - answer: anyway
+    sentence: It was raining, but we went anyway.
+    meaning: それでも
+    translation: 雨が降っていたけど、それでも私たちは出かけた。
+    note: "自動生成 2026-11-01 claude-opus-5-5: anyway [A2]"
+  - answer: myself
+    sentence: I made this cake myself!
+    meaning: 自分で
+    translation: このケーキ、自分で作ったんだ！
+    note: "自動生成 2026-11-01 claude-opus-5-5: myself [A2]"
+  - answer: quick
+    sentence: Can I ask a quick question?
+    meaning: 手短な
+    translation: ちょっと質問してもいい？
+    note: "自動生成 2026-11-01 claude-opus-5-5: quick [A2]"
+  - answer: extra
+    sentence: Could I get extra cheese on that?
+    meaning: 追加の
+    translation: それにチーズを追加してもらえますか？
+    note: "自動生成 2026-11-01 claude-opus-5-5: extra [A2]"
+  - answer: likely
+    sentence: It will likely snow tonight.
+    meaning: おそらく
+    translation: 今夜はおそらく雪が降るだろう。
+    note: "自動生成 2026-11-01 claude-opus-5-5: likely [A2]"
+  - answer: basic
+    sentence: I only know basic Spanish.
+    meaning: 基本的な
+    translation: 私は基本的なスペイン語しか知らない。
+    note: "自動生成 2026-11-01 claude-opus-5-5: basic [A2]"
+  - answer: latest
+    sentence: Have you seen his latest video?
+    meaning: 最新の
+    translation: 彼の最新の動画、見た？
+    note: "自動生成 2026-11-01 claude-opus-5-5: latest [A2]"
+  - answer: gas
+    sentence: We need to stop for gas soon.
+    meaning: ガソリン
+    translation: そろそろガソリンを入れに寄らないと。
+    note: "自動生成 2026-11-01 claude-opus-5-5: gas [A2]"
+  - answer: several
+    sentence: I've called her several times today.
+    meaning: いくつかの、数回の
+    translation: 今日、彼女に何度か電話したよ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: several [A2]"
+  - answer: figure
+    sentence: I can't figure out this map.
+    meaning: （figure outで）理解する、わかる
+    translation: この地図がさっぱりわからない。
+    note: "自動生成 2026-11-01 claude-opus-5-5: figure [A2]"
+  - answer: create
+    sentence: Kids love to create things with paper.
+    meaning: 作り出す
+    translation: 子どもたちは紙で何かを作るのが大好きだ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: create [A2]"
+  - answer: staff
+    sentence: The staff here is really friendly.
+    meaning: スタッフ、従業員
+    translation: ここのスタッフは本当に感じがいい。
+    note: "自動生成 2026-11-01 claude-opus-5-5: staff [A2]"
+  - answer: badly
+    sentence: I slept badly last night.
+    meaning: ひどく、うまくなく
+    translation: 昨夜はよく眠れなかった。
+    note: "自動生成 2026-11-01 claude-opus-5-5: badly [A2]"
+  - answer: wild
+    sentence: We saw wild horses on the beach!
+    meaning: 野生の
+    translation: ビーチで野生の馬を見たよ！
+    note: "自動生成 2026-11-01 claude-opus-5-5: wild [A2]"
+  - answer: burn
+    sentence: Don't burn the rice again!
+    meaning: 焦がす
+    translation: またご飯を焦がさないでね！
+    note: "自動生成 2026-11-01 claude-opus-5-5: burn [A2]"
+  - answer: familiar
+    sentence: Her face looks really familiar to me.
+    meaning: 見覚えのある、なじみのある
+    translation: 彼女の顔、すごく見覚えがある。
+    note: "自動生成 2026-11-01 claude-opus-5-5: familiar [A2]"
+  - answer: confused
+    sentence: I'm confused. Which bus do we take?
+    meaning: 混乱した、よくわからない
+    translation: よくわからなくなっちゃった。どのバスに乗るの？
+    note: "自動生成 2026-11-01 claude-opus-5-5: confused [A2]"
+  - answer: talent
+    sentence: Your sister has a real talent for singing.
+    meaning: 才能
+    translation: 君のお姉さんは本当に歌の才能があるね。
+    note: "自動生成 2026-11-01 claude-opus-5-5: talent [A2]"
+  - answer: since
+    sentence: We've been friends since high school.
+    meaning: 〜以来
+    translation: 私たちは高校のときからの友達です。
+    note: "自動生成 2026-11-01 claude-opus-5-5: since [A2]"
+  - answer: fit
+    sentence: These jeans don't fit me anymore.
+    meaning: (サイズが)合う
+    translation: このジーンズはもう私に合わない。
+    note: "自動生成 2026-11-01 claude-opus-5-5: fit [A2]"
+  - answer: perhaps
+    sentence: Perhaps we should leave a little earlier.
+    meaning: もしかすると、たぶん
+    translation: もう少し早く出たほうがいいかもね。
+    note: "自動生成 2026-11-01 claude-opus-5-5: perhaps [A2]"
+  - answer: weight
+    sentence: My doctor told me to lose weight.
+    meaning: 体重
+    translation: 医者に体重を減らすように言われた。
+    note: "自動生成 2026-11-01 claude-opus-5-5: weight [A2]"
+  - answer: episode
+    sentence: Just one more episode, then bed.
+    meaning: (番組の)1話
+    translation: あと1話だけ見たら寝るよ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: episode [A2]"
+  - answer: stomach
+    sentence: My stomach hurts after eating too much.
+    meaning: お腹、胃
+    translation: 食べすぎてお腹が痛い。
+    note: "自動生成 2026-11-01 claude-opus-5-5: stomach [A2]"
+  - answer: sink
+    sentence: Please put your dirty dishes in the sink.
+    meaning: (台所の)流し
+    translation: 汚れたお皿は流しに置いてね。
+    note: "自動生成 2026-11-01 claude-opus-5-5: sink [A2]"
+  - answer: suitcase
+    sentence: My suitcase is too heavy to carry.
+    meaning: スーツケース
+    translation: 私のスーツケースは重すぎて運べない。
+    note: "自動生成 2026-11-01 claude-opus-5-5: suitcase [A2]"
+  - answer: embarrassing
+    sentence: That was so embarrassing, everyone saw me fall!
+    meaning: 恥ずかしい
+    translation: すごく恥ずかしかった、転ぶところをみんなに見られたよ！
+    note: "自動生成 2026-11-01 claude-opus-5-5: embarrassing [A2]"
+  - answer: bakes
+    sentence: My dad bakes fresh bread every Sunday.
+    meaning: (パンなどを)焼く
+    translation: 父は毎週日曜日に焼きたてのパンを焼きます。
+    note: "自動生成 2026-11-01 claude-opus-5-5: bake [A2]"
+  - answer: understand
+    sentence: Sorry, I don't understand what you mean.
+    meaning: 理解する
+    translation: ごめん、言っている意味がわからないんだけど。
+    note: "自動生成 2026-11-01 claude-opus-5-5: understand [A2]"
+  - answer: possible
+    sentence: Is it possible to change my seat?
+    meaning: 可能な
+    translation: 席を変えてもらうことはできますか？
+    note: "自動生成 2026-11-01 claude-opus-5-5: possible [A2]"
+  - answer: whole
+    sentence: She ate the whole pizza by herself!
+    meaning: まるごとの、全体の
+    translation: 彼女、ピザをまるごと一人で食べちゃったよ！
+    note: "自動生成 2026-11-01 claude-opus-5-5: whole [A2]"
+  - answer: trouble
+    sentence: I'm having trouble with my computer.
+    meaning: 問題、困りごと
+    translation: パソコンの調子が悪くて困っているんだ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: trouble [A2]"
+  - answer: worried
+    sentence: Mom gets worried when I come home late.
+    meaning: 心配した
+    translation: 帰りが遅いとお母さんが心配するんだ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: worried [A2]"
+  - answer: lost
+    sentence: I lost my keys again this morning.
+    meaning: なくした
+    translation: 今朝また鍵をなくしちゃった。
+    note: "自動生成 2026-11-01 claude-opus-5-5: lost [A2]"
+  - answer: boss
+    sentence: My boss let me leave early today.
+    meaning: 上司
+    translation: 今日は上司が早く帰らせてくれた。
+    note: "自動生成 2026-11-01 claude-opus-5-5: boss [A2]"
+  - answer: rather
+    sentence: I'd rather stay home and watch movies.
+    meaning: むしろ〜したい
+    translation: どちらかというと家で映画を見ていたいな。
+    note: "自動生成 2026-11-01 claude-opus-5-5: rather [A2]"
+  - answer: beginning
+    sentence: The beginning of the book is slow.
+    meaning: 始まり、冒頭
+    translation: その本は出だしがゆっくりなんだ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: beginning [A2]"
+  - answer: choice
+    sentence: Pasta or pizza? It's your choice.
+    meaning: 選択
+    translation: パスタにする？ピザにする？君が選んでいいよ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: choice [A2]"
+  - answer: secret
+    sentence: Can you keep a secret?
+    meaning: 秘密
+    translation: 秘密を守れる？
+    note: "自動生成 2026-11-01 claude-opus-5-5: secret [A2]"
+  - answer: himself
+    sentence: He taught himself to play guitar.
+    meaning: 彼自身
+    translation: 彼は独学でギターを覚えた。
+    note: "自動生成 2026-11-01 claude-opus-5-5: himself [A2]"
+  - answer: mention
+    sentence: Did she mention the party to you?
+    meaning: 言及する、話に出す
+    translation: 彼女、パーティーのこと君に話してた？
+    note: "自動生成 2026-11-01 claude-opus-5-5: mention [A2]"
+  - answer: control
+    sentence: I can't control my dog at all.
+    meaning: 制御する、言うことを聞かせる
+    translation: うちの犬、全然言うことを聞かないんだ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: control [A2]"
+  - answer: helpful
+    sentence: Thanks, that was really helpful!
+    meaning: 役に立つ
+    translation: ありがとう、すごく助かったよ！
+    note: "自動生成 2026-11-01 claude-opus-5-5: helpful [A2]"
+  - answer: midnight
+    sentence: The store is open until midnight.
+    meaning: 午前0時、真夜中
+    translation: その店は夜中の12時まで開いているよ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: midnight [A2]"
+  - answer: unfair
+    sentence: That's so unfair! He got more cake.
+    meaning: 不公平な
+    translation: ずるい！あの子のほうがケーキ多い。
+    note: "自動生成 2026-11-01 claude-opus-5-5: unfair [A2]"
+  - answer: roof
+    sentence: There's a cat on our roof!
+    meaning: 屋根
+    translation: うちの屋根に猫がいる！
+    note: "自動生成 2026-11-01 claude-opus-5-5: roof [A2]"
+  - answer: rush
+    sentence: No rush, take your time.
+    meaning: 急ぐこと
+    translation: 急がなくていいよ、ゆっくりでいいから。
+    note: "自動生成 2026-11-01 claude-opus-5-5: rush [A2]"
+  - answer: even
+    sentence: He didn't even say thank you.
+    meaning: 〜さえ
+    translation: 彼はありがとうさえ言わなかった。
+    note: "自動生成 2026-11-01 claude-opus-5-5: even [A2]"
+  - answer: hundred
+    sentence: There were about a hundred people there.
+    meaning: 百
+    translation: そこには百人くらいの人がいた。
+    note: "自動生成 2026-11-01 claude-opus-5-5: hundred [A2]"
+  - answer: relax
+    sentence: Sit down and relax for a minute.
+    meaning: くつろぐ
+    translation: ちょっと座ってくつろいで。
+    note: "自動生成 2026-11-01 claude-opus-5-5: relax [A2]"
+  - answer: upset
+    sentence: Are you upset with me?
+    meaning: 怒って、動揺して
+    translation: 私に怒ってるの？
+    note: "自動生成 2026-11-01 claude-opus-5-5: upset [A2]"
+  - answer: tie
+    sentence: Dad wore a tie to the wedding.
+    meaning: ネクタイ
+    translation: 父は結婚式にネクタイをして行った。
+    note: "自動生成 2026-11-01 claude-opus-5-5: tie [A2]"
+  - answer: oil
+    sentence: Add a little oil to the pan.
+    meaning: 油
+    translation: フライパンに油を少し入れて。
+    note: "自動生成 2026-11-01 claude-opus-5-5: oil [A2]"
+  - answer: dessert
+    sentence: Who wants dessert? We have ice cream!
+    meaning: デザート
+    translation: デザート欲しい人？アイスがあるよ！
+    note: "自動生成 2026-11-01 claude-opus-5-5: dessert [A2]"
+  - answer: square
+    sentence: Let's meet in the town square.
+    meaning: 広場
+    translation: 町の広場で会おう。
+    note: "自動生成 2026-11-01 claude-opus-5-5: square [A2]"
+  - answer: success
+    sentence: The concert was a big success!
+    meaning: 成功
+    translation: コンサートは大成功だった！
+    note: "自動生成 2026-11-01 claude-opus-5-5: success [A2]"
+  - answer: argument
+    sentence: We had a stupid argument about money.
+    meaning: 口論
+    translation: 私たちはお金のことでくだらない口論をした。
+    note: "自動生成 2026-11-01 claude-opus-5-5: argument [A2]"
+  - answer: mostly
+    sentence: My friends are mostly from work.
+    meaning: 主に、大部分は
+    translation: 私の友達はほとんどが職場の人です。
+    note: "自動生成 2026-11-01 claude-opus-5-5: mostly [A2]"
+  - answer: upstairs
+    sentence: The bathroom is upstairs on the left.
+    meaning: 上の階に
+    translation: トイレは上の階の左側です。
+    note: "自動生成 2026-11-01 claude-opus-5-5: upstairs [A2]"
+  - answer: plenty
+    sentence: There's plenty of food, so eat more!
+    meaning: たくさん、十分
+    translation: 食べ物はたくさんあるから、もっと食べてね！
+    note: "自動生成 2026-11-01 claude-opus-5-5: plenty [A2]"
+  - answer: toward
+    sentence: Walk toward the big red building.
+    meaning: 〜の方へ
+    translation: あの大きな赤い建物の方へ歩いてください。
+    note: "自動生成 2026-11-01 claude-opus-5-5: toward [A2]"
+  - answer: annoying
+    sentence: That noise outside is really annoying.
+    meaning: うっとうしい、イライラさせる
+    translation: 外のあの音、本当にうっとうしい。
+    note: "自動生成 2026-11-01 claude-opus-5-5: annoying [A2]"
+  - answer: fantastic
+    sentence: Your new haircut looks fantastic!
+    meaning: すばらしい
+    translation: 新しい髪型、すごくいいね！
+    note: "自動生成 2026-11-01 claude-opus-5-5: fantastic [A2]"
+  - answer: spilled
+    sentence: Oops, I spilled coffee on my shirt.
+    meaning: こぼす
+    translation: おっと、シャツにコーヒーをこぼしちゃった。
+    note: "自動生成 2026-11-01 claude-opus-5-5: spill [A2]"
+  - answer: uncomfortable
+    sentence: This chair is really uncomfortable.
+    meaning: 座り心地が悪い、不快な
+    translation: この椅子、本当に座り心地が悪い。
+    note: "自動生成 2026-11-01 claude-opus-5-5: uncomfortable [A2]"
+  - answer: barbecue
+    sentence: We're having a barbecue on Saturday.
+    meaning: バーベキュー
+    translation: 土曜日にバーベキューをするよ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: barbecue [A2]"
+  - answer: disappeared
+    sentence: My phone just disappeared from the table!
+    meaning: 消える、なくなる
+    translation: テーブルの上の携帯が消えちゃった！
+    note: "自動生成 2026-11-01 claude-opus-5-5: disappear [A2]"
+  - answer: voice
+    sentence: I lost my voice after the game.
+    meaning: 声
+    translation: 試合のあと声が出なくなっちゃった。
+    note: "自動生成 2026-11-01 claude-opus-5-5: voice [A2]"
+  - answer: company
+    sentence: My sister works for a big company.
+    meaning: 会社
+    translation: 姉は大きな会社で働いています。
+    note: "自動生成 2026-11-01 claude-opus-5-5: company [A2]"
+  - answer: chance
+    sentence: Give me one more chance, please.
+    meaning: 機会、チャンス
+    translation: お願い、もう一回だけチャンスをちょうだい。
+    note: "自動生成 2026-11-01 claude-opus-5-5: chance [A2]"
+  - answer: hate
+    sentence: I hate waking up early on Mondays.
+    meaning: 大嫌いである
+    translation: 月曜日に早起きするのは本当に嫌だ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: hate [A2]"
+  - answer: safe
+    sentence: Is it safe to swim here?
+    meaning: 安全な
+    translation: ここで泳いでも安全ですか？
+    note: "自動生成 2026-11-01 claude-opus-5-5: safe [A2]"
+  - answer: usual
+    sentence: I'll have the usual, please.
+    meaning: いつものもの
+    translation: いつものをお願いします。
+    note: "自動生成 2026-11-01 claude-opus-5-5: usual [A2]"
+  - answer: lend
+    sentence: Could you lend me five dollars?
+    meaning: 貸す
+    translation: 5ドル貸してもらえる？
+    note: "自動生成 2026-11-01 claude-opus-5-5: lend [A2]"
+  - answer: sauce
+    sentence: This sauce is way too spicy.
+    meaning: ソース
+    translation: このソース、辛すぎるよ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: sauce [A2]"
+  - answer: dangerous
+    sentence: That road is dangerous at night.
+    meaning: 危険な
+    translation: あの道は夜は危ないよ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: dangerous [A2]"
+  - answer: during
+    sentence: I fell asleep during the meeting.
+    meaning: 〜の間に
+    translation: 会議中に寝てしまった。
+    note: "自動生成 2026-11-01 claude-opus-5-5: during [A2]"
+  - answer: without
+    sentence: I can't start my day without coffee.
+    meaning: 〜なしで
+    translation: コーヒーなしでは一日が始まらない。
+    note: "自動生成 2026-11-01 claude-opus-5-5: without [A2]"
+  - answer: decide
+    sentence: We can't decide where to eat.
+    meaning: 決める
+    translation: どこで食べるか決められないんだ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: decide [A2]"
+  - answer: finally
+    sentence: My exams are finally over!
+    meaning: ついに、やっと
+    translation: やっと試験が終わった！
+    note: "自動生成 2026-11-01 claude-opus-5-5: finally [A2]"
+  - answer: missing
+    sentence: One of my socks is missing.
+    meaning: 見つからない、なくなった
+    translation: 靴下が片方見つからない。
+    note: "自動生成 2026-11-01 claude-opus-5-5: missing [A2]"
+  - answer: receive
+    sentence: Did you receive my email yesterday?
+    meaning: 受け取る
+    translation: 昨日、私のメール届いた？
+    note: "自動生成 2026-11-01 claude-opus-5-5: receive [A2]"
+  - answer: appreciate
+    sentence: I really appreciate you coming today.
+    meaning: 感謝する
+    translation: 今日は来てくれて本当にありがとう。
+    note: "自動生成 2026-11-01 claude-opus-5-5: appreciate [A2]"
+  - answer: lake
+    sentence: We had a picnic by the lake.
+    meaning: 湖
+    translation: 湖のそばでピクニックをしたよ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: lake [A2]"
+  - answer: museum
+    sentence: The museum is free on Sundays.
+    meaning: 博物館、美術館
+    translation: その博物館は日曜日は無料だよ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: museum [A2]"
+  - answer: downstairs
+    sentence: Dinner's ready! Come downstairs!
+    meaning: 下の階へ
+    translation: 夕飯できたよ！下りてきて！
+    note: "自動生成 2026-11-01 claude-opus-5-5: downstairs [A2]"
+  - answer: offered
+    sentence: She offered me a ride home.
+    meaning: 申し出る
+    translation: 彼女が家まで車で送ろうかと言ってくれた。
+    note: "自動生成 2026-11-01 claude-opus-5-5: offer [A2]"
+  - answer: comfortable
+    sentence: These new shoes are so comfortable!
+    meaning: 快適な、履き心地のよい
+    translation: この新しい靴、すごく履き心地がいい！
+    note: "自動生成 2026-11-01 claude-opus-5-5: comfortable [A2]"
+  - answer: mad
+    sentence: Is Dad still mad about the car?
+    meaning: 怒っている
+    translation: お父さん、まだ車のことで怒ってる？
+    note: "自動生成 2026-11-01 claude-opus-5-5: mad [A2]"
+  - answer: dead
+    sentence: My phone is dead. Can I borrow yours?
+    meaning: (電池が)切れた
+    translation: スマホの電池が切れちゃった。あなたの借りてもいい？
+    note: "自動生成 2026-11-01 claude-opus-5-5: dead [A2]"
+  - answer: apartment
+    sentence: Our new apartment has a big kitchen.
+    meaning: アパート、マンション
+    translation: 私たちの新しいアパートは台所が広い。
+    note: "自動生成 2026-11-01 claude-opus-5-5: apartment [A2]"
+  - answer: useful
+    sentence: This app is really useful for cooking.
+    meaning: 役に立つ
+    translation: このアプリは料理にすごく役立つよ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: useful [A2]"
+  - answer: replied
+    sentence: He still hasn't replied to my message.
+    meaning: 返信する
+    translation: 彼はまだ私のメッセージに返信していない。
+    note: "自動生成 2026-11-01 claude-opus-5-5: reply [A2]"
+  - answer: failed
+    sentence: I failed my driving test again.
+    meaning: 落ちる、不合格になる
+    translation: また運転免許の試験に落ちちゃった。
+    note: "自動生成 2026-11-01 claude-opus-5-5: fail [A2]"
+  - answer: air
+    sentence: Open the window and let some air in.
+    meaning: 空気
+    translation: 窓を開けて空気を入れて。
+    note: "自動生成 2026-11-01 claude-opus-5-5: air [A2]"
+  - answer: extremely
+    sentence: It's extremely hot outside today.
+    meaning: 非常に、極めて
+    translation: 今日は外がものすごく暑い。
+    note: "自動生成 2026-11-01 claude-opus-5-5: extremely [A2]"
+  - answer: nobody
+    sentence: Nobody answered the door when I knocked.
+    meaning: 誰も～ない
+    translation: ノックしたけど、誰もドアに出てこなかった。
+    note: "自動生成 2026-11-01 claude-opus-5-5: nobody [A2]"
+  - answer: drawing
+    sentence: My daughter put her drawing on the fridge.
+    meaning: 絵、スケッチ
+    translation: 娘が自分の描いた絵を冷蔵庫に貼った。
+    note: "自動生成 2026-11-01 claude-opus-5-5: drawing [A2]"

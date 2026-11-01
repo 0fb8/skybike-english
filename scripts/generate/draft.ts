@@ -33,6 +33,15 @@ export interface DraftItem {
   translation: string;
 }
 
+/**
+ * 答えにしない語: 間投詞・あいさつ・相づち。文の中で書き取るのは自然だが、覚える単語としての価値が低い。
+ * CEFR-J では yeah・yes が副詞、hello・thanks が名詞として載っているので、品詞ではなくここで外す
+ */
+export const NOT_ANSWERS = new Set([
+  "yeah", "yes", "okay", "ok", "hello", "hi", "hey", "bye", "goodbye", "thanks", "oh", "ah", "wow", "oops", "ouch",
+  "hooray", "yay", "alas", "gee", "goodness", "damn", "uh", "um", "hmm",
+]);
+
 /** 既存の問題で使っている単語（原形）。同じ語を二度出さないため */
 export function usedHeadwords(sets: QuestionSet[], list: WordList): Set<string> {
   const used = new Set<string>();
@@ -45,7 +54,7 @@ export function candidateHeadwords(list: WordList, criteria: LevelCriteria, used
   // 使った語とその変化形の候補（tangle を使っていれば tangled も除く。逆も）
   const family = new Set([...used].flatMap(inflections));
   const words = [...list]
-    .filter(([w, l]) => criteria.answer.includes(l) && /^[a-z]{3,}$/.test(w) && !family.has(w) && !inflections(w).some((c) => used.has(c)))
+    .filter(([w, l]) => criteria.answer.includes(l) && /^[a-z]{3,}$/.test(w) && !NOT_ANSWERS.has(w) && !family.has(w) && !inflections(w).some((c) => used.has(c)))
     .map(([w]) => w)
     .sort();
   // 再現できるシャッフル（mulberry32）

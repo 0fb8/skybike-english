@@ -25,6 +25,12 @@ describe("candidateHeadwords", () => {
     expect(sameFamily("tangle", "tangled")).toBe(true);
     expect(sameFamily("cultural", "culturally")).toBe(false);
   });
+  it("間投詞・あいさつは答えの候補にしない", () => {
+    const a2: LevelCriteria = { ...criteria, answer: ["A2"] };
+    const pool = candidateHeadwords(list, a2, new Set(), 1);
+    expect(pool).not.toContain("yeah");
+    expect(pool).not.toContain("hey");
+  });
   it("既存の問題の答えは原形で数える", () => {
     expect(usedHeadwords([{ id: "s", title: "s", questions: [{ answer: "increased", sentence: "Sales increased.", meaning: "m", translation: "t" }] }], list)).toEqual(new Set(["increase"]));
   });
