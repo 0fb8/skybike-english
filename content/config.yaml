@@ -32,16 +32,21 @@ speech:
   tts:
     provider: polly
     region: us-east-1
-    default: { voiceId: Joanna, engine: neural }
+    # 通常の出題で読む人物（名前: 声）。全問ぶん作り、毎問この中からランダムに1人が読む
+    # engine: generative は生成 AI の声（us-east-1 などの一部リージョンのみ）
+    speakers:
+      tiffany: { voiceId: Tiffany, engine: generative }
+      nate: { voiceId: Nate, engine: generative }
     # 飛行船のなまり。キーは都市ごとの言語（src/data/route.ts の accent）
     # ここに無い言語（ja-JP・fr-FR など）はブラウザの声で読む
+    # 通常の人物と同じ声を書くと、その音声を使い回す（追加のファイルは作らない）
     accents:
-      en-US: { voiceId: Joanna, engine: neural }
-      en-GB: { voiceId: Amy, engine: neural }
-      en-AU: { voiceId: Olivia, engine: neural }
-      en-NZ: { voiceId: Aria, engine: neural }
-      en-ZA: { voiceId: Ayanda, engine: neural }
-      en-IN: { voiceId: Kajal, engine: neural }
+      en-US: { voiceId: Tiffany, engine: generative }
+      en-GB: { voiceId: Amy, engine: generative }
+      en-AU: { voiceId: Olivia, engine: generative }
+      en-NZ: { voiceId: Aria, engine: generative }
+      en-ZA: { voiceId: Ayanda, engine: generative }
+      en-IN: { voiceId: Kajal, engine: generative }
     # なまりごとに音声を作る問題数（飛行船ではこの中から出題する）
     accentQuestions: 20
 

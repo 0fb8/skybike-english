@@ -10,7 +10,9 @@ const FORMAT = { outputFormat: "mp3", sampleRate: "24000" } as const;
 export interface AudioJob {
   /** PlayQuestion.key */
   key: string;
-  /** "default" かなまりの言語コード */
+  /** speaker: 通常の出題で読む人物、accent: 飛行船のなまり */
+  kind: "speaker" | "accent";
+  /** 人物の名前か、なまりの言語コード */
   slot: string;
   text: string;
   voice: TtsVoice;
@@ -30,15 +32,16 @@ export function audioJobs(config: Config, sets: QuestionSet[]): AudioJob[] {
   const questions = config.questionSets.flatMap(({ id }) =>
     (sets.find((s) => s.id === id)?.questions ?? []).map((q) => ({ key: `${id}/${questionKey(q)}`, text: q.sentence })),
   );
-  const job = (q: { key: string; text: string }, slot: string, voice: TtsVoice): AudioJob =>
-    ({ key: q.key, slot, text: q.text, voice, hash: audioHash(q.text, voice, tts.provider) });
+  const job = (q: { key: string; text: string }, kind: AudioJob["kind"], slot: string, voice: TtsVoice): AudioJob =>
+    ({ key: q.key, kind, slot, text: q.text, voice, hash: audioHash(q.text, voice, tts.provider) });
+  const sameVoice = (a: TtsVoice, b: TtsVoice) => audioHash("", a, tts.provider) === audioHash("", b, tts.provider);
 
-  const jobs = questions.map((q) => job(q, "default", tts.default));
+  const jobs = Object.entries(tts.speakers).flatMap(([name, voice]) => questions.map((q) => job(q, "speaker", name, voice)));
   for (const [locale, voice] of Object.entries(tts.accents)) {
-    // 通常の声と同じなら追加のファイルは要らないので全問を対象にする
-    const same = audioHash("", voice, tts.provider) === audioHash("", tts.default, tts.provider);
+    // 通常の出題の人物と同じ声なら追加のファイルは要らないので全問を対象にする
+    const same = Object.values(tts.speakers).some((v) => sameVoice(v, voice));
     const picked = same ? questions : pickForAccent(questions, locale, tts.accentQuestions);
-    jobs.push(...picked.map((q) => job(q, locale, voice)));
+    jobs.push(...picked.map((q) => job(q, "accent", locale, voice)));
   }
   return jobs;
 }

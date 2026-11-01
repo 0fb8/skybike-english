@@ -13,7 +13,7 @@ import { legDistances } from "./lib/geo";
 import { QuestionBag, totalKm } from "./lib/quiz";
 import { loadSave, writeSave } from "./lib/save";
 import { speak, stopSpeaking, unlockAudio } from "./lib/speech";
-import { audioUrl, pickAccentQuestion, ttsAccent } from "./lib/voices";
+import { audioUrl, pickAccentQuestion, pickSpeaker, ttsAccent } from "./lib/voices";
 import { drawMap } from "./render/map";
 import { Scene } from "./render/scene";
 
@@ -55,13 +55,18 @@ function drawQuestion({ airship }: { airship: boolean }): PlayQuestion | undefin
   return k ? pool.get(k) : undefined;
 }
 
+/** いまの問題を読む人物（config.yaml の speech.tts.speakers の名前） */
+let speaker: { turn: number; name: string | undefined } = { turn: -1, name: undefined };
+
 function onGameEvent(e: GameEvent) {
   switch (e.type) {
     case "speak": {
       const q = game.state.question;
+      // 読む人物は問題ごとにランダムに決め、聞き直しのときは同じ人物で読む
+      if (e.first || speaker.turn !== e.turn) speaker = { turn: e.turn, name: q ? pickSpeaker(q) : undefined };
       const req = {
         text: e.text,
-        url: q ? audioUrl(q, e.airship, nextAccent()) : undefined,
+        url: q ? audioUrl(q, e.airship, nextAccent(), speaker.name) : undefined,
         langs: e.airship ? nextCity().accent : config.speech.voice,
         rate: e.airship ? config.speech.airshipRate : config.speech.rate,
       };

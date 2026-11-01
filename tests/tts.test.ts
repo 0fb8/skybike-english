@@ -6,7 +6,7 @@ import { loadContent } from "../scripts/content";
 import { audioHash, audioJobs, pickForAccent } from "../scripts/tts/jobs";
 import { contentPlugin } from "../scripts/vite-plugin-content";
 import type { PlayQuestion } from "../src/content/schema";
-import { audioUrl, pickAccentQuestion, ttsAccent } from "../src/lib/voices";
+import { audioUrl, pickAccentQuestion, pickSpeaker, ttsAccent } from "../src/lib/voices";
 
 const root = join(import.meta.dirname, "..");
 const content = loadContent(join(root, "content"));
@@ -16,15 +16,22 @@ describe("audioJobs", () => {
   const jobs = audioJobs(config, content.sets);
   const tts = config.speech.tts!;
 
-  it("全問に通常の声、なまりごとに決まった数の音声を作る", () => {
+  const speakerNames = Object.keys(tts.speakers);
+  const forSpeaker = (name: string) => jobs.filter((j) => j.kind === "speaker" && j.slot === name);
+
+  it("全問を全員ぶん、なまりごとに決まった数の音声を作る", () => {
     const total = content.sets.reduce((n, s) => n + s.questions.length, 0);
-    expect(jobs.filter((j) => j.slot === "default")).toHaveLength(total);
-    expect(jobs.filter((j) => j.slot === "en-GB")).toHaveLength(tts.accentQuestions);
+    for (const name of speakerNames) expect(forSpeaker(name)).toHaveLength(total);
+    expect(jobs.filter((j) => j.kind === "accent" && j.slot === "en-GB")).toHaveLength(tts.accentQuestions);
   });
-  it("通常と同じ声のなまりは全問を対象にし、ファイルは共有する", () => {
-    const us = jobs.filter((j) => j.slot === "en-US");
-    expect(us).toHaveLength(jobs.filter((j) => j.slot === "default").length);
-    expect(new Set(us.map((j) => j.hash))).toEqual(new Set(jobs.filter((j) => j.slot === "default").map((j) => j.hash)));
+  it("通常の人物と同じ声のなまりは全問を対象にし、ファイルは共有する", () => {
+    const name = speakerNames.find((n) => tts.speakers[n].voiceId === tts.accents["en-US"].voiceId)!;
+    const us = jobs.filter((j) => j.kind === "accent" && j.slot === "en-US");
+    expect(new Set(us.map((j) => j.hash))).toEqual(new Set(forSpeaker(name).map((j) => j.hash)));
+  });
+  it("人物が違えばファイルも違う", () => {
+    const [a, b] = speakerNames.map((n) => new Set(forSpeaker(n).map((j) => j.hash)));
+    expect([...a].some((h) => b.has(h))).toBe(false);
   });
   it("同じ入力からは同じ結果になる", () => {
     expect(audioJobs(config, content.sets)).toEqual(jobs);
@@ -58,25 +65,36 @@ describe("contentPlugin", () => {
   });
   it("生成済みの音声だけを import して問題に付ける", () => {
     const dir = mkdtempSync(join(tmpdir(), "audio-"));
-    const job = audioJobs(config, content.sets).find((j) => j.key.startsWith("eiken2/") && j.slot === "en-GB")!;
+    const all = audioJobs(config, content.sets);
+    const job = all.find((j) => j.key.startsWith("eiken2/") && j.slot === "en-GB")!;
+    const spk = all.find((j) => j.key === job.key && j.kind === "speaker" && j.slot === "nate")!;
     writeFileSync(join(dir, `${job.hash}.mp3`), "");
+    writeFileSync(join(dir, `${spk.hash}.mp3`), "");
     const code = load(dir, "virtual:content/set/eiken2");
-    expect(code.match(/^import /gm)).toHaveLength(1);
+    expect(code.match(/^import /gm)).toHaveLength(2);
     expect(code).toContain(`/audio/${job.hash}.mp3?no-inline`);
-    expect(code).toContain(`"en-GB": a0`);
+    expect(code).toMatch(/speakers: \{ "nate": a\d \}/);
+    expect(code).toMatch(/"en-GB": a\d/);
   });
 });
 
 describe("voices", () => {
-  const q: PlayQuestion = { key: "s/a", setId: "s", answer: "a", sentence: "a", meaning: "", translation: "", audio: { default: "d.mp3", accents: { "en-AU": "au.mp3" } } };
+  const q: PlayQuestion = { key: "s/a", setId: "s", answer: "a", sentence: "a", meaning: "", translation: "", audio: { speakers: { tiffany: "t.mp3", nate: "n.mp3" }, accents: { "en-AU": "au.mp3" } } };
   it("都市のなまりのうち声が設定されている最初のもの", () => {
     expect(ttsAccent(["en-NZ", "en-AU"], config)).toBe("en-NZ");
     expect(ttsAccent(["fr-FR", "fr-CA"], config)).toBeUndefined();
   });
-  it("飛行船ではなまりの音声、無ければブラウザの声", () => {
-    expect(audioUrl(q, false, "en-AU")).toBe("d.mp3");
-    expect(audioUrl(q, true, "en-AU")).toBe("au.mp3");
-    expect(audioUrl(q, true, "en-GB")).toBeUndefined();
+  it("読む人物は音声のある人物からランダムに選ぶ", () => {
+    expect(pickSpeaker(q, () => 0)).toBe("tiffany");
+    expect(pickSpeaker(q, () => 0.99)).toBe("nate");
+    expect(pickSpeaker({ ...q, audio: { speakers: { nate: "n.mp3" } } }, () => 0)).toBe("nate");
+    expect(pickSpeaker({ ...q, audio: undefined })).toBeUndefined();
+  });
+  it("通常はその人物の音声、飛行船ではなまりの音声、無ければブラウザの声", () => {
+    expect(audioUrl(q, false, "en-AU", "nate")).toBe("n.mp3");
+    expect(audioUrl(q, false, "en-AU", undefined)).toBeUndefined();
+    expect(audioUrl(q, true, "en-AU", "nate")).toBe("au.mp3");
+    expect(audioUrl(q, true, "en-GB", "nate")).toBeUndefined();
   });
   it("飛行船の問題はそのなまりの音声がある問題から選ぶ", () => {
     const plain = { ...q, key: "s/b", audio: undefined };

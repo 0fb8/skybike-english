@@ -81,8 +81,10 @@ export const TtsSchema = z
   .object({
     provider: z.literal("polly"),
     region: z.string().default("us-east-1"),
-    /** 通常の出題に使う声 */
-    default: TtsVoiceSchema,
+    /** 通常の出題で読む人物（名前 → 声）。毎問この中からランダムに1人が読む */
+    speakers: z
+      .record(z.string().regex(ID_PATTERN, "人物の名前は小文字英数字とハイフンのみ"), TtsVoiceSchema)
+      .refine((r) => Object.keys(r).length > 0, "speakers には1人以上書いてください"),
     /** 飛行船（なまり）用の声。キーは data/route.ts の accent と同じ言語コード */
     accents: z.record(z.string(), TtsVoiceSchema).default({}),
     /** なまりごとに音声を作る問題数（全問ぶん作ると容量が大きくなるため） */
@@ -150,7 +152,8 @@ export type PlayQuestion = Omit<Question, "id" | "note"> & {
 };
 
 export interface QuestionAudio {
-  default?: string;
+  /** 通常の出題で読む人物の名前 → URL */
+  speakers?: Record<string, string>;
   /** なまり（言語コード）→ URL */
   accents?: Record<string, string>;
 }

@@ -7,9 +7,18 @@ export function ttsAccent(cityAccents: string[], config: Config): string | undef
   return cityAccents.find((l) => l in accents);
 }
 
-/** 再生する音声ファイル。なまりの音声が無ければ undefined（ブラウザの声でなまりを試みる） */
-export function audioUrl(q: PlayQuestion, airship: boolean, accent: string | undefined): string | undefined {
-  if (!airship) return q.audio?.default;
+/** 通常の出題で読む人物を、その問題で音声を作ってある人物からランダムに選ぶ。無ければ undefined */
+export function pickSpeaker(q: PlayQuestion, random: () => number = Math.random): string | undefined {
+  const names = Object.keys(q.audio?.speakers ?? {});
+  return names.length ? names[Math.floor(random() * names.length)] : undefined;
+}
+
+/**
+ * 再生する音声ファイル。無ければ undefined（ブラウザの声で読む）。
+ * 通常は speaker の声、飛行船ではなまりの声（なまりの音声が無ければブラウザの声でなまりを試みる）。
+ */
+export function audioUrl(q: PlayQuestion, airship: boolean, accent: string | undefined, speaker: string | undefined): string | undefined {
+  if (!airship) return speaker ? q.audio?.speakers?.[speaker] : undefined;
   return accent ? q.audio?.accents?.[accent] : undefined;
 }
 

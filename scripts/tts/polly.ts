@@ -17,14 +17,16 @@ export class PollyProvider implements TtsProvider {
       Engine: voice.engine as Engine,
       LanguageCode: voice.languageCode as LanguageCode | undefined,
     };
+    // 生成（generative）エンジンは単語ごとの時刻（speech marks）を出せない
+    const wantMarks = voice.engine !== "generative";
     const [audio, marks] = await Promise.all([
       this.client.send(new SynthesizeSpeechCommand({ ...base, OutputFormat: "mp3", SampleRate: "24000" })),
-      this.client.send(new SynthesizeSpeechCommand({ ...base, OutputFormat: "json", SpeechMarkTypes: ["word"] })),
+      wantMarks ? this.client.send(new SynthesizeSpeechCommand({ ...base, OutputFormat: "json", SpeechMarkTypes: ["word"] })) : undefined,
     ]);
     if (!audio.AudioStream) throw new Error("Polly から音声が返りませんでした");
     return {
       audio: await audio.AudioStream.transformToByteArray(),
-      marks: marks.AudioStream ? await marks.AudioStream.transformToString() : undefined,
+      marks: marks?.AudioStream ? await marks.AudioStream.transformToString() : undefined,
     };
   }
 }

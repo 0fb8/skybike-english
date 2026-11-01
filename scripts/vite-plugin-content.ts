@@ -47,10 +47,11 @@ export function contentPlugin(opts: { root?: string; contentDir?: string; audioD
       const key = `${setId}/${questionKey({ id, answer: q.answer })}`;
       const question: PlayQuestion = { ...q, setId, key };
       const mine = audio.filter((j) => j.key === key);
-      const def = mine.find((j) => j.slot === "default");
-      const accents = mine.filter((j) => j.slot !== "default").map((j) => `${JSON.stringify(j.slot)}: ${ref(j.hash)}`);
-      if (!def && !accents.length) return JSON.stringify(question);
-      return `{ ...${JSON.stringify(question)}, audio: { default: ${def ? ref(def.hash) : "undefined"}, accents: { ${accents.join(", ")} } } }`;
+      const entries = (kind: AudioJob["kind"]) =>
+        mine.filter((j) => j.kind === kind).map((j) => `${JSON.stringify(j.slot)}: ${ref(j.hash)}`);
+      const speakers = entries("speaker"), accents = entries("accent");
+      if (!speakers.length && !accents.length) return JSON.stringify(question);
+      return `{ ...${JSON.stringify(question)}, audio: { speakers: { ${speakers.join(", ")} }, accents: { ${accents.join(", ")} } } }`;
     });
     // ?no-inline: 短い音声も data URL にせず別ファイルにする
     const head = [...imports].map(([hash, v]) => `import ${v} from ${JSON.stringify(`/${AUDIO_DIR}/${hash}.mp3?no-inline`)};`);
