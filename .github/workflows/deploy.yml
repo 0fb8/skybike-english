@@ -27,21 +27,18 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run check
-      # 音声: 前回までに生成したものを復元し、足りない分だけ生成する（npm run tts）。
-      # リポジトリ変数 AWS_TTS_ROLE_ARN（Polly を呼べる IAM ロール、OIDC で信頼）が無ければ
-      # 生成は飛ばし、音声の無い問題はブラウザの声で読む。
-      - uses: actions/cache@v4
-        with:
-          path: audio
-          key: tts-${{ hashFiles('content/**') }}
-          restore-keys: tts-
+      # 音声: S3 に足りない分だけ Polly で生成して置く（npm run tts）。ページからは CloudFront 経由で再生する。
+      # AWS 側（S3・CloudFront・このロール）は infra/ の CDK で作る。リポジトリ変数 AWS_TTS_ROLE_ARN が無いか、
+      # config.yaml に speech.tts.storage が無ければ生成は飛ばし、音声の無い問題はブラウザの声で読む。
       - if: vars.AWS_TTS_ROLE_ARN != ''
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ vars.AWS_TTS_ROLE_ARN }}
           aws-region: us-east-1
+          # 公開リポジトリなので、ログにアカウント ID を出さない
+          mask-aws-account-id: true
       - if: vars.AWS_TTS_ROLE_ARN != ''
-        run: npm run tts -- --prune
+        run: npm run tts -- --storage-only
       - run: npm run build
       - uses: actions/upload-pages-artifact@v3
         with:

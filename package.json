@@ -15,6 +15,7 @@
   },
   "devDependencies": {
     "@aws-sdk/client-polly": "^3.1161.0",
+    "@aws-sdk/client-s3": "^3.1161.0",
     "@types/node": "^26.6.6",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2",

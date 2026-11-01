@@ -89,6 +89,18 @@ export const TtsSchema = z
     accents: z.record(z.string(), TtsVoiceSchema).default({}),
     /** なまりごとに音声を作る問題数（全問ぶん作ると容量が大きくなるため） */
     accentQuestions: z.number().int().min(0).default(20),
+    /**
+     * 任意: 音声の置き場所（S3 と、その配信 URL）。値は infra/ の `cdk deploy` の出力を書く。
+     * 無ければリポジトリ直下の audio/ に置き、ビルドに含めて配信する。
+     */
+    storage: z
+      .object({
+        bucket: z.string().min(1),
+        /** 配信元の URL（例: https://xxxx.cloudfront.net）。音声は <baseUrl>/audio/<ハッシュ>.mp3 */
+        baseUrl: z.string().regex(/^https:\/\/[^/]+$/, "baseUrl は https://<ドメイン> の形で書いてください（末尾の / やパスは不要）"),
+      })
+      .strict()
+      .optional(),
   })
   .strict();
 

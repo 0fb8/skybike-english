@@ -1,11 +1,14 @@
 // content/*.yaml を検証して、ゲームから `import { config, sets } from "virtual:content"` で読めるようにする。
 // - 問題集ごとに別チャンクになり、使うときに読み込まれる（問題集が増えても初回の読み込みは軽いまま）
-// - 生成済みの音声（audio/、npm run tts）があれば問題に URL を付ける。無い問題はブラウザの声で読む
+// - 音声（npm run tts）の URL を問題に付ける。無い問題はブラウザの声で読む
+//   - speech.tts.storage（S3）があれば、全部の音声に配信元の URL を付ける（CI が公開前に生成するので、
+//     ここでは S3 を見に行かない。万一無くても再生に失敗してブラウザの声に切り替わる）
+//   - 無ければ audio/ にある生成済みの音声だけを import してビルドに含める
 // - 開発中は YAML の保存や音声の生成でページが再読み込みされ、エラーは画面に表示される
 import { existsSync } from "node:fs";
 import { join, resolve, sep } from "node:path";
 import type { Plugin, ViteDevServer } from "vite";
-import { questionKey, type PlayQuestion } from "../src/content/schema";
+import { questionKey, type Config, type PlayQuestion } from "../src/content/schema";
 import { loadContent, type ContentResult } from "./content";
 import { AUDIO_DIR, audioJobs, type AudioJob } from "./tts/jobs";
 
@@ -22,8 +25,9 @@ export function contentPlugin(opts: { root?: string; contentDir?: string; audioD
   const content = () => {
     if (!cache) {
       const r = loadContent(contentDir);
-      // 生成済みの音声だけを使う
-      const audio = r.config ? audioJobs(r.config, r.sets).filter((j) => existsSync(join(audioDir, `${j.hash}.mp3`))) : [];
+      const remote = r.config?.speech.tts?.storage !== undefined;
+      const all = r.config ? audioJobs(r.config, r.sets) : [];
+      const audio = remote ? all : all.filter((j) => existsSync(join(audioDir, `${j.hash}.mp3`)));
       cache = { ...r, audio };
     }
     if (cache.errors.length || !cache.config) {
@@ -32,14 +36,19 @@ export function contentPlugin(opts: { root?: string; contentDir?: string; audioD
     return { ...cache, config: cache.config };
   };
 
-  /** 問題集のモジュール。音声は import してビルドに含める（ファイル名にハッシュが付き、長期キャッシュできる） */
+  /**
+   * 問題集のモジュール。音声の URL は、S3 なら配信元の URL をそのまま、audio/ なら import してビルドに含める
+   * （どちらもファイル名にハッシュが入っていて、長期キャッシュできる）
+   */
   const setModule = (setId: string) => {
-    const { sets, audio } = content();
+    const { config, sets, audio } = content();
     const s = sets.find((x) => x.id === setId);
     if (!s) throw new Error(`問題集 "${setId}" がありません`);
 
+    const baseUrl = config.speech.tts?.storage?.baseUrl;
     const imports = new Map<string, string>(); // hash → 変数名
     const ref = (hash: string) => {
+      if (baseUrl) return JSON.stringify(`${baseUrl}/${AUDIO_DIR}/${hash}.mp3`);
       if (!imports.has(hash)) imports.set(hash, `a${imports.size}`);
       return imports.get(hash)!;
     };
@@ -75,7 +84,7 @@ export function contentPlugin(opts: { root?: string; contentDir?: string; audioD
         const meta = { id: setId, title: s.title, description: s.description, count: s.questions.length, enabled };
         return `{ ...${JSON.stringify(meta)}, load: () => import(${JSON.stringify(SET_ID + setId)}).then((m) => m.default) }`;
       });
-      return `export const config = ${JSON.stringify(config)};\nexport const sets = [\n${entries.join(",\n")}\n];\n`;
+      return `export const config = ${JSON.stringify(clientConfig(config))};\nexport const sets = [\n${entries.join(",\n")}\n];\n`;
     },
 
     configureServer(server: ViteDevServer) {
@@ -97,4 +106,12 @@ export function contentPlugin(opts: { root?: string; contentDir?: string; audioD
       server.watcher.on("add", onChange).on("change", onChange).on("unlink", onChange);
     },
   };
+}
+
+/** ブラウザへ配る設定。音声の置き場所（バケット名）はゲームには要らないので含めない（配信 URL は問題の音声に付く） */
+function clientConfig(config: Config): Config {
+  const tts = config.speech.tts;
+  if (!tts?.storage) return config;
+  const { storage: _storage, ...rest } = tts;
+  return { ...config, speech: { ...config.speech, tts: rest } };
 }

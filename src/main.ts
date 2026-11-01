@@ -12,7 +12,7 @@ import { Game, type AnswerResult, type GameEvent, type GameState, type Mode } fr
 import { legDistances } from "./lib/geo";
 import { QuestionBag, totalKm } from "./lib/quiz";
 import { loadSave, writeSave } from "./lib/save";
-import { speak, stopSpeaking, unlockAudio } from "./lib/speech";
+import { prefetchAudio, speak, stopSpeaking, unlockAudio } from "./lib/speech";
 import { audioUrl, pickAccentQuestion, pickSpeaker, ttsAccent } from "./lib/voices";
 import { drawMap } from "./render/map";
 import { Scene } from "./render/scene";
@@ -55,6 +55,13 @@ function drawQuestion({ airship }: { airship: boolean }): PlayQuestion | undefin
   return k ? pool.get(k) : undefined;
 }
 
+/** 次に出る問題の音声を先に読み込んでおく（読む人物はまだ決まっていないので全員ぶん） */
+function prefetchNext() {
+  const k = bag?.peek();
+  const next = k ? pool.get(k) : undefined;
+  for (const url of Object.values(next?.audio?.speakers ?? {})) prefetchAudio(url);
+}
+
 /** いまの問題を読む人物（config.yaml の speech.tts.speakers の名前） */
 let speaker: { turn: number; name: string | undefined } = { turn: -1, name: undefined };
 
@@ -71,6 +78,8 @@ function onGameEvent(e: GameEvent) {
         rate: e.airship ? config.speech.airshipRate : config.speech.rate,
       };
       if (!e.first) { speak(req); break; }
+      if (req.url) prefetchAudio(req.url);
+      prefetchNext();
       setTimeout(() => {
         if (game.state.turn !== e.turn || game.state.mode !== "play") return;
         speak(req, () => game.speechEnded(e.turn));

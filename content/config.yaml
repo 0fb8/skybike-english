@@ -49,6 +49,11 @@ speech:
       en-IN: { voiceId: Kajal, engine: generative }
     # なまりごとに音声を作る問題数（飛行船ではこの中から出題する）
     accentQuestions: 20
+    # 音声の置き場所（S3）と配信元（CloudFront）。infra/ で `npx cdk deploy` したときの出力を書く（README「音声の生成」）
+    # 書かなければリポジトリ直下の audio/ に生成してビルドに含める
+    # storage:
+    #   bucket: skybikeenglishaudio-audio9ab18887-xxxxxxxxxxxx
+    #   baseUrl: https://xxxxxxxxxxxxxx.cloudfront.net
 
 altitude:
   # 高度は 0〜100。時間とともに下がり、0 で墜落（その区間は失敗してメニューに戻る）。

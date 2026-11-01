@@ -49,6 +49,11 @@ export class QuestionBag {
     return this.remaining.pop();
   }
 
+  /** 次に出る問題（袋を詰め直すときは順番がまだ決まっていないので undefined） */
+  peek(): string | undefined {
+    return this.remaining.at(-1);
+  }
+
   private refill() {
     const r = [...this.keys];
     if (this.order === "shuffle") {

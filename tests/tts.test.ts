@@ -1,9 +1,10 @@
-import { mkdtempSync, writeFileSync } from "node:fs";
+import { cpSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { loadContent } from "../scripts/content";
 import { audioHash, audioJobs, pickForAccent } from "../scripts/tts/jobs";
+import { LocalStore } from "../scripts/tts/store";
 import { contentPlugin } from "../scripts/vite-plugin-content";
 import type { PlayQuestion } from "../src/content/schema";
 import { audioUrl, pickAccentQuestion, pickSpeaker, ttsAccent } from "../src/lib/voices";
@@ -53,8 +54,8 @@ describe("audioJobs", () => {
 });
 
 describe("contentPlugin", () => {
-  const load = (audioDir: string, id: string) => {
-    const plugin = contentPlugin({ root, audioDir });
+  const load = (audioDir: string, id: string, contentDir?: string) => {
+    const plugin = contentPlugin({ root, audioDir, contentDir });
     return (plugin.load as (id: string) => string).call({}, "\0" + id);
   };
 
@@ -75,6 +76,40 @@ describe("contentPlugin", () => {
     expect(code).toContain(`/audio/${job.hash}.mp3?no-inline`);
     expect(code).toMatch(/speakers: \{ "nate": a\d \}/);
     expect(code).toMatch(/"en-GB": a\d/);
+  });
+});
+
+describe("contentPlugin（音声を S3 に置くとき）", () => {
+  // config.yaml に storage を足した content/ の複製
+  const dir = mkdtempSync(join(tmpdir(), "content-"));
+  cpSync(join(root, "content"), dir, { recursive: true });
+  const yaml = readFileSync(join(dir, "config.yaml"), "utf8")
+    .replace("    accentQuestions:", "    storage: { bucket: b, baseUrl: \"https://cdn.example\" }\n    accentQuestions:");
+  writeFileSync(join(dir, "config.yaml"), yaml);
+
+  it("全部の音声に配信元の URL を付け、ビルドには含めない", () => {
+    const plugin = contentPlugin({ root, contentDir: dir, audioDir: mkdtempSync(join(tmpdir(), "audio-")) });
+    const code = (plugin.load as (id: string) => string).call({}, "\0virtual:content/set/eiken2");
+    const job = audioJobs(loadContent(dir).config!, content.sets).find((j) => j.key.startsWith("eiken2/") && j.slot === "nate")!;
+    expect(code).not.toContain("import ");
+    expect(code).toContain(`"nate": "https://cdn.example/audio/${job.hash}.mp3"`);
+  });
+  it("ブラウザへ配る設定にバケット名を含めない", () => {
+    const plugin = contentPlugin({ root, contentDir: dir });
+    const code = (plugin.load as (id: string) => string).call({}, "\0virtual:content");
+    expect(code).toContain("accents");
+    expect(code).not.toContain("storage");
+  });
+});
+
+describe("LocalStore", () => {
+  it("書き終えたファイルだけを一覧に出し、消せる", async () => {
+    const store = new LocalStore(join(mkdtempSync(join(tmpdir(), "audio-")), "audio"));
+    expect((await store.list()).size).toBe(0);
+    await store.put("x.mp3", new Uint8Array([1, 2, 3]));
+    expect([...(await store.list())]).toEqual([["x.mp3", 3]]);
+    await store.remove(["x.mp3"]);
+    expect((await store.list()).size).toBe(0);
   });
 });
 

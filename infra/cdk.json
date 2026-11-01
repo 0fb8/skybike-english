@@ -1,0 +1,7 @@
+{
+  "app": "npx tsx bin/app.ts",
+  "context": {
+    "githubRepo": "0fb8/skybike-english",
+    "githubOidcProviderArn": ""
+  }
+}

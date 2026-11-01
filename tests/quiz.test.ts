@@ -35,4 +35,11 @@ describe("QuestionBag", () => {
     const bag = new QuestionBag(["a", "b"], "sequential", ["x", "b"]);
     expect(bag.next()).toBe("b");
   });
+  it("peek は次に出る問題を返し、袋を減らさない", () => {
+    const bag = new QuestionBag(["a", "b"], "sequential");
+    bag.next();
+    expect(bag.peek()).toBe("b");
+    expect(bag.next()).toBe("b");
+    expect(bag.peek()).toBeUndefined();
+  });
 });

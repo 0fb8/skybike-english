@@ -40,6 +40,31 @@ export function speak(req: SpeakRequest, onEnd?: () => void): void {
   else speakWithVoice(req, finish);
 }
 
+/** 先読みした音声（URL → blob の URL）。音声は別のサーバー（CloudFront）にあるので、出題前に取っておく */
+const prefetched = new Map<string, string>();
+const pending = new Set<string>();
+const PREFETCH_KEEP = 8;
+
+/** 音声ファイルを先に読み込んでおく。失敗しても何もしない（再生時に URL から直接読む） */
+export function prefetchAudio(url: string): void {
+  if (prefetched.has(url) || pending.has(url) || typeof fetch === "undefined") return;
+  pending.add(url);
+  fetch(url)
+    .then((r) => (r.ok ? r.blob() : undefined))
+    .then((b) => {
+      if (!b) return;
+      prefetched.set(url, URL.createObjectURL(b));
+      // 古いものから捨てる（いま再生中のものは新しいので残る）
+      for (const [k, v] of prefetched) {
+        if (prefetched.size <= PREFETCH_KEEP) break;
+        prefetched.delete(k);
+        URL.revokeObjectURL(v);
+      }
+    })
+    .catch(() => { /* CORS が無い・オフラインなど。再生時に直接読む */ })
+    .finally(() => pending.delete(url));
+}
+
 function playFile(req: SpeakRequest, token: number, finish: () => void) {
   const a = audio();
   let fellBack = false;
@@ -50,7 +75,7 @@ function playFile(req: SpeakRequest, token: number, finish: () => void) {
   };
   a.onended = finish;
   a.onerror = fallback;
-  a.src = req.url!;
+  a.src = prefetched.get(req.url!) ?? req.url!;
   a.playbackRate = req.rate;
   a.preservesPitch = true;
   // 自動再生の制限などで再生できなければブラウザの声に切り替える

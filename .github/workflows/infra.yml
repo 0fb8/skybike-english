@@ -1,0 +1,27 @@
+name: Infra
+
+# infra/（CDK）を変えたときだけ、型チェックと synth（テンプレートの生成）が通るか確かめる。
+# AWS への反映（cdk deploy）は手元から行う。
+on:
+  pull_request:
+    paths: [infra/**]
+  push:
+    branches: [main]
+    paths: [infra/**]
+
+jobs:
+  synth:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: infra
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: infra/package-lock.json
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npx cdk synth -q

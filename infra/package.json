@@ -1,0 +1,23 @@
+{
+  "name": "skybike-english-infra",
+  "private": true,
+  "type": "module",
+  "description": "音声の置き場所（S3 + CloudFront）と、CI が音声を生成するための IAM ロール",
+  "scripts": {
+    "typecheck": "tsc",
+    "synth": "cdk synth",
+    "diff": "cdk diff",
+    "deploy": "cdk deploy"
+  },
+  "engines": {
+    "node": ">=22.12"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "aws-cdk": "^2.1147.0",
+    "aws-cdk-lib": "^2.275.0",
+    "constructs": "^10.8.1",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  }
+}
