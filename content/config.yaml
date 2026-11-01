@@ -16,7 +16,7 @@ questionSets:
     enabled: true
 
 # 1区間（都市→都市）あたりの問題数
-questionsPerLeg: 10
+questionsPerLeg: 5
 
 # shuffle: ランダム / sequential: ファイルの順番どおり
 order: shuffle
