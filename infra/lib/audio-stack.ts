@@ -15,6 +15,13 @@ const GITHUB_OIDC_URL = "https://token.actions.githubusercontent.com";
 export interface AudioStackProps extends StackProps {
   /** "<owner>/<repo>"。このリポジトリの main ブランチの Actions だけがロールを使える */
   githubRepo: string;
+  /**
+   * GitHub の OIDC トークンの sub の先頭（"ref:..." の前まで）。リポジトリが ID 入りの形式
+   * （immutable subject。例: "repo:<owner>@<owner_id>/<repo>@<repo_id>"）のときに書く。
+   * 確かめ方: gh api repos/<owner>/<repo>/actions/oidc/customization/sub の sub_claim_prefix
+   * 省略すると従来の形式 "repo:<owner>/<repo>"
+   */
+  githubSubjectPrefix?: string;
   /** アカウントに GitHub の OIDC プロバイダが既にあればその ARN（1 アカウントに 1 つしか作れないため） */
   githubOidcProviderArn?: string;
 }
@@ -55,7 +62,7 @@ export class AudioStack extends Stack {
       assumedBy: new iam.WebIdentityPrincipal(provider.oidcProviderArn, {
         StringEquals: {
           "token.actions.githubusercontent.com:aud": "sts.amazonaws.com",
-          "token.actions.githubusercontent.com:sub": `repo:${props.githubRepo}:ref:refs/heads/main`,
+          "token.actions.githubusercontent.com:sub": `${props.githubSubjectPrefix ?? `repo:${props.githubRepo}`}:ref:refs/heads/main`,
         },
       }),
       maxSessionDuration: Duration.hours(1),

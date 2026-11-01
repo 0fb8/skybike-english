@@ -117,6 +117,7 @@ npx cdk deploy      # 出力の BucketName・BaseUrl・TtsRoleArn を控える
 ```
 
 - アカウントに GitHub の OIDC プロバイダ（`token.actions.githubusercontent.com`）が既にあるとエラーになります。その場合は `infra/cdk.json` の `githubOidcProviderArn` にその ARN を書いてから `cdk deploy` してください
+- リポジトリの OIDC トークンが ID 入りの形式（immutable subject）のときは、`infra/cdk.json` の `githubSubjectPrefix` にその先頭部分を書きます（`gh api repos/<owner>/<repo>/actions/oidc/customization/sub` の `sub_claim_prefix`）。合っていないと、Actions で `Not authorized to perform sts:AssumeRoleWithWebIdentity` になります
 - IAM ロールを使えるのは、このリポジトリ（`infra/cdk.json` の `githubRepo`）の `main` ブランチの Actions だけです。権限は Polly での生成と、バケットの `audio/` への一覧・読み取り・追加だけです（削除はできません）
 - スタックを削除してもバケットと音声は残ります
 
