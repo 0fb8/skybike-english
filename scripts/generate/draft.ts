@@ -92,7 +92,7 @@ What the learner wants: English as it is really used. Each sentence should sound
 
 Level: ${criteria.title}. The levels below come from CEFR word lists (CEFR-J and Octanove C1/C2), and every sentence is checked against those lists automatically.
 - The target word must appear in the sentence. You may use an inflected form (for example "postponed" for "postpone"), but keep the same word, not a derived word with a different headword.
-- Every other word must be a common word at CEFR ${criteria.othersMax} or below. At most ${criteria.othersAbove} other word may be above ${criteria.othersMax}. When unsure, choose the simpler word.
+- Every other word must be a common word at CEFR ${criteria.othersMax} or below. At most ${criteria.othersAbove} other ${criteria.othersAbove === 1 ? "word" : "words"} may be above ${criteria.othersMax}. When unsure, choose the simpler word.
 - The sentence must have ${min} to ${max} words (count contractions such as "don't" as one word).
 
 Format rules (the game's keyboard has only the letters a-z):

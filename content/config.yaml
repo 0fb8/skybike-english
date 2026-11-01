@@ -18,6 +18,8 @@ questionSets:
     enabled: true
   - id: c1
     enabled: true
+  - id: c2
+    enabled: true
 
 # 1区間（都市→都市）あたりの問題数
 questionsPerLeg: 5
@@ -119,3 +121,10 @@ levels:
     othersMax: C1
     othersAbove: 1
     words: [10, 20]
+  # C2 は語彙が豊かな文が自然なので、上限を超えてよい語を 2 つまで許す（単語表に無い語も上限超えに数えるため）
+  c2:
+    title: CEFR C2
+    answer: [C2]
+    othersMax: C2
+    othersAbove: 2
+    words: [16, 24]

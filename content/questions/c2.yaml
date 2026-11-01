@@ -1,0 +1,606 @@
+# 問題集: CEFR C2
+# npm run content:generate で作成。書式は docs/CONTENT.md を参照
+id: c2
+title: CEFR C2
+level: c2
+questions:
+  - answer: hypothetical
+    sentence: I know it's just a hypothetical question, but what would you actually
+      do if you won the lottery tomorrow?
+    meaning: 仮定の
+    translation: ただの仮定の質問だってわかってるけど、もし明日宝くじが当たったら実際どうする？
+    note: "自動生成 2026-11-01 claude-opus-5-5: hypothetical [C2]"
+  - answer: myriad
+    sentence: The new apartment is great, but there are a myriad of small repairs we
+      need to finish before winter.
+    meaning: 無数の
+    translation: 新しいアパートは最高だけど、冬までに終わらせなきゃいけない細かい修理が山ほどあるんだ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: myriad [C2]"
+  - answer: provocation
+    sentence: The police said the man attacked the driver without any provocation,
+      so they're asking witnesses to come forward.
+    meaning: 挑発
+    translation: 警察によると、その男は何の挑発もなく運転手を襲ったため、目撃者に名乗り出るよう呼びかけているという。
+    note: "自動生成 2026-11-01 claude-opus-5-5: provocation [C2]"
+  - answer: emulate
+    sentence: My little brother tries to emulate everything his favorite basketball
+      player does, even the weird way he ties his shoes.
+    meaning: 見習う、まねる
+    translation: 弟は大好きなバスケ選手のすることを何でもまねしようとするんだ。変な靴ひもの結び方まで。
+    note: "自動生成 2026-11-01 claude-opus-5-5: emulate [C2]"
+  - answer: hoist
+    sentence: It took four of us to hoist the old couch up the stairs, and somehow
+      nobody dropped it.
+    meaning: 持ち上げる
+    translation: 古いソファを階段の上まで持ち上げるのに四人がかりだったけど、なんとか誰も落とさなかった。
+    note: "自動生成 2026-11-01 claude-opus-5-5: hoist [C2]"
+  - answer: tenacity
+    sentence: Her tenacity really paid off; after six rejections, she finally got
+      the job at the hospital she wanted.
+    meaning: 粘り強さ
+    translation: 彼女の粘り強さは本当に報われた。六回不採用になった後、ついに希望していた病院の仕事を手に入れたんだ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: tenacity [C2]"
+  - answer: palate
+    sentence: This wine might be a bit too dry for my palate, but my husband says
+      it's perfect with steak.
+    meaning: 味覚、好み
+    translation: このワインは私の好みにはちょっと辛口すぎるかもしれないけど、夫はステーキにぴったりだって言うの。
+    note: "自動生成 2026-11-01 claude-opus-5-5: palate [C2]"
+  - answer: conjecture
+    sentence: Nobody knows why the team fired their coach, so everything you read
+      online right now is pure conjecture.
+    meaning: 推測、憶測
+    translation: チームがなぜ監督を解任したのか誰も知らないから、今ネットで読む情報は全部ただの憶測だよ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: conjecture [C2]"
+  - answer: patronize
+    sentence: Please don't patronize me; I've been using computers for thirty years,
+      so I know how to restart one.
+    meaning: 見下した態度をとる
+    translation: 子ども扱いしないでよ。もう三十年もパソコンを使ってるんだから、再起動の仕方くらいわかってる。
+    note: "自動生成 2026-11-01 claude-opus-5-5: patronize [C2]"
+  - answer: hindrance
+    sentence: Honestly, the new software has been more of a hindrance than a help
+      since we started using it last month.
+    meaning: 妨げ、邪魔
+    translation: 正直言って、先月使い始めてから、新しいソフトは役に立つどころかむしろ邪魔になってるよ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: hindrance [C2]"
+  - answer: collided
+    sentence: Two delivery trucks collided at the intersection this morning, so
+      traffic downtown is backed up for at least an hour.
+    meaning: 衝突する
+    translation: 今朝、交差点で配送トラック2台が衝突したので、ダウンタウンの交通は少なくとも1時間は渋滞しています。
+    note: "自動生成 2026-11-01 claude-opus-5-5: collide [C2]"
+  - answer: whirlwind
+    sentence: We got engaged in March and married in June, so the whole year was
+      kind of a whirlwind for both of us.
+    meaning: 目まぐるしい出来事
+    translation: 3月に婚約して6月に結婚したので、私たち二人にとってこの1年はなんだか目まぐるしいものでした。
+    note: "自動生成 2026-11-01 claude-opus-5-5: whirlwind [C2]"
+  - answer: jarring
+    sentence: After two weeks of quiet camping in the mountains, the noise of the
+      city felt really jarring when we got home.
+    meaning: 耳障りな、違和感のある
+    translation: 山で2週間静かにキャンプをした後だったので、家に帰ると街の騒音が本当に耳障りに感じました。
+    note: "自動生成 2026-11-01 claude-opus-5-5: jarring [C2]"
+  - answer: counterproductive
+    sentence: Yelling at your kids to calm down is usually counterproductive; they
+      just get louder and more upset.
+    meaning: 逆効果の
+    translation: 子どもに落ち着けと怒鳴るのはたいてい逆効果で、ますますうるさくなって機嫌も悪くなるだけです。
+    note: "自動生成 2026-11-01 claude-opus-5-5: counterproductive [C2]"
+  - answer: mediate
+    sentence: When my roommates started fighting about the dishes again, I had to
+      mediate before someone moved out.
+    meaning: 仲裁する
+    translation: ルームメイトたちがまた皿洗いのことでけんかを始めたので、誰かが出ていく前に私が仲裁しなければなりませんでした。
+    note: "自動生成 2026-11-01 claude-opus-5-5: mediate [C2]"
+  - answer: materialistic
+    sentence: I don't want to sound materialistic, but I'd really love a new phone
+      for my birthday this year.
+    meaning: 物質主義的な
+    translation: 物欲が強いと思われたくはないけど、今年の誕生日には新しいスマホが本当に欲しいな。
+    note: "自動生成 2026-11-01 claude-opus-5-5: materialistic [C2]"
+  - answer: distill
+    sentence: The speaker managed to distill a complicated topic like climate change
+      into a clear, fifteen-minute talk that everyone understood.
+    meaning: 要点を抽出する、凝縮する
+    translation: その講演者は気候変動のような複雑なテーマを、誰もが理解できるわかりやすい15分の話にうまくまとめました。
+    note: "自動生成 2026-11-01 claude-opus-5-5: distill [C2]"
+  - answer: belligerent
+    sentence: A belligerent passenger started shouting at the flight attendants, and
+      the plane had to return to the gate.
+    meaning: けんか腰の、好戦的な
+    translation: けんか腰の乗客が客室乗務員に怒鳴り始めたため、飛行機はゲートに引き返さなければなりませんでした。
+    note: "自動生成 2026-11-01 claude-opus-5-5: belligerent [C2]"
+  - answer: preoccupation
+    sentence: His preoccupation with his fantasy football team is getting
+      ridiculous; he checks the scores during dinner every single night.
+    meaning: 夢中になること、没頭
+    translation: 彼のファンタジーフットボールへののめり込みようはばかげてきていて、毎晩夕食中にスコアをチェックしています。
+    note: "自動生成 2026-11-01 claude-opus-5-5: preoccupation [C2]"
+  - answer: posturing
+    sentence: Both candidates spent the debate posturing for the cameras instead of
+      actually explaining how they'd fix the economy.
+    meaning: 見せかけの態度をとること、ポーズをとること
+    translation: 両候補とも討論会では、経済をどう立て直すかを実際に説明するどころか、カメラに向けて格好をつけてばかりいました。
+    note: "自動生成 2026-11-01 claude-opus-5-5: posturing [C2]"
+  - answer: splinter
+    sentence: I got a tiny splinter in my thumb from the old wooden fence, and it's
+      driving me crazy.
+    meaning: とげ
+    translation: 古い木の柵で親指に小さなとげが刺さって、気になって仕方がない。
+    note: "自動生成 2026-11-01 claude-opus-5-5: splinter [C2]"
+  - answer: extracurricular
+    sentence: Between soccer, piano, and coding club, my daughter has more
+      extracurricular activities than I can keep track of.
+    meaning: 課外の
+    translation: サッカーにピアノにプログラミングクラブと、娘の課外活動は多すぎて把握しきれない。
+    note: "自動生成 2026-11-01 claude-opus-5-5: extracurricular [C2]"
+  - answer: authenticity
+    sentence: The store says the signed jersey comes with a certificate of
+      authenticity, but I still think it might be fake.
+    meaning: 本物であること
+    translation: 店はそのサイン入りユニフォームには真正性証明書が付いていると言うけど、やっぱり偽物かもしれないと思う。
+    note: "自動生成 2026-11-01 claude-opus-5-5: authenticity [C2]"
+  - answer: notoriety
+    sentence: The tiny diner gained some notoriety after a food critic called its
+      burger the worst in the state.
+    meaning: 悪名
+    translation: ある料理評論家にハンバーガーが州で最悪だと言われて、その小さな食堂はちょっと悪い意味で有名になった。
+    note: "自動生成 2026-11-01 claude-opus-5-5: notoriety [C2]"
+  - answer: callous
+    sentence: It was pretty callous of him to joke about her job loss while she was
+      still clearly upset about it.
+    meaning: 冷淡な、無神経な
+    translation: 彼女がまだ明らかに落ち込んでいるのに、失業のことで冗談を言うなんて、彼はかなり無神経だった。
+    note: "自動生成 2026-11-01 claude-opus-5-5: callous [C2]"
+  - answer: treacherous
+    sentence: The roads were treacherous after last night's ice storm, so we decided
+      to stay home and order pizza.
+    meaning: 危険な
+    translation: 昨夜の氷雨で道路がとても危険だったので、家にいてピザを頼むことにした。
+    note: "自動生成 2026-11-01 claude-opus-5-5: treacherous [C2]"
+  - answer: testimonials
+    sentence: Before hiring a contractor, I always read the customer testimonials on
+      their website and check a few online reviews too.
+    meaning: 推薦の声、お客様の声
+    translation: 業者に頼む前は、いつもウェブサイトのお客様の声を読んで、ネットのレビューもいくつか確認する。
+    note: "自動生成 2026-11-01 claude-opus-5-5: testimonial [C2]"
+  - answer: unequivocally
+    sentence: The mayor stated unequivocally that the library would not be closed,
+      despite the rumors going around town last week.
+    meaning: きっぱりと
+    translation: 先週町で噂が広まっていたにもかかわらず、市長は図書館を閉鎖しないときっぱり明言した。
+    note: "自動生成 2026-11-01 claude-opus-5-5: unequivocally [C2]"
+  - answer: reverberated
+    sentence: When the drummer started his solo, the sound reverberated through the
+      whole stadium and I could feel it in my chest.
+    meaning: 響き渡る
+    translation: ドラマーがソロを始めると、音がスタジアム全体に響き渡って、胸で感じられるほどだった。
+    note: "自動生成 2026-11-01 claude-opus-5-5: reverberate [C2]"
+  - answer: assimilated
+    sentence: Moving to a new country at fifteen was hard, but my sister assimilated
+      much faster than I did.
+    meaning: 溶け込む、同化する
+    translation: 十五歳で新しい国に引っ越すのは大変だったけど、姉は私よりずっと早く溶け込んだ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: assimilate [C2]"
+  - answer: accountability
+    sentence: People keep apologizing on social media, but what the community really
+      wants is some actual accountability from the city council.
+    meaning: 説明責任
+    translation: 人々はSNSで謝罪を繰り返しているけど、地域の人たちが本当に求めているのは市議会のちゃんとした説明責任だ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: accountability [C2]"
+  - answer: correlation
+    sentence: There's a strong correlation between how much sleep I get and how
+      patient I am with my coworkers the next day.
+    meaning: 相関関係
+    translation: 私の睡眠時間と、翌日に同僚に対してどれだけ我慢強くいられるかには、強い相関関係がある。
+    note: "自動生成 2026-11-01 claude-opus-5-5: correlation [C2]"
+  - answer: jargon
+    sentence: My doctor explained the test results without any medical jargon, which
+      I really appreciated because I was already pretty nervous.
+    meaning: 専門用語
+    translation: 医者が医療の専門用語を使わずに検査結果を説明してくれて、すでにかなり緊張していたので本当にありがたかった。
+    note: "自動生成 2026-11-01 claude-opus-5-5: jargon [C2]"
+  - answer: secular
+    sentence: My kids go to a secular private school, but we still celebrate all the
+      religious holidays with their grandparents at home.
+    meaning: 宗教と無関係の、非宗教的な
+    translation: うちの子どもたちは宗教色のない私立学校に通っているけど、家では祖父母と一緒に宗教的な祝日をすべてお祝いしている。
+    note: "自動生成 2026-11-01 claude-opus-5-5: secular [C2]"
+  - answer: redundancy
+    sentence: My editor cut a lot of redundancy from my article, and honestly, it
+      reads so much better at half the length.
+    meaning: 冗長さ、重複
+    translation: 編集者が私の記事から冗長な部分をたくさん削ってくれて、正直、半分の長さになってずっと読みやすくなった。
+    note: "自動生成 2026-11-01 claude-opus-5-5: redundancy [C2]"
+  - answer: nonchalant
+    sentence: He tried to act nonchalant when she walked into the party, but
+      everyone could see his face turn bright red.
+    meaning: 平然とした、無関心を装った
+    translation: 彼女がパーティーに入ってきたとき、彼は平然としたふりをしようとしたけど、顔が真っ赤になるのはみんなに見えていた。
+    note: "自動生成 2026-11-01 claude-opus-5-5: nonchalant [C2]"
+  - answer: stringent
+    sentence: The airline has really stringent rules about carry-on bags, so I had
+      to pay forty dollars at the gate.
+    meaning: 厳しい、厳格な
+    translation: その航空会社は機内持ち込み手荷物のルールがすごく厳しくて、搭乗口で四十ドル払わなければならなかった。
+    note: "自動生成 2026-11-01 claude-opus-5-5: stringent [C2]"
+  - answer: seismic
+    sentence: Scientists have installed seismic sensors around the volcano so they
+      can warn nearby towns before any major eruption happens.
+    meaning: 地震の
+    translation: 科学者たちは、大規模な噴火が起きる前に近くの町に警告できるよう、火山の周りに地震センサーを設置した。
+    note: "自動生成 2026-11-01 claude-opus-5-5: seismic [C2]"
+  - answer: methodology
+    sentence: The study got a lot of attention online, but several researchers have
+      questioned its methodology and the tiny sample size.
+    meaning: 研究方法、方法論
+    translation: その研究はネットで大きな注目を集めたが、何人かの研究者がその研究方法とサンプル数の少なさに疑問を投げかけている。
+    note: "自動生成 2026-11-01 claude-opus-5-5: methodology [C2]"
+  - answer: haphazard
+    sentence: Our garage is a mess because we packed everything in such a haphazard
+      way when we moved last summer.
+    meaning: でたらめな、行き当たりばったりの
+    translation: 去年の夏に引っ越したとき、すべてをあまりに適当に詰め込んだので、うちのガレージはめちゃくちゃだ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: haphazard [C2]"
+  - answer: snippet
+    sentence: My cousin sent me a short snippet of the song she's recording, and
+      I've had it stuck in my head all day.
+    meaning: 断片、一部分
+    translation: いとこがレコーディング中の曲の一部を少し送ってくれたんだけど、一日中頭から離れないよ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: snippet [C2]"
+  - answer: rhetorical
+    sentence: When my mom asks if I think money grows on trees, it's a rhetorical
+      question, so I've learned not to answer.
+    meaning: 修辞的な(答えを求めない)
+    translation: 母に「お金が木になると思ってるの？」と聞かれたら、それは答えを求めていない質問なので、返事をしないことを覚えた。
+    note: "自動生成 2026-11-01 claude-opus-5-5: rhetorical [C2]"
+  - answer: stabilized
+    sentence: The nurse said my dad's blood pressure has finally stabilized, so he
+      might be able to come home on Friday.
+    meaning: 安定する
+    translation: 看護師さんによると、父の血圧がやっと安定したので、金曜日には家に帰れるかもしれないそうだ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: stabilize [C2]"
+  - answer: prolong
+    sentence: We decided to prolong our vacation by three days because the weather
+      was perfect and the flights home were cheaper.
+    meaning: 延長する
+    translation: 天気が最高だったし帰りの便も安かったので、休暇を三日延ばすことにした。
+    note: "自動生成 2026-11-01 claude-opus-5-5: prolong [C2]"
+  - answer: confrontational
+    sentence: I'm not a confrontational person, so instead of telling my neighbor
+      his dog barks all night, I just bought earplugs.
+    meaning: 対立的な、ぶつかり合いを好む
+    translation: 私は人と揉めるのが苦手なので、隣人に犬が一晩中吠えていると言う代わりに、耳栓を買っただけだった。
+    note: "自動生成 2026-11-01 claude-opus-5-5: confrontational [C2]"
+  - answer: practitioner
+    sentence: Our town finally has a nurse practitioner, so people don't have to
+      drive an hour just to get a flu shot.
+    meaning: (医療の)開業者、実践者
+    translation: うちの町にもようやくナースプラクティショナーが来たので、インフルエンザの予防接種のためだけに一時間も車を走らせなくてよくなった。
+    note: "自動生成 2026-11-01 claude-opus-5-5: practitioner [C2]"
+  - answer: embodies
+    sentence: "For a lot of fans, that old quarterback embodies everything they love
+      about the team: hard work, loyalty, and humility."
+    meaning: 体現する
+    translation: 多くのファンにとって、あのベテランのクォーターバックは、勤勉さ、忠誠心、謙虚さといったチームの好きなところすべてを体現している。
+    note: "自動生成 2026-11-01 claude-opus-5-5: embody [C2]"
+  - answer: wistful
+    sentence: Looking through old photos from college always makes me a little
+      wistful, especially the ones from our road trip senior year.
+    meaning: 懐かしく切ない
+    translation: 大学時代の古い写真を見返すと、いつも少し切なくなる。特に四年生のときのドライブ旅行の写真はそうだ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: wistful [C2]"
+  - answer: gravitate
+    sentence: At every family party, the kids gravitate toward the basement, where
+      my uncle keeps his old video game consoles.
+    meaning: 自然と引き寄せられる
+    translation: 親戚の集まりのたびに、子どもたちは叔父が古いゲーム機を置いている地下室に自然と集まっていく。
+    note: "自動生成 2026-11-01 claude-opus-5-5: gravitate [C2]"
+  - answer: menial
+    sentence: My first job was mostly menial stuff like mopping floors and taking
+      out trash, but it taught me a lot about patience.
+    meaning: 単純で地味な(仕事)
+    translation: 最初の仕事は床のモップがけやゴミ出しといった雑用がほとんどだったけど、忍耐についてたくさん学んだ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: menial [C2]"
+  - answer: brink
+    sentence: After losing its biggest customer, the little bakery on our street was
+      on the brink of closing until neighbors started a fundraiser.
+    meaning: 瀬戸際、寸前
+    translation: 一番の得意先を失った後、うちの通りの小さなパン屋は閉店寸前だったが、近所の人たちが募金活動を始めて持ち直した。
+    note: "自動生成 2026-11-01 claude-opus-5-5: brink [C2]"
+  - answer: hampered
+    sentence: Heavy rain and strong winds hampered rescue efforts overnight, but
+      crews expect to reach the stranded hikers by noon today.
+    meaning: 妨げる、邪魔する
+    translation: 大雨と強風が夜通し救助活動を妨げたが、救助隊は今日の正午までに立ち往生しているハイカーたちのもとへ到着する見込みだ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: hamper [C2]"
+  - answer: notoriously
+    sentence: The printer in the library is notoriously unreliable, so print your
+      essay at home the night before it's due.
+    meaning: 悪名高く、よく知られているように（悪い意味で）
+    translation: 図書館のプリンターは調子が悪いことで有名だから、レポートは締め切りの前の晩に家で印刷しておきなよ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: notoriously [C2]"
+  - answer: induce
+    sentence: If the baby doesn't come by Friday, the doctor says they'll induce
+      labor, so my wife's already packed her hospital bag.
+    meaning: （陣痛などを）誘発する
+    translation: 金曜日までに赤ちゃんが生まれなければ陣痛を誘発すると医者に言われたので、妻はもう入院バッグを準備してある。
+    note: "自動生成 2026-11-01 claude-opus-5-5: induce [C2]"
+  - answer: recourse
+    sentence: The landlord kept ignoring our complaints about the heat, so our only
+      recourse was to call the city housing office.
+    meaning: 頼みの綱、（最後の）手段
+    translation: 大家が暖房についての苦情を無視し続けたので、私たちに残された手段は市の住宅課に電話することだけだった。
+    note: "自動生成 2026-11-01 claude-opus-5-5: recourse [C2]"
+  - answer: painstaking
+    sentence: Restoring my grandfather's old pickup truck was painstaking work, but
+      driving it to his ninetieth birthday party made it all worthwhile.
+    meaning: 骨の折れる、手間のかかる
+    translation: 祖父の古いピックアップトラックを修復するのは骨の折れる作業だったが、それに乗って祖父の九十歳の誕生日パーティーに行けたので、すべて報われた。
+    note: "自動生成 2026-11-01 claude-opus-5-5: painstaking [C2]"
+  - answer: misdemeanor
+    sentence: He was charged with a misdemeanor for shoplifting, so he'll probably
+      just pay a fine and do some community service.
+    meaning: 軽犯罪
+    translation: 彼は万引きで軽犯罪として起訴されたので、たぶん罰金を払って社会奉仕活動をするだけで済むだろう。
+    note: "自動生成 2026-11-01 claude-opus-5-5: misdemeanor [C2]"
+  - answer: arduous
+    sentence: The hike to the waterfall is pretty arduous, especially the last mile,
+      so bring plenty of water and good shoes.
+    meaning: 困難な、きつい
+    translation: 滝までのハイキングはかなりきつくて、特に最後の一マイルが大変だから、水をたっぷりと、いい靴を用意してね。
+    note: "自動生成 2026-11-01 claude-opus-5-5: arduous [C2]"
+  - answer: qualms
+    sentence: I had no qualms about returning the dress after one wedding; the
+      store's policy clearly said thirty days, no questions asked.
+    meaning: 良心の呵責、ためらい
+    translation: 結婚式で一度着ただけのドレスを返品することに何のためらいもなかった。店の規定には三十日以内なら理由を問わず返品可能とはっきり書いてあったから。
+    note: "自動生成 2026-11-01 claude-opus-5-5: qualm [C2]"
+  - answer: superfluous
+    sentence: Once you've packed for a few trips, you realize most of what you bring
+      is superfluous, so I travel with one backpack now.
+    meaning: 余分な、不必要な
+    translation: 何度か旅行の荷造りをすると、持っていく物のほとんどが余計だと気づくから、今はリュック一つで旅をしている。
+    note: "自動生成 2026-11-01 claude-opus-5-5: superfluous [C2]"
+  - answer: counseled
+    sentence: My lawyer counseled me not to say anything to the insurance company
+      until we've seen the police report.
+    meaning: 助言する
+    translation: 警察の報告書を確認するまでは保険会社に何も言わないよう、弁護士に助言された。
+    note: "自動生成 2026-11-01 claude-opus-5-5: counsel [C2]"
+  - answer: diffuses
+    sentence: The paper lantern diffuses the light nicely, so the bedroom feels warm
+      and cozy instead of harsh and bright.
+    meaning: (光を)拡散させる
+    translation: 紙のランタンが光をうまく和らげてくれるので、寝室はまぶしくきつい感じではなく、暖かく居心地よく感じられる。
+    note: "自動生成 2026-11-01 claude-opus-5-5: diffuse [C2]"
+  - answer: antidote
+    sentence: After a stressful week at work, a long walk with my dog is the best
+      antidote I've found so far.
+    meaning: 解消法、特効薬
+    translation: 仕事でストレスの多い一週間を過ごした後は、犬との長い散歩がこれまで見つけた中で一番の解消法だ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: antidote [C2]"
+  - answer: shimmer
+    sentence: We sat on the dock until midnight, watching the moonlight shimmer on
+      the lake while the kids slept in the cabin.
+    meaning: きらきら揺らめく
+    translation: 子どもたちが小屋で寝ている間、私たちは真夜中まで桟橋に座り、湖面に月の光がきらめくのを眺めていた。
+    note: "自動生成 2026-11-01 claude-opus-5-5: shimmer [C2]"
+  - answer: pedestal
+    sentence: She put her older brother on a pedestal for years, so finding out he'd
+      lied to her really hurt.
+    meaning: (崇拝の)台座、理想化
+    translation: 彼女は何年も兄を崇拝していたので、兄に嘘をつかれていたと知って本当に傷ついた。
+    note: "自動生成 2026-11-01 claude-opus-5-5: pedestal [C2]"
+  - answer: condone
+    sentence: I don't condone cheating, but I understand why he felt so much
+      pressure to pass that final exam.
+    meaning: 容認する
+    translation: カンニングを容認するつもりはないけど、彼があの期末試験に合格しなきゃと強いプレッシャーを感じていた理由はわかる。
+    note: "自動生成 2026-11-01 claude-opus-5-5: condone [C2]"
+  - answer: recluse
+    sentence: The old man next door was a total recluse; in ten years, I only saw
+      him outside twice.
+    meaning: 世捨て人、引きこもりの人
+    translation: 隣のおじいさんは完全な世捨て人で、十年間で外にいるのを見たのはたった二回だけだった。
+    note: "自動生成 2026-11-01 claude-opus-5-5: recluse [C2]"
+  - answer: centralized
+    sentence: Our company moved to a centralized system, so now all vacation
+      requests go through one website instead of your manager.
+    meaning: 一元化された
+    translation: 会社が一元化されたシステムに移行したので、今は休暇の申請はすべて上司ではなく一つのウェブサイトを通すことになった。
+    note: "自動生成 2026-11-01 claude-opus-5-5: centralized [C2]"
+  - answer: abundantly
+    sentence: The coach made it abundantly clear that anyone who skips practice
+      won't be playing in Saturday's game.
+    meaning: 十分に、きわめて
+    translation: コーチは、練習をサボった者は土曜の試合に出さないと、はっきりと明言した。
+    note: "自動生成 2026-11-01 claude-opus-5-5: abundantly [C2]"
+  - answer: anthology
+    sentence: I picked up an anthology of short horror stories at the airport, and
+      it kept me awake the whole flight.
+    meaning: 作品集、選集
+    translation: 空港でホラー短編集を買ったら、フライト中ずっと眠れなかった。
+    note: "自動生成 2026-11-01 claude-opus-5-5: anthology [C2]"
+  - answer: hysterical
+    sentence: My friend told a story about her cat stealing a whole roast chicken,
+      and it was absolutely hysterical.
+    meaning: めちゃくちゃ面白い
+    translation: 友達が、飼い猫がローストチキンを丸ごと盗んだ話をしてくれたんだけど、もう爆笑ものだった。
+    note: "自動生成 2026-11-01 claude-opus-5-5: hysterical [C2]"
+  - answer: dribble
+    sentence: He can dribble the ball with either hand now, which is a big deal for
+      a kid who just turned eight.
+    meaning: ドリブルする
+    translation: あの子は今ではどちらの手でもボールをドリブルできるんだ。八歳になったばかりの子にしてはすごいことだよ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: dribble [C2]"
+  - answer: squirm
+    sentence: Watching my dad try to explain dating apps to my grandmother made me
+      squirm in my seat the whole time.
+    meaning: （気まずさで）もじもじする
+    translation: 父が祖母にマッチングアプリを説明しようとしているのを見ていて、ずっと席でいたたまれない気持ちだった。
+    note: "自動生成 2026-11-01 claude-opus-5-5: squirm [C2]"
+  - answer: wane
+    sentence: Interest in the new show started to wane after the second season, and
+      the network canceled it last week.
+    meaning: 薄れる、衰える
+    translation: その新番組への関心はシーズン2以降薄れ始め、先週テレビ局が打ち切りを決めた。
+    note: "自動生成 2026-11-01 claude-opus-5-5: wane [C2]"
+  - answer: vandalized
+    sentence: Someone vandalized the playground over the weekend, so the park will
+      be closed until the slides are repaired.
+    meaning: （公共物を）破壊する、荒らす
+    translation: 週末に誰かが遊び場を荒らしたので、滑り台が修理されるまで公園は閉鎖される。
+    note: "自動生成 2026-11-01 claude-opus-5-5: vandalize [C2]"
+  - answer: breadwinner
+    sentence: After my mom went back to work full-time, she became the main
+      breadwinner, and my dad started cooking dinner.
+    meaning: 一家の稼ぎ手
+    translation: 母がフルタイムの仕事に復帰してから、母が家計の主な稼ぎ手になり、父が夕食を作るようになった。
+    note: "自動生成 2026-11-01 claude-opus-5-5: breadwinner [C2]"
+  - answer: reconciled
+    sentence: My parents divorced when I was ten, but they reconciled years later
+      and got remarried in our backyard.
+    meaning: 和解する、よりを戻す
+    translation: 両親は私が十歳のときに離婚したけど、何年も経ってからよりを戻して、うちの裏庭で再婚した。
+    note: "自動生成 2026-11-01 claude-opus-5-5: reconcile [C2]"
+  - answer: precocious
+    sentence: Our neighbor's precocious six-year-old corrected my grammar yesterday,
+      and the worst part is that she was right.
+    meaning: ませた、早熟な
+    translation: 昨日、隣の家のませた六歳の子に文法を直されたんだけど、一番つらいのはその子が正しかったことだ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: precocious [C2]"
+  - answer: deficient
+    sentence: My blood test showed I was deficient in vitamin D, which probably
+      explains why I've felt so tired lately.
+    meaning: 不足している
+    translation: 血液検査でビタミンDが不足していることがわかった。最近やけに疲れているのはたぶんそのせいだ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: deficient [C2]"
+  - answer: abhorrent
+    sentence: Most people find the idea of hurting animals for entertainment
+      abhorrent, yet those shows still sell out every summer.
+    meaning: 忌まわしい、嫌悪すべき
+    translation: 娯楽のために動物を傷つけるなんてほとんどの人が忌まわしいと思うのに、そういうショーは今でも毎年夏になると完売する。
+    note: "自動生成 2026-11-01 claude-opus-5-5: abhorrent [C2]"
+  - answer: knack
+    sentence: My aunt has a real knack for finding amazing furniture at yard sales
+      and fixing it up to look brand new.
+    meaning: コツ、才能
+    translation: 叔母はガレージセールで素敵な家具を見つけて、新品のように直すのが本当に上手だ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: knack [C2]"
+  - answer: curator
+    sentence: The museum's curator gave us a private tour and explained how they
+      protect the old paintings from sunlight and humidity.
+    meaning: 学芸員
+    translation: 美術館の学芸員が私たちを個別に案内してくれて、古い絵画を日光や湿気からどう守っているのか説明してくれた。
+    note: "自動生成 2026-11-01 claude-opus-5-5: curator [C2]"
+  - answer: euphoria
+    sentence: The euphoria of finishing my first marathon lasted about an hour, and
+      then I could barely walk down the stairs.
+    meaning: 高揚感、幸福感
+    translation: 初めてのマラソンを完走した高揚感は1時間ほど続いたが、その後は階段を降りるのもやっとだった。
+    note: "自動生成 2026-11-01 claude-opus-5-5: euphoria [C2]"
+  - answer: resounding
+    sentence: The school board's plan to start classes at seven in the morning was
+      met with a resounding no from parents and students.
+    meaning: 断固とした、圧倒的な
+    translation: 授業を朝7時に始めるという教育委員会の案は、保護者と生徒から断固とした「ノー」を突きつけられた。
+    note: "自動生成 2026-11-01 claude-opus-5-5: resounding [C2]"
+  - answer: toppled
+    sentence: Strong winds toppled several trees in our neighborhood last night, and
+      one of them landed right on my neighbor's car.
+    meaning: 倒す
+    translation: 昨夜の強風で近所の木が何本も倒れ、そのうちの1本が隣の家の車の真上に倒れた。
+    note: "自動生成 2026-11-01 claude-opus-5-5: topple [C2]"
+  - answer: cordoned
+    sentence: Police cordoned off the street after someone reported a suspicious
+      package, so I had to walk the long way to work.
+    meaning: 封鎖する
+    translation: 不審な荷物の通報があって警察が通りを封鎖したので、遠回りして職場まで歩かなければならなかった。
+    note: "自動生成 2026-11-01 claude-opus-5-5: cordon [C2]"
+  - answer: exudes
+    sentence: Our new manager exudes confidence in meetings, but she told me
+      privately that she's still terrified of public speaking.
+    meaning: (雰囲気などを)にじみ出させる
+    translation: 新しい上司は会議では自信に満ちあふれているが、実は今でも人前で話すのが怖くてたまらないと内緒で教えてくれた。
+    note: "自動生成 2026-11-01 claude-opus-5-5: exude [C2]"
+  - answer: profitability
+    sentence: The coffee shop is always busy, but the owner says rising rent has
+      really hurt its profitability over the past year.
+    meaning: 収益性
+    translation: そのコーヒーショップはいつも混んでいるが、オーナーによるとこの1年は家賃の値上がりで収益がかなり苦しくなっているそうだ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: profitability [C2]"
+  - answer: commensurate
+    sentence: The job ad says the salary is commensurate with experience, which
+      usually means they want you to name a number first.
+    meaning: 見合った、相応の
+    translation: 求人広告には「給与は経験に応じる」とあるが、これはたいてい先にこちらから金額を言ってほしいという意味だ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: commensurate [C2]"
+  - answer: provincial
+    sentence: My parents thought moving to the big city was a huge mistake, but
+      honestly, I found their attitude a little provincial.
+    meaning: 視野の狭い、田舎くさい
+    translation: 両親は都会に引っ越すなんて大間違いだと思っていたけど、正直言って、その考え方は少し視野が狭いと感じた。
+    note: "自動生成 2026-11-01 claude-opus-5-5: provincial [C2]"
+  - answer: rift
+    sentence: The argument over Grandpa's will caused a rift between my mom and her
+      sister that lasted almost ten years.
+    meaning: 亀裂、不和
+    translation: 祖父の遺言をめぐる口論で、母と叔母の間に亀裂が生じ、それはほぼ十年も続いた。
+    note: "自動生成 2026-11-01 claude-opus-5-5: rift [C2]"
+  - answer: melancholy
+    sentence: There's something a little melancholy about the beach in October, when
+      the shops are closed and the parking lot is empty.
+    meaning: 物悲しい、憂いを帯びた
+    translation: 店が閉まり駐車場が空っぽになる十月の海辺には、どこか少し物悲しいものがある。
+    note: "自動生成 2026-11-01 claude-opus-5-5: melancholy [C2]"
+  - answer: contraption
+    sentence: My dad built some weird contraption out of plastic pipes and a bucket
+      to keep squirrels away from the bird feeder.
+    meaning: 奇妙な仕掛け、珍妙な装置
+    translation: 父はリスを鳥のエサ台から遠ざけるために、プラスチックのパイプとバケツで変な仕掛けを作った。
+    note: "自動生成 2026-11-01 claude-opus-5-5: contraption [C2]"
+  - answer: angst
+    sentence: My teenage diary is full of so much angst that I can't read more than
+      two pages without laughing.
+    meaning: (思春期の)苦悩、不安
+    translation: 十代の頃の日記は苦悩だらけで、二ページ以上読むと笑わずにはいられない。
+    note: "自動生成 2026-11-01 claude-opus-5-5: angst [C2]"
+  - answer: wheeze
+    sentence: My son started to wheeze after running around the soccer field, so we
+      always keep his inhaler in my purse.
+    meaning: ゼーゼー息をする
+    translation: 息子はサッカー場を走り回った後にゼーゼーし始めたので、私はいつもバッグに彼の吸入器を入れている。
+    note: "自動生成 2026-11-01 claude-opus-5-5: wheeze [C2]"
+  - answer: vocational
+    sentence: Instead of going to college, my nephew enrolled in a vocational
+      program for electricians, and he already has a job lined up.
+    meaning: 職業訓練の
+    translation: 甥は大学に行く代わりに電気技師の職業訓練プログラムに入り、もう就職先も決まっている。
+    note: "自動生成 2026-11-01 claude-opus-5-5: vocational [C2]"
+  - answer: encompass
+    sentence: The new national park will encompass over two hundred thousand acres
+      of forest, lakes, and old mining land.
+    meaning: 包含する、取り囲む
+    translation: 新しい国立公園は、森や湖、昔の鉱山跡地を含む二十万エーカー以上の土地を包含することになる。
+    note: "自動生成 2026-11-01 claude-opus-5-5: encompass [C2]"
+  - answer: adhere
+    sentence: Every player has to adhere to the league's strict dress code, so I had
+      to buy all-white shoes for tennis.
+    meaning: (規則などを)守る、従う
+    translation: 選手は全員リーグの厳しい服装規定を守らなければならないので、テニス用に真っ白な靴を買う羽目になった。
+    note: "自動生成 2026-11-01 claude-opus-5-5: adhere [C2]"
+  - answer: reissue
+    sentence: The band is going to reissue their first album on vinyl next spring,
+      with a few unreleased songs as a bonus.
+    meaning: 再発売する
+    translation: そのバンドは来春、未発表曲を何曲かボーナスとして加えて、ファーストアルバムをレコードで再発売する予定だ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: reissue [C2]"
+  - answer: blitz
+    sentence: We did a cleaning blitz on Saturday morning because my in-laws called
+      to say they'd be here by lunch.
+    meaning: 集中的な取り組み、一斉作業
+    translation: 義理の両親が昼までに来ると電話してきたので、土曜の朝に大急ぎで一気に掃除をした。
+    note: "自動生成 2026-11-01 claude-opus-5-5: blitz [C2]"
