@@ -6,37 +6,44 @@
   <title>そらとぶ自転車 英単語世界一周</title>
 </head>
 <body>
-  <div id="device">
-    <div class="screen" id="top">
-      <canvas id="scene" width="480" height="360"></canvas>
+  <div id="app">
+    <!-- 空の場面（ウィンドウに合わせて描く）と、その上の情報 -->
+    <main id="stage">
+      <canvas id="scene"></canvas>
       <div id="hud">
-        <div id="wordBar"></div>
-        <div id="info"><span class="tag" id="dest">→ ---</span><span class="tag" id="remain">あと 0km</span></div>
-        <div id="altMeter"><div id="altFill"></div></div>
-        <div id="count"></div>
-        <div id="boost"></div>
+        <div id="info">
+          <span class="chip" id="dest">→ ---</span>
+          <span class="chip" id="remain">あと 0km</span>
+          <span class="chip" id="count"></span>
+          <span class="chip boost" id="boost"></span>
+        </div>
+        <div id="altMeter" title="高度"><div id="altFill"></div></div>
         <div id="meaning"></div>
       </div>
-      <div class="overlay" id="mapScreen">
-        <div id="mapHead"><span class="tag" id="mapName">---</span><span>総距離 <b id="mapTotal">0</b>km</span></div>
-        <canvas id="mapCanvas" width="480" height="290"></canvas>
-      </div>
-    </div>
+    </main>
 
-    <div class="screen" id="bottom">
-      <div id="playArea">
-        <div class="row">
-          <button class="b-quit" id="btnQuit">やめる</button>
-          <button id="btnPass">パス</button>
-          <button class="b-listen" id="btnListen">🔊 聴く</button>
-        </div>
-        <div id="sentenceBox"></div>
-        <div id="feedback"></div>
-        <div id="kbd"></div>
+    <!-- 字幕のように例文を出す。書き取りと操作はここ -->
+    <section id="caption">
+      <div id="sentenceBox"></div>
+      <div id="feedback"></div>
+      <div class="controls">
+        <button class="b-quit" id="btnQuit">やめる</button>
+        <button id="btnPass">パス</button>
+        <button class="b-listen" id="btnListen">🔊 聴く <kbd>Space</kbd></button>
       </div>
-      <div id="panel"></div>
+      <div id="kbd"></div>
+    </section>
+
+    <!-- メニュー・到着・復習（ステージの上に重ねる 1 枚のページ） -->
+    <div id="page">
+      <div id="pageInner">
+        <section id="mapPanel">
+          <div id="mapHead"><span class="chip" id="mapName">---</span><span>総距離 <b id="mapTotal">0</b>km</span></div>
+          <canvas id="mapCanvas"></canvas>
+        </section>
+        <section id="panel"></section>
+      </div>
     </div>
-    <div class="small center">英字だけ入力すれば、空白と記号は自動で入ります。キーボードでも入力できます（Space＝聴く・Enter＝スタート）。</div>
   </div>
   <script type="module" src="/src/main.ts"></script>
 </body>

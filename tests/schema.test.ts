@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { QuestionSchema, QuestionSetSchema } from "../src/content/schema";
-import { currentWord, letterTarget, maskLetters, revealSentence, splitAtAnswer } from "../src/content/text";
+import { letterTarget, maskLetters, revealSentence, splitAtAnswer } from "../src/content/text";
 
 const base = { answer: "postpone", sentence: "We had to postpone the meeting.", meaning: "延期する", translation: "会議を延期しなければならなかった。" };
 
@@ -56,10 +56,5 @@ describe("例文の書き取り", () => {
   });
   it("残りは英字だけ伏せる", () => {
     expect(maskLetters("s go, Tom.")).toBe("_ __, ___.");
-  });
-  it("入力中の単語", () => {
-    expect(currentWord(s, 3)).toEqual({ done: "Let'", restLetters: 1 });
-    expect(currentWord(s, 4)).toEqual({ done: "", restLetters: 2 });
-    expect(currentWord(s, 9)).toEqual({ done: "Tom.", restLetters: 0 });
   });
 });

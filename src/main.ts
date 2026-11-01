@@ -6,7 +6,7 @@
 import "./style.css";
 import { config, sets } from "virtual:content";
 import type { PlayQuestion } from "./content/schema";
-import { currentWord, escapeHtml as esc, maskLetters, revealSentence, splitAtAnswer } from "./content/text";
+import { escapeHtml as esc, maskLetters, revealSentence, splitAtAnswer } from "./content/text";
 import { CITIES } from "./data/route";
 import { Game, type AnswerResult, type GameEvent, type GameState, type Mode } from "./game/game";
 import { legDistances } from "./lib/geo";
@@ -15,6 +15,7 @@ import { QuestionBag, totalKm } from "./lib/quiz";
 import { loadSave, writeSave } from "./lib/save";
 import { prefetchAudio, speak, stopSpeaking, unlockAudio } from "./lib/speech";
 import { audioUrl, pickAccentQuestion, pickSpeaker, ttsAccent } from "./lib/voices";
+import { fitCanvas } from "./render/canvas";
 import { drawMap } from "./render/map";
 import { Scene } from "./render/scene";
 
@@ -136,7 +137,7 @@ function highlightSentence(q: PlayQuestion) {
 /** 解答後の表示。日本語（和訳・重要語の意味）は正解したときだけ出す */
 function reviewHtml(r: AnswerResult) {
   const q = r.question;
-  return `<div class="${r.ok ? "ok" : "ng"}">${esc(r.message)}</div><div>${highlightSentence(q)}</div>` +
+  return `<div class="result ${r.ok ? "ok" : "ng"}">${esc(r.message)}</div><div class="en">${highlightSentence(q)}</div>` +
     (r.ok ? `<div class="tr">${esc(q.translation)}</div><div class="tr"><b>${esc(q.answer)}</b>：${esc(q.meaning)}</div>` : "");
 }
 function feedback(text: string, cls = "") {
@@ -161,11 +162,22 @@ const setsHtml = () => {
 };
 
 // ---------- 画面（モードが変わったときに切り替える） ----------
-function showPanel(html: string) { $("playArea").style.display = "none"; const p = $("panel"); p.innerHTML = html; p.classList.add("show"); }
-function hidePanel() { $("panel").classList.remove("show"); $("playArea").style.display = "flex"; }
-function showMap(on: boolean) {
-  $("mapScreen").classList.toggle("show", on);
-  if (!on) return;
+/** メニュー・到着・復習のページを出す（ステージの上に重ねる）。map: 世界地図も並べるか */
+function showPage(html: string, { map, cls = "" }: { map: boolean; cls?: string }) {
+  const page = $("page"), panel = $("panel");
+  panel.innerHTML = html;
+  panel.className = cls;
+  page.classList.toggle("no-map", !map);
+  page.classList.add("show");
+  page.scrollTop = 0;
+  if (map) drawWorldMap();
+}
+function hidePage() { $("page").classList.remove("show"); }
+const pageWithMap = () => $("page").classList.contains("show") && !$("page").classList.contains("no-map");
+
+function drawWorldMap() {
+  const canvas = $<HTMLCanvasElement>("mapCanvas");
+  fitCanvas(canvas); // 表示されている幅に合わせて描く
   const p = game.state.progress, name = p.name || "あなた";
   $("mapName").textContent = name;
   const km = totalKm(p, LEGS);
@@ -176,14 +188,14 @@ function showMap(on: boolean) {
 function showMenu(s: GameState) {
   const p = s.progress, here = CITIES[p.leg % CITIES.length];
   const failed = s.lastFlightFailed ? `<div class="ng">海に墜落して渡航失敗… ${esc(here.ja)}からもう一度！</div>` : "";
-  showMap(true);
-  showPanel(`
+  showPage(`
     ${p.name ? `<h2>${esc(p.name)} さん、おかえり！</h2>` : `<h2>空とぶ自転車で世界一周</h2><div>なまえ：<input id="nameInput" maxlength="8" placeholder="なまえ"></div>`}
     ${failed}
     <div>${esc(here.ja)}から <b>${esc(nextCity().name)}</b> へ（${game.perLeg}問）</div>
     <button class="big" id="btnStart">スタート</button>
     ${reviewButtonHtml()}
-    ${setsHtml()}${stampsHtml(p.laps)}${statsHtml(s)}`);
+    ${setsHtml()}${stampsHtml(p.laps)}${statsHtml(s)}
+    <div class="small">英字だけ打てば、空白と記号は自動で入ります。Space＝聴く・Enter＝スタート</div>`, { map: true });
   document.querySelectorAll<HTMLInputElement>("[data-set]").forEach((cb) => (cb.onchange = () => {
     save.enabledSets = [...document.querySelectorAll<HTMLInputElement>("[data-set]:checked")].map((c) => c.dataset.set!);
     writeSave(save);
@@ -198,13 +210,12 @@ function showArrive(s: GameState) {
     p.laps === 1 ? "<div class='ok'>世界一周達成！ 飛行機のハンコをゲット！</div>" :
     p.laps === 2 ? "<div class='ok'>二周達成！ 地球儀のハンコをゲット！</div>" :
     `<div class='ok'>${p.laps}周目達成！</div>`;
-  showMap(true);
-  showPanel(`<span class="end">終了</span>
+  showPage(`<span class="end">終了</span>
     <h2>${esc(here.ja)}（${esc(here.name)}）に到着！</h2>${lapMsg}
     <div>次の目的地は <b>${esc(nextCity().name)}</b></div>
     <button class="big" id="btnStart">スタート</button>
     ${reviewButtonHtml()}
-    ${stampsHtml(p.laps)}${statsHtml(s)}`);
+    ${stampsHtml(p.laps)}${statsHtml(s)}`, { map: true });
   $("btnStart").onclick = start;
   bindReviewButton(() => showArrive(game.state));
 }
@@ -272,10 +283,8 @@ async function showReview(filter: ReviewFilter, back: () => void) {
   });
   const tabs = (Object.keys(FILTER_LABEL) as ReviewFilter[]).map((f) =>
     `<button class="rv-tab ${f === filter ? "on" : ""}" data-filter="${f}">${FILTER_LABEL[f]}</button>`).join("");
-  showPanel(`<h2>復習</h2>
-    <div class="rv-tabs">${tabs}</div>
-    ${items.length ? `<ul class="rv-list">${items.join("")}</ul>` : `<div class="small">まだありません</div>`}
-    <button id="btnBack">戻る</button>`);
+  showPage(`<div class="rv-head"><h2>復習</h2><div class="rv-tabs">${tabs}</div><button id="btnBack">戻る</button></div>
+    ${items.length ? `<ul class="rv-list">${items.join("")}</ul>` : `<div class="small">まだありません</div>`}`, { map: false, cls: "review" });
 
   document.querySelectorAll<HTMLButtonElement>(".rv-tab").forEach((b) => (b.onclick = () => void showReview(b.dataset.filter as ReviewFilter, back)));
   document.querySelectorAll<HTMLButtonElement>(".rv-play").forEach((b) => (b.onclick = () => {
@@ -300,7 +309,7 @@ async function showReview(filter: ReviewFilter, back: () => void) {
 function onModeChange(from: Mode | null, to: Mode, s: GameState) {
   if (to === "idle") showMenu(s);
   else if (to === "arrived") showArrive(s);
-  else if (from === null || from === "idle" || from === "arrived") { showMap(false); hidePanel(); }
+  else if (from === null || from === "idle" || from === "arrived") hidePage();
   if (to === "review" && !config.display.showReview && s.result) feedback(s.result.message, s.result.ok ? "ok" : "ng");
   if (to === "play" && s.isAirship) scene.showAirship();
 }
@@ -308,17 +317,10 @@ function onModeChange(from: Mode | null, to: Mode, s: GameState) {
 // ---------- プレイ中の表示（関係する値が変わったときだけ書き換える） ----------
 function renderPlay(s: GameState) {
   const q = s.question;
-  if (!q) { $("wordBar").innerHTML = ""; $("meaning").textContent = ""; }
-  else {
-    // 上画面: 入力中の単語
-    const w = currentWord(q.sentence, s.typed);
-    const rest = config.display.showLetterCount ? `<span class="rest">${"·".repeat(Math.max(0, w.restLetters - 1))}</span>` : "";
-    $("wordBar").innerHTML = esc(w.done) + (w.restLetters ? `<span class="cur"></span>${rest}` : "");
-    // 出題中は日本語を出さない
-    $("meaning").innerHTML = s.isAirship
-      ? `✈ 飛行船！ <b>${esc(nextCity().region)}</b>なまりの例文を聞き取ろう`
-      : "🔊 例文をまるごと書き取ろう";
-  }
+  // ステージ下の案内（出題中は日本語の答えを出さない）
+  $("meaning").innerHTML = !q ? "" : s.isAirship
+    ? `✈ 飛行船！ <b>${esc(nextCity().region)}</b>なまりの例文を聞き取ろう`
+    : "🔊 例文をまるごと書き取ろう";
   if (s.mode === "play" && q) {
     $("sentenceBox").innerHTML = dictationHtml(q, s.typed);
   } else if (s.result && (s.mode === "crash" || (s.mode === "review" && config.display.showReview))) {
@@ -332,6 +334,8 @@ function renderPlay(s: GameState) {
 
 // ---------- メインループ ----------
 const scene = new Scene($<HTMLCanvasElement>("scene"));
+// ウィンドウの大きさが変わったら、空の場面と地図を描き直す
+window.addEventListener("resize", () => { scene.resize(); if (pageWithMap()) drawWorldMap(); });
 let last = performance.now();
 let lastMode: Mode | null = null;
 let lastView = "";
@@ -355,8 +359,8 @@ function loop(now: number) {
 
   $("altFill").style.height = s.altitude + "%";
   $("altFill").style.background = s.altitude < 25 ? "#e9426b" : s.altitude < 50 ? "#f2b632" : "#2fb36b";
-  $("boost").style.display = boosting ? "block" : "none";
-  $("count").style.display = boosting ? "none" : "block";
+  $("boost").style.display = boosting ? "inline-block" : "none";
+  $("count").style.display = boosting ? "none" : "";
   if (boosting) $("boost").textContent = `×${config.airship.multiplier} スピード! ${Math.ceil((s.boostUntil - now) / 1000)}`;
   requestAnimationFrame(loop);
 }

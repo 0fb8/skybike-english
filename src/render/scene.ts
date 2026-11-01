@@ -1,5 +1,9 @@
-// 上画面: 空・雲・島・海・自転車・飛行船
-import { setupCanvas } from "./canvas";
+// 空の場面: 空・雲・島・海・自転車・飛行船。
+// 高さ VIEW_H の仮想的な画面に描き、それを表示の高さに合わせて縦横同じ倍率で拡大・縮小する。
+// 縦の比率は元の絵のまま保ち、横長の画面では景色が横に広く見えるだけにする（縦につぶれて見えないように）。
+import { fitCanvas, setupCanvas } from "./canvas";
+
+const VIEW_H = 360;
 
 export interface SceneState {
   altitude: number; // 0..100
@@ -15,34 +19,55 @@ export class Scene {
   private g: CanvasRenderingContext2D;
   private W: number;
   private H: number;
-  private clouds = Array.from({ length: 7 }, () => ({ x: Math.random() * 480, y: 70 + Math.random() * 180, s: 0.6 + Math.random() * 0.8 }));
-  private islands = [{ x: 520, w: 120 }];
+  private clouds: { x: number; y: number; s: number }[] = [];
+  private islands: { x: number; w: number }[] = [];
   private waveT = 0;
-  private airshipX = 600;
+  private airshipX = Infinity;
 
-  constructor(canvas: HTMLCanvasElement) {
-    const c = setupCanvas(canvas);
-    this.g = c.g; this.W = c.width; this.H = c.height;
+  constructor(private canvas: HTMLCanvasElement) {
+    this.g = canvas.getContext("2d")!;
+    this.W = 480; this.H = 360;
+    this.resize();
+    this.clouds = Array.from({ length: Math.ceil(this.W / 70) }, () => ({ x: Math.random() * this.W, y: this.cloudY(), s: 0.6 + Math.random() * 0.8 }));
+    this.islands = [{ x: this.W * 0.8, w: 120 }];
   }
+
+  /** 表示されている大きさに合わせ直す（ウィンドウの大きさが変わったとき） */
+  resize() {
+    fitCanvas(this.canvas);
+    const c = setupCanvas(this.canvas);
+    const scale = c.height / VIEW_H;
+    c.g.scale(scale, scale);
+    this.g = c.g; this.W = c.width / scale; this.H = VIEW_H;
+  }
+
+  private get sea() { return this.H - 70; }
+  private cloudY() { return 70 + Math.random() * 180; }
+  /** 自転車の横位置（左寄り） */
+  private get bikeX() { return Math.max(150, this.W * 0.28); }
+  /** 飛行船が止まる位置（右寄り） */
+  private get airshipStop() { return Math.max(this.bikeX + 180, this.W * 0.7); }
 
   update(dt: number, s: SceneState) {
     const speed = s.flying ? (s.boosting ? 220 : 110) : 25;
     this.waveT += dt * speed;
     for (const c of this.clouds) {
       c.x -= speed * dt * c.s * 0.5;
-      if (c.x < -80) { c.x = 520 + Math.random() * 80; c.y = 70 + Math.random() * 180; }
+      if (c.x < -80) { c.x = this.W + 40 + Math.random() * 80; c.y = this.cloudY(); }
     }
     for (const i of this.islands) i.x -= speed * dt;
     this.islands = this.islands.filter((i) => i.x > -i.w - 20);
-    if (this.islands.length < 2 && Math.random() < dt * 0.3) this.islands.push({ x: 500, w: 60 + Math.random() * 140 });
-    if (s.airshipVisible) { if (this.airshipX > 330) this.airshipX -= dt * 120; }
-    else if (this.airshipX < 600) this.airshipX += dt * 200;
+    const maxIslands = Math.max(2, Math.round(this.W / 300));
+    if (this.islands.length < maxIslands && Math.random() < dt * 0.3) this.islands.push({ x: this.W + 20, w: 60 + Math.random() * 140 });
+    const out = this.W + 120;
+    if (s.airshipVisible) { this.airshipX = Math.min(this.airshipX, out); if (this.airshipX > this.airshipStop) this.airshipX -= dt * 120; }
+    else if (this.airshipX < out) this.airshipX += dt * 200;
   }
 
-  showAirship() { this.airshipX = 520; }
+  showAirship() { this.airshipX = this.W + 100; }
 
   draw(now: number, s: SceneState) {
-    const g = this.g, W = this.W, H = this.H, sea = H - 70;
+    const g = this.g, W = this.W, H = this.H, sea = this.sea;
     const grd = g.createLinearGradient(0, 0, 0, sea);
     grd.addColorStop(0, "#7cc3f0"); grd.addColorStop(1, "#d9f0fb");
     g.fillStyle = grd; g.fillRect(0, 0, W, H);
@@ -62,9 +87,10 @@ export class Scene {
       for (let x = 0; x <= W; x += 8) { const y = sea + 12 + r * 18 + Math.sin((x + this.waveT * (1 + r * 0.3)) / 22) * 3; x ? g.lineTo(x, y) : g.moveTo(x, y); }
       g.stroke();
     }
-    if (this.airshipX < 560) this.drawAirship(this.airshipX, 130 + Math.sin(now / 600) * 6);
+    if (this.airshipX < W + 100) this.drawAirship(this.airshipX, 130 + Math.sin(now / 600) * 6);
 
-    const top = 95, bottom = sea - 26, bx = 150;
+    // 高度 0..100 を、上は情報の帯の下から、下は海面の少し上まで
+    const top = 95, bottom = sea - 26, bx = this.bikeX;
     let by = bottom - (s.altitude / 100) * (bottom - top);
     if (s.crashing) by = Math.min(sea + 10, by + s.crashT * s.crashT * 400);
     else by += Math.sin(now / 300) * 2;

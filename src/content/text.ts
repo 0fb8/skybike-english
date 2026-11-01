@@ -47,11 +47,3 @@ export function revealSentence(sentence: string, n: number): { done: string; res
 export function maskLetters(s: string, mask = "_"): string {
   return s.replace(/[a-zA-Z]/g, mask);
 }
-
-/** 入力中の単語（空白区切り）の、入力済み部分と残りの英字数 */
-export function currentWord(sentence: string, n: number): { done: string; restLetters: number } {
-  const { done, rest } = revealSentence(sentence, n);
-  const head = done.slice(done.lastIndexOf(" ") + 1);
-  const tail = rest.split(" ")[0];
-  return { done: head, restLetters: letterTarget(tail).length };
-}

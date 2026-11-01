@@ -71,7 +71,7 @@ src/
 ├── lib/save.ts          # 保存データの形式・版番号・移行 ※テスト対象
 ├── lib/history.ts       # 出題された問題の記録（復習画面用） ※テスト対象
 ├── lib/storage.ts       # localStorage の読み書き
-└── render/              # canvas 描画（上画面・地図）
+└── render/              # canvas 描画（空の場面・世界地図。ウィンドウの大きさに合わせて描く）
 scripts/
 ├── content.ts           # content/ の読み込みと検証
 ├── check-content.ts     # 検証だけ行う（CI 用）
