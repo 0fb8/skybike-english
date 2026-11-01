@@ -108,10 +108,11 @@ export function contentPlugin(opts: { root?: string; contentDir?: string; audioD
   };
 }
 
-/** ブラウザへ配る設定。音声の置き場所（バケット名）はゲームには要らないので含めない（配信 URL は問題の音声に付く） */
+/**
+ * ブラウザへ配る設定。ゲームに要らないものは含めない:
+ * 音声の置き場所（バケット名。配信 URL は問題の音声に付く）と、例文のレベルの基準（content:levels 用）
+ */
 function clientConfig(config: Config): Config {
-  const tts = config.speech.tts;
-  if (!tts?.storage) return config;
-  const { storage: _storage, ...rest } = tts;
-  return { ...config, speech: { ...config.speech, tts: rest } };
+  const { storage: _storage, ...tts } = config.speech.tts ?? {};
+  return { ...config, levels: {}, speech: { ...config.speech, tts: config.speech.tts ? (tts as typeof config.speech.tts) : undefined } };
 }

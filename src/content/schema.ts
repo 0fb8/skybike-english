@@ -48,6 +48,8 @@ export const QuestionSetSchema = z
     id: z.string().regex(ID_PATTERN, "id は小文字英数字とハイフンのみ"),
     title: z.string().min(1),
     description: z.string().optional(),
+    /** 任意: 例文のレベルの基準（config.yaml の levels のキー）。npm run content:levels で判定する */
+    level: z.string().optional(),
     questions: z.array(QuestionSchema).min(1),
   })
   .strict()
@@ -66,6 +68,26 @@ export const QuestionSetSchema = z
       seen.set(key, i);
     });
   });
+
+/** CEFR のレベル（易しい順） */
+export const CEFR_LEVELS = ["A1", "A2", "B1", "B2", "C1", "C2"] as const;
+export type Cefr = (typeof CEFR_LEVELS)[number];
+const CefrSchema = z.enum(CEFR_LEVELS);
+
+/** 例文のレベルの基準（scripts/levels/）。単語のレベルは content/wordlists/ の CEFR の単語表で決める */
+export const LevelCriteriaSchema = z
+  .object({
+    title: z.string().min(1),
+    /** 答えの単語のレベル */
+    answer: z.array(CefrSchema).min(1),
+    /** 答え以外の単語は、このレベル以下（単語表に無い単語はこれより上とみなす） */
+    othersMax: CefrSchema,
+    /** othersMax を超えてよい単語の数 */
+    othersAbove: z.number().int().min(0),
+    /** 例文の語数の範囲 [最小, 最大] */
+    words: z.tuple([z.number().int().min(1), z.number().int().min(1)]),
+  })
+  .strict();
 
 /** クラウド TTS の声。値は各サービスの指定そのまま（Polly: VoiceId / Engine / LanguageCode） */
 export const TtsVoiceSchema = z
@@ -141,6 +163,8 @@ export const ConfigSchema = z
         multiplier: z.number().int().min(1),
       })
       .strict(),
+    /** 例文のレベルの基準（名前 → 基準）。問題集の level で選ぶ */
+    levels: z.record(z.string().regex(ID_PATTERN, "レベルの名前は小文字英数字とハイフンのみ"), LevelCriteriaSchema).default({}),
   })
   .strict();
 
@@ -149,6 +173,7 @@ export type QuestionSet = z.infer<typeof QuestionSetSchema>;
 export type Config = z.infer<typeof ConfigSchema>;
 export type TtsConfig = z.infer<typeof TtsSchema>;
 export type TtsVoice = z.infer<typeof TtsVoiceSchema>;
+export type LevelCriteria = z.infer<typeof LevelCriteriaSchema>;
 
 /** 問題集の中での問題の識別子 */
 export function questionKey(q: Pick<Question, "id" | "answer">): string {

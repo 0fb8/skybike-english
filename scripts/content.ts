@@ -62,6 +62,9 @@ export function loadContent(contentDir: string): ContentResult {
     for (const s of config.questionSets) {
       if (!ids.has(s.id) && !failed.has(s.id)) errors.push(`config.yaml: questionSets の "${s.id}" に対応する content/questions/${s.id}.yaml がありません`);
     }
+    for (const s of sets) {
+      if (s.level && !(s.level in config.levels)) errors.push(`content/questions/${s.id}.yaml: level "${s.level}" が config.yaml の levels にありません`);
+    }
     for (const id of ids) {
       if (!config.questionSets.some((s) => s.id === id)) warnings.push(`content/questions/${id}.yaml は config.yaml の questionSets に入っていないため出題されません`);
     }

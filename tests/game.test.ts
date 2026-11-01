@@ -11,6 +11,7 @@ const config: Config = {
   speech: { rate: 1, airshipRate: 1, voice: ["en-US"] },
   altitude: { start: 50, decayPerSec: 10, decayIncreasePerLap: 0, gainPerLetter: 2 },
   airship: { probability: 0, boostSeconds: 10, multiplier: 2 },
+  levels: {},
 };
 const q = (sentence: string): PlayQuestion => ({ key: `t/${sentence}`, setId: "t", answer: "a", sentence, meaning: "m", translation: "t" });
 

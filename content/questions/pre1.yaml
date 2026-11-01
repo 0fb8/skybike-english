@@ -3,6 +3,7 @@
 id: pre1
 title: 英検準1級・TOEIC800レベル
 description: ビジネス・社会・科学の発展語彙
+level: toeic800
 questions:
   - answer: inevitable
     sentence: Some delays are inevitable when you travel during the holidays.
