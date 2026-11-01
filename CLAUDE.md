@@ -34,7 +34,8 @@ cd infra && npx cdk synth # AWS CDK stack for the audio bucket, CloudFront and t
 
 **Persistence.** Progress lives in localStorage key `skybike:save`, with a version number (`src/lib/save.ts`). Whenever the save shape changes, bump `SAVE_VERSION` and add a conversion in `migrate()`. Progress and question order are keyed by `"<setId>/<questionKey>"`, where questionKey is the question's `id` and falls back to `answer`. Changing a question's `answer` or `id` therefore orphans its saved progress. Reordering questions or editing sentences does not.
 
-**Content constraints** (enforced by the schema, so keep them in mind when generating content):
+**Content constraints** (the schema enforces these, so keep them in mind when writing or generating content):
+- Sentences are American English (spelling and vocabulary) because the default voices are American and players type exactly what they hear. The airship accents change pronunciation only. `scripts/levels/american.ts` flags British spellings, using the `us/uk` variant headwords in the word lists plus a doubled-l rule, and British-only words from a small table. It warns in `content:check` and rejects drafts in `content:generate`.
 - The player types letters only; spaces and punctuation are filled in automatically (`src/content/text.ts`).
 - `sentence` may contain only English letters, spaces and `. , ? ! ; : ' " -`.
 - `answer` must be lowercase a–z and must appear in the sentence as a whole word.

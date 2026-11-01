@@ -5,6 +5,7 @@
 import { join, resolve } from "node:path";
 import { CEFR_LEVELS } from "../../src/content/schema";
 import { loadContent } from "../content";
+import { americanIssues, loadSpellingTable } from "./american";
 import { checkLevel, fmt, profileSentence, UNLISTED, type WordLevel } from "./analyze";
 import { loadWordList } from "./wordlist";
 
@@ -19,6 +20,7 @@ if (errors.length || !config) {
   process.exit(1);
 }
 const list = loadWordList(join(root, "content", "wordlists"));
+const spelling = loadSpellingTable(join(root, "content", "wordlists"));
 const ORDER: WordLevel[] = [...CEFR_LEVELS, UNLISTED];
 const dist = (levels: WordLevel[]) =>
   ORDER.map((l) => [l, levels.filter((x) => x === l).length] as const).filter(([, n]) => n).map(([l, n]) => `${l}:${n}`).join(" ");
@@ -27,7 +29,8 @@ for (const set of sets) {
   if (only && set.id !== only) continue;
   const criteria = set.level ? config.levels[set.level] : undefined;
   const rows = set.questions.map((q) => ({ q, p: profileSentence(q, list) }));
-  const checked = rows.map((r) => ({ ...r, issues: criteria ? checkLevel(r.p, criteria) : [] }));
+  // レベルの基準（level があるとき）と、アメリカ英語か（すべての問題集）
+  const checked = rows.map((r) => ({ ...r, issues: [...(criteria ? checkLevel(r.p, criteria) : []), ...americanIssues(r.q.sentence, spelling)] }));
   const wc = rows.map((r) => r.p.wordCount).sort((a, b) => a - b);
   const maxOther = rows.map((r) => ORDER[Math.max(0, ...r.p.others.map((w) => ORDER.indexOf(w.level)))]);
 
@@ -35,10 +38,8 @@ for (const set of sets) {
   console.log(`  答えのレベル:         ${dist(rows.map((r) => r.p.answer.level))}`);
   console.log(`  答え以外で一番難しい語: ${dist(maxOther)}`);
   console.log(`  語数: 最小 ${wc[0]}・中央 ${wc[Math.floor(wc.length / 2)]}・最大 ${wc.at(-1)}`);
-  if (criteria) {
-    const ng = checked.filter((r) => r.issues.length).length;
-    console.log(`  基準に合う例文: ${rows.length - ng} / ${rows.length}`);
-  }
+  const ng = checked.filter((r) => r.issues.length).length;
+  console.log(`  ${criteria ? "基準に合う" : "アメリカ英語の"}例文: ${rows.length - ng} / ${rows.length}`);
   for (const { q, p, issues } of checked) {
     if (!showAll && !issues.length) continue;
     console.log(`  ${issues.length ? "⚠" : "✔"} ${q.id ?? q.answer}: ${q.sentence}`);

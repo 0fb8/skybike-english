@@ -1,10 +1,12 @@
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { candidateHeadwords, usedHeadwords, validateItem } from "../scripts/generate/draft";
+import { loadSpellingTable } from "../scripts/levels/american";
 import { loadWordList } from "../scripts/levels/wordlist";
 import type { LevelCriteria } from "../src/content/schema";
 
 const list = loadWordList(join(import.meta.dirname, "..", "content", "wordlists"));
+const spelling = loadSpellingTable(join(import.meta.dirname, "..", "content", "wordlists"));
 const criteria: LevelCriteria = { title: "t", answer: ["B1"], othersMax: "B1", othersAbove: 1, words: [5, 12] };
 
 describe("candidateHeadwords", () => {
@@ -22,7 +24,7 @@ describe("candidateHeadwords", () => {
 });
 
 describe("validateItem", () => {
-  const ctx = () => ({ list, criteria, offered: new Set(["launch", "steady"]), taken: new Set<string>() });
+  const ctx = () => ({ list, spelling, criteria, offered: new Set(["launch", "steady"]), taken: new Set<string>() });
   const item = { headword: "launch", answer: "launched", sentence: "They launched the new app last week.", meaning: "公開する", translation: "彼らは先週新しいアプリを公開した。" };
 
   it("合格すれば問題データになる", () => {
@@ -34,6 +36,10 @@ describe("validateItem", () => {
     const c = ctx();
     c.taken.add("launch");
     expect(validateItem(item, c)).toHaveProperty("issues");
+  });
+  it("イギリス式の綴りは不合格", () => {
+    const r = validateItem({ ...item, sentence: "They launched the app at the new sports centre." }, ctx());
+    expect("issues" in r && r.issues.join()).toContain("centre");
   });
   it("書式とレベルの基準も確かめる", () => {
     const digits = validateItem({ ...item, sentence: "They launched 2 apps last week." }, ctx());

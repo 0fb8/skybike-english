@@ -1,0 +1,56 @@
+# 問題集: CEFR B1
+# npm run content:generate で作成。書式は docs/CONTENT.md を参照
+id: b1
+title: CEFR B1
+level: b1
+questions:
+  - answer: improvement
+    sentence: There's been a big improvement in your writing this year.
+    meaning: 上達、改善
+    translation: 今年はあなたの文章がずいぶん上達したね。
+    note: "自動生成 2026-11-01 claude-opus-5-5: improvement [B1]"
+  - answer: unable
+    sentence: Sorry, I'm unable to come to the meeting tomorrow.
+    meaning: できない
+    translation: すみません、明日の会議には出られません。
+    note: "自動生成 2026-11-01 claude-opus-5-5: unable [B1]"
+  - answer: delete
+    sentence: Can you delete that photo? I look terrible in it.
+    meaning: 削除する
+    translation: その写真を消してくれない?私、ひどい顔で写ってるから。
+    note: "自動生成 2026-11-01 claude-opus-5-5: delete [B1]"
+  - answer: studio
+    sentence: My sister just moved into a small studio near the station.
+    meaning: ワンルームの部屋
+    translation: 姉は駅の近くの小さなワンルームに引っ越したばかりです。
+    note: "自動生成 2026-11-01 claude-opus-5-5: studio [B1]"
+  - answer: combination
+    sentence: Chocolate and orange is my favorite combination for a cake.
+    meaning: 組み合わせ
+    translation: チョコとオレンジはケーキで一番好きな組み合わせです。
+    note: "自動生成 2026-11-01 claude-opus-5-5: combination [B1]"
+  - answer: lay
+    sentence: Just lay your coat on the bed for now.
+    meaning: 置く、横たえる
+    translation: とりあえずコートはベッドの上に置いておいて。
+    note: "自動生成 2026-11-01 claude-opus-5-5: lay [B1]"
+  - answer: appetite
+    sentence: I haven't had much appetite since I got sick.
+    meaning: 食欲
+    translation: 体調を崩してから、あまり食欲がないんです。
+    note: "自動生成 2026-11-01 claude-opus-5-5: appetite [B1]"
+  - answer: package
+    sentence: A package arrived for you while you were out.
+    meaning: 小包、荷物
+    translation: 出かけている間にあなた宛ての荷物が届いたよ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: parcel [B1]。アメリカ英語にするため package に手で修正"
+  - answer: delivery
+    sentence: Let's just order delivery tonight; I'm too tired to cook.
+    meaning: 配達、出前
+    translation: 今夜は出前を頼もう。疲れすぎて料理する気になれない。
+    note: "自動生成 2026-11-01 claude-opus-5-5: takeaway [B1]。アメリカ英語にするため手で修正（takeout は単語表に無いので delivery に）"
+  - answer: yoga
+    sentence: I started doing yoga to help with my back pain.
+    meaning: ヨガ
+    translation: 腰痛を和らげるためにヨガを始めました。
+    note: "自動生成 2026-11-01 claude-opus-5-5: yoga [B1]"

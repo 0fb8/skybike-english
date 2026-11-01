@@ -75,7 +75,7 @@ scripts/
 ├── check-content.ts     # 検証だけ行う（CI 用）
 ├── vite-plugin-content.ts  # 検証した問題データと生成済み音声をゲームに取り込む
 ├── generate/            # 例文の自動生成（draft.ts: 候補選び・指示文・検証、sentences.ts: Claude API を呼んで追記）
-├── levels/              # 例文のレベル判定（wordlist.ts: 単語表、lemma.ts: 変化形 → 原形、analyze.ts: 判定、report.ts）
+├── levels/              # 例文のレベル判定（wordlist.ts: 単語表、lemma.ts: 変化形 → 原形、analyze.ts: 判定、american.ts: アメリカ英語か、report.ts）
 └── tts/                 # 音声の生成（jobs.ts: 作るファイルの一覧、provider.ts: サービスの差し替え口、polly.ts、store.ts: 置き場所（S3 / audio/））
 infra/                   # AWS CDK（音声の S3・CloudFront と CI 用の IAM ロール）
 tests/                   # Vitest
@@ -106,7 +106,7 @@ content/*.yaml ──push──▶ GitHub Actions（deploy.yml）
          ──音声───▶ CloudFront ──▶ S3（非公開）
 ```
 
-- 声の指定は `content/config.yaml` の `speech.tts`。通常の出題は `speakers` に書いた人物（今は Polly の生成エンジンの Tiffany と Nate）の声を全問ぶん作り、毎問ランダムに1人が読みます（聞き直しは同じ人物）。飛行船のなまりは `accents` に言語ごとの声を書き、`accentQuestions` 問ぶんだけ作ります（全問×全なまりだと容量が大きいため）。`accents` に無い言語（日本語・フランス語など）はブラウザの声で読みます
+- 声の指定は `content/config.yaml` の `speech.tts`。通常の出題は `speakers` に書いた人物（今は Polly の生成エンジンの Tiffany と Nate）の声を全問ぶん作り、毎問ランダムに1人が読みます（聞き直しは同じ人物）。飛行船のなまりは `accents` に言語ごとの声を書き、`accentQuestions` 問ぶんだけ作ります（全問×全なまりだと容量が大きいため）。`accents` に無い言語（日本語・フランス語など）はブラウザの声で読みます。例文はアメリカ英語にそろえていて、訛りは発音だけです（文は同じ）
 - ファイル名は「例文・声・形式」から決まるハッシュなので、例文や声を変えた問題だけが作り直されます。同じ名前の中身は変わらないので、ブラウザと CloudFront に長期間キャッシュさせています。`.marks.jsonl` は単語ごとの時刻で、今は使っていません（生成エンジン（generative）の声では作られません）
 - 量の目安: 現在の 220 問で 540 ファイル・約 2.6 万文字
 

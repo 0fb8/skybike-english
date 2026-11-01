@@ -1,6 +1,7 @@
 // 例文の自動生成（scripts/generate/sentences.ts）のうち、API を呼ばない部分:
 // 答えの単語の候補選び、Claude への指示文、返ってきた例文の検証。
 import { QuestionSchema, type LevelCriteria, type Question, type QuestionSet } from "../../src/content/schema";
+import { americanIssues, type SpellingTable } from "../levels/american";
 import { checkLevel, lookup, profileSentence } from "../levels/analyze";
 import type { WordList } from "../levels/wordlist";
 
@@ -47,6 +48,8 @@ export function systemPrompt(criteria: LevelCriteria): string {
   const [min, max] = criteria.words;
   return `You write English example sentences for a Japanese learner's dictation game. The player hears a sentence and types the whole sentence.
 
+Write American English: American spelling (color, favorite, organize, center, traveled) and American vocabulary (apartment, takeout, package, vacation, cell phone, truck, line for a queue). The game's normal voices are American, and the player types exactly what they hear, so British spellings count as typing mistakes. Sentences are checked for British spellings and words automatically.
+
 What the learner wants: English as it is really used. Each sentence should sound like something a native speaker would actually say or write - in conversation, messages, everyday life, work, news, hobbies, travel, and so on. Do not make it sound like a test question, a textbook drill, or business jargon. Vary the topics, the speakers' situations, and the sentence structures across the set.
 
 Level: ${criteria.title}. The levels below come from CEFR word lists (CEFR-J and Octanove C1/C2), and every sentence is checked against those lists automatically.
@@ -71,7 +74,7 @@ Candidates: ${candidates.join(", ")}`;
 
 export function retryPrompt(failed: { item: DraftItem; issues: string[] }[]): string {
   const lines = failed.map(({ item, issues }) => `- ${item.headword}: "${item.sentence}"\n  problems: ${issues.join(" / ")}`);
-  return `These sentences did not pass the automatic check. Write a new sentence for each word that fixes the problems (keep the same headword). Words shown like word[B2] or word[?] are above the allowed level or not in the word list - replace them with simpler words.
+  return `These sentences did not pass the automatic check. Write a new sentence for each word that fixes the problems (keep the same headword). Words shown like word[B2] or word[?] are above the allowed level or not in the word list - replace them with simpler words. Problems mentioning イギリス式 or イギリス英語 mean a British spelling or word - use the American one given.
 
 ${lines.join("\n")}`;
 }
@@ -79,7 +82,7 @@ ${lines.join("\n")}`;
 /** 返ってきた 1 文を検証する。問題が無ければ問題データ、あれば理由 */
 export function validateItem(
   item: DraftItem,
-  ctx: { list: WordList; criteria: LevelCriteria; offered: Set<string>; taken: Set<string> },
+  ctx: { list: WordList; spelling: SpellingTable; criteria: LevelCriteria; offered: Set<string>; taken: Set<string> },
 ): { question: Question } | { issues: string[] } {
   const issues: string[] = [];
   const answer = item.answer.trim().toLowerCase();
@@ -94,5 +97,6 @@ export function validateItem(
     return { issues };
   }
   issues.push(...checkLevel(profileSentence(parsed.data, ctx.list), ctx.criteria));
+  issues.push(...americanIssues(parsed.data.sentence, ctx.spelling));
   return issues.length ? { issues } : { question: parsed.data };
 }
