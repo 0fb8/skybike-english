@@ -78,6 +78,8 @@ export interface GameOptions {
   emit: (e: GameEvent) => void;
   /** この区間で 1 問ごとに飛行船が出る確率。省略すると config の airship.probability（区間によって出さないときは 0 を返す） */
   airshipChance?: () => number;
+  /** 墜落したときの文言（景色によって「海に墜落」「雪原に墜落」など）。省略すると海 */
+  crashMessage?: () => string;
   random?: () => number;
 }
 
@@ -236,7 +238,7 @@ export class Game {
     s.speaking = false;
     this.o.emit({ type: "stopSpeaking" });
     if (s.question) {
-      s.result = { ok: false, message: "ザブーン！ 海に墜落… この渡航は失敗", question: s.question };
+      s.result = { ok: false, message: this.o.crashMessage?.() ?? "ザブーン！ 海に墜落… この渡航は失敗", question: s.question };
       this.o.emit({ type: "outcome", question: s.question, outcome: "failed" });
     }
     Object.assign(s, { mode: "crash", crashT: 0, question: null, legDone: 0, phaseUntil: now + CRASH_MS });

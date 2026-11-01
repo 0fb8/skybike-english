@@ -16,7 +16,7 @@ import { loadSave, writeSave } from "./lib/save";
 import { prefetchAudio, speak, stopSpeaking, unlockAudio } from "./lib/speech";
 import { audioUrl, pickAccentQuestion, pickSpeaker, ttsAccent } from "./lib/voices";
 import { Globe } from "./render/globe";
-import { Scene } from "./render/scene";
+import { CRASH_PLACE, Scene } from "./render/scene";
 
 const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
 const LEGS = legDistances(CITIES);
@@ -103,6 +103,7 @@ const game = new Game({
   emit: onGameEvent,
   // 飛行船は、訛りのある地点へ向かう区間でだけ出る
   airshipChance: () => (nextCity().accent ? config.airship.probability : 0),
+  crashMessage: () => { const c = CRASH_PLACE[nextCity().scenery]; return `${c.sound} ${c.place}に墜落… この渡航は失敗`; },
 });
 
 async function start() {
@@ -187,7 +188,7 @@ function drawWorldMap() {
 
 function showMenu(s: GameState) {
   const p = s.progress, here = CITIES[p.leg % CITIES.length];
-  const failed = s.lastFlightFailed ? `<div class="ng">海に墜落して渡航失敗… ${esc(here.name)} からもう一度！</div>` : "";
+  const failed = s.lastFlightFailed ? `<div class="ng">${CRASH_PLACE[nextCity().scenery].place}に墜落して渡航失敗… ${esc(here.name)} からもう一度！</div>` : "";
   showPage(`
     ${p.name ? `<h2>${esc(p.name)} さん、おかえり！</h2>` : `<h2>空とぶ自転車で世界一周</h2><div>なまえ：<input id="nameInput" maxlength="8" placeholder="なまえ"></div>`}
     ${failed}
@@ -352,7 +353,7 @@ function loop(now: number) {
   const boosting = game.isBoosting(now) && game.isFlying();
   const sceneState = {
     altitude: s.altitude, flying: game.isFlying(), boosting, crashing: s.mode === "crash", crashT: s.crashT,
-    airshipVisible: s.isAirship && !!s.question, flash: s.flash,
+    airshipVisible: s.isAirship && !!s.question, flash: s.flash, scenery: nextCity().scenery,
   };
   scene.update(dt, sceneState);
   scene.draw(now, sceneState);
