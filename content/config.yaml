@@ -4,11 +4,15 @@
 # 出題に使う問題集（content/questions/<id>.yaml の id）。
 # enabled: false にすると、初期状態ではチェックが外れた状態で表示されます。
 questionSets:
-  - id: eiken2
-    enabled: false
-  - id: pre1
-    enabled: false
+  # - id: eiken2
+  #   enabled: false
+  # - id: pre1
+  #   enabled: false
   - id: b1
+    enabled: true
+  - id: b2
+    enabled: true
+  - id: c1
     enabled: true
 
 # 1区間（都市→都市）あたりの問題数

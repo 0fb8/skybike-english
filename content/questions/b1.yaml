@@ -48,9 +48,460 @@ questions:
     sentence: Let's just order delivery tonight; I'm too tired to cook.
     meaning: 配達、出前
     translation: 今夜は出前を頼もう。疲れすぎて料理する気になれない。
-    note: "自動生成 2026-11-01 claude-opus-5-5: takeaway [B1]。アメリカ英語にするため手で修正（takeout は単語表に無いので delivery に）"
+    note: "自動生成 2026-11-01 claude-opus-5-5: takeaway [B1]。アメリカ英語にするため手で修正（takeout
+      は単語表に無いので delivery に）"
   - answer: yoga
     sentence: I started doing yoga to help with my back pain.
     meaning: ヨガ
     translation: 腰痛を和らげるためにヨガを始めました。
     note: "自動生成 2026-11-01 claude-opus-5-5: yoga [B1]"
+  - answer: somehow
+    sentence: We somehow made it to the airport just in time.
+    meaning: どうにかして
+    translation: 私たちはどうにか時間ぎりぎりで空港に着いた。
+    note: "自動生成 2026-11-01 claude-opus-5-5: somehow [B1]"
+  - answer: upload
+    sentence: Can you upload the photos from last night's party?
+    meaning: アップロードする
+    translation: 昨夜のパーティーの写真をアップロードしてくれる？
+    note: "自動生成 2026-11-01 claude-opus-5-5: upload [B1]"
+  - answer: connect
+    sentence: My laptop won't connect to the internet at the hotel.
+    meaning: 接続する
+    translation: ホテルでノートパソコンがインターネットにつながらない。
+    note: "自動生成 2026-11-01 claude-opus-5-5: connect [B1]"
+  - answer: supplies
+    sentence: We should buy enough supplies before the storm hits.
+    meaning: 必需品、備品
+    translation: 嵐が来る前に十分な必需品を買っておいたほうがいい。
+    note: "自動生成 2026-11-01 claude-opus-5-5: supply [B1]"
+  - answer: virus
+    sentence: I think my computer has a virus; it's really slow.
+    meaning: ウイルス
+    translation: パソコンがウイルスに感染したみたい。すごく遅いんだ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: virus [B1]"
+  - answer: rescued
+    sentence: Firefighters rescued a cat from the top of a tree.
+    meaning: 救助する
+    translation: 消防士が木のてっぺんから猫を救助した。
+    note: "自動生成 2026-11-01 claude-opus-5-5: rescue [B1]"
+  - answer: concerned
+    sentence: I'm a little concerned about the weather for tomorrow's trip.
+    meaning: 心配している
+    translation: 明日の旅行の天気が少し心配だ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: concerned [B1]"
+  - answer: hiring
+    sentence: The restaurant down the street is hiring weekend staff.
+    meaning: 雇う
+    translation: 通りの先のレストランが週末のスタッフを募集している。
+    note: "自動生成 2026-11-01 claude-opus-5-5: hire [B1]"
+  - answer: backpack
+    sentence: Don't forget to pack a water bottle in your backpack.
+    meaning: リュックサック
+    translation: リュックに水筒を入れるのを忘れないでね。
+    note: "自動生成 2026-11-01 claude-opus-5-5: backpack [B1]"
+  - answer: independent
+    sentence: My daughter wants to be more independent, so she got a job.
+    meaning: 自立した
+    translation: 娘はもっと自立したいと言って、仕事を見つけた。
+    note: "自動生成 2026-11-01 claude-opus-5-5: independent [B1]"
+  - answer: scary
+    sentence: That movie was so scary that I couldn't sleep.
+    meaning: 怖い
+    translation: あの映画はとても怖くて眠れなかった。
+    note: "自動生成 2026-11-01 claude-opus-5-5: scary [B1]"
+  - answer: link
+    sentence: Can you send me the link to that video?
+    meaning: リンク
+    translation: その動画のリンクを送ってくれる？
+    note: "自動生成 2026-11-01 claude-opus-5-5: link [B1]"
+  - answer: stupid
+    sentence: I made a stupid mistake and missed my train.
+    meaning: ばかな、愚かな
+    translation: ばかなミスをして電車に乗り遅れた。
+    note: "自動生成 2026-11-01 claude-opus-5-5: stupid [B1]"
+  - answer: blog
+    sentence: She writes a blog about cooking cheap meals at home.
+    meaning: ブログ
+    translation: 彼女は家で安い料理を作ることについてのブログを書いている。
+    note: "自動生成 2026-11-01 claude-opus-5-5: blog [B1]"
+  - answer: typically
+    sentence: I typically get to work around eight thirty.
+    meaning: たいてい、普通は
+    translation: 私はたいてい八時半ごろに職場に着く。
+    note: "自動生成 2026-11-01 claude-opus-5-5: typically [B1]"
+  - answer: workshop
+    sentence: There's a free art workshop at the library this Saturday.
+    meaning: ワークショップ、講習会
+    translation: 今週の土曜日、図書館で無料のアートワークショップがあるよ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: workshop [B1]"
+  - answer: candle
+    sentence: We lit a candle when the power went out.
+    meaning: ろうそく
+    translation: 停電したとき、私たちはろうそくに火をつけた。
+    note: "自動生成 2026-11-01 claude-opus-5-5: candle [B1]"
+  - answer: compliment
+    sentence: Thanks for the compliment! I bought this jacket last week.
+    meaning: 褒め言葉
+    translation: 褒めてくれてありがとう！このジャケットは先週買ったんだ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: compliment [B1]"
+  - answer: membership
+    sentence: My gym membership costs forty dollars a month.
+    meaning: 会員権、会員資格
+    translation: 私のジムの会費は月四十ドルだ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: membership [B1]"
+  - answer: aloud
+    sentence: My daughter loves it when I read stories aloud.
+    meaning: 声に出して
+    translation: 娘は私が物語を声に出して読んであげるのが大好きだ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: aloud [B1]"
+  - answer: limited
+    sentence: Seating is limited, so please get there a little early.
+    meaning: 限られた
+    translation: 席に限りがあるので、少し早めに来てください。
+    note: "自動生成 2026-11-01 claude-opus-5-5: limited [B1]"
+  - answer: equal
+    sentence: Everyone on the team should get an equal share of the money.
+    meaning: 等しい、平等な
+    translation: チームの全員がお金を平等に分けてもらうべきです。
+    note: "自動生成 2026-11-01 claude-opus-5-5: equal [B1]"
+  - answer: meanwhile
+    sentence: I'll start cooking dinner; meanwhile, can you set the table?
+    meaning: その間に
+    translation: 私は夕食を作り始めるから、その間にテーブルの準備をしてくれる?
+    note: "自動生成 2026-11-01 claude-opus-5-5: meanwhile [B1]"
+  - answer: climate
+    sentence: The climate here is much warmer than I expected.
+    meaning: 気候
+    translation: ここの気候は思っていたよりずっと暖かいです。
+    note: "自動生成 2026-11-01 claude-opus-5-5: climate [B1]"
+  - answer: trash
+    sentence: Can you take the trash out before you go to bed?
+    meaning: ゴミ
+    translation: 寝る前にゴミを出してくれる?
+    note: "自動生成 2026-11-01 claude-opus-5-5: trash [B1]"
+  - answer: rid
+    sentence: We finally got rid of that old couch in the living room.
+    meaning: (get rid ofで)処分する
+    translation: リビングのあの古いソファをやっと処分しました。
+    note: "自動生成 2026-11-01 claude-opus-5-5: rid [B1]"
+  - answer: height
+    sentence: You have to be a certain height to go on this ride.
+    meaning: 身長、高さ
+    translation: この乗り物に乗るには一定の身長が必要です。
+    note: "自動生成 2026-11-01 claude-opus-5-5: height [B1]"
+  - answer: cultural
+    sentence: The city has a big cultural festival every summer.
+    meaning: 文化の、文化的な
+    translation: その街では毎年夏に大きな文化祭りがあります。
+    note: "自動生成 2026-11-01 claude-opus-5-5: cultural [B1]"
+  - answer: confusion
+    sentence: Sorry for the confusion; the meeting is actually on Thursday.
+    meaning: 混乱
+    translation: 混乱させてごめんなさい。会議は実は木曜日です。
+    note: "自動生成 2026-11-01 claude-opus-5-5: confusion [B1]"
+  - answer: journal
+    sentence: My sister writes in her journal every night before bed.
+    meaning: 日記
+    translation: 姉は毎晩寝る前に日記を書いています。
+    note: "自動生成 2026-11-01 claude-opus-5-5: journal [B1]"
+  - answer: loud
+    sentence: Can you turn the music down? It's too loud.
+    meaning: うるさい、音が大きい
+    translation: 音楽の音量を下げてくれる？うるさすぎるよ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: loud [B1]"
+  - answer: insurance
+    sentence: Does your car insurance cover damage from the storm?
+    meaning: 保険
+    translation: あなたの自動車保険は嵐による損害も補償してくれるの？
+    note: "自動生成 2026-11-01 claude-opus-5-5: insurance [B1]"
+  - answer: electricity
+    sentence: Our electricity bill went up a lot this winter.
+    meaning: 電気
+    translation: この冬はうちの電気代がかなり上がった。
+    note: "自動生成 2026-11-01 claude-opus-5-5: electricity [B1]"
+  - answer: election
+    sentence: Are you going to vote in the election next month?
+    meaning: 選挙
+    translation: 来月の選挙には投票に行くつもり？
+    note: "自動生成 2026-11-01 claude-opus-5-5: election [B1]"
+  - answer: spicy
+    sentence: This curry is way too spicy for my kids.
+    meaning: 辛い
+    translation: このカレーはうちの子どもたちには辛すぎる。
+    note: "自動生成 2026-11-01 claude-opus-5-5: spicy [B1]"
+  - answer: landlord
+    sentence: My landlord still hasn't fixed the broken window.
+    meaning: 大家
+    translation: 大家さんがまだ割れた窓を直してくれない。
+    note: "自動生成 2026-11-01 claude-opus-5-5: landlord [B1]"
+  - answer: stare
+    sentence: Please don't stare at people on the train.
+    meaning: じっと見つめる
+    translation: 電車の中で人をじろじろ見ないでね。
+    note: "自動生成 2026-11-01 claude-opus-5-5: stare [B1]"
+  - answer: gossip
+    sentence: I don't want to gossip, but she's quitting.
+    meaning: うわさ話をする
+    translation: うわさ話はしたくないけど、彼女、辞めるんだって。
+    note: "自動生成 2026-11-01 claude-opus-5-5: gossip [B1]"
+  - answer: broad
+    sentence: The river is pretty broad near the old bridge.
+    meaning: 幅の広い
+    translation: 古い橋の近くでは川の幅がかなり広い。
+    note: "自動生成 2026-11-01 claude-opus-5-5: broad [B1]"
+  - answer: clinic
+    sentence: I have an appointment at the clinic at ten.
+    meaning: 診療所、クリニック
+    translation: 十時にクリニックの予約があるんだ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: clinic [B1]"
+  - answer: hang
+    sentence: Can you help me hang this picture in the living room?
+    meaning: 掛ける
+    translation: リビングにこの絵を掛けるのを手伝ってくれる？
+    note: "自動生成 2026-11-01 claude-opus-5-5: hang [B1]"
+  - answer: generally
+    sentence: I generally go to bed before eleven during the week.
+    meaning: 普段は、たいてい
+    translation: 平日はたいてい十一時前に寝ます。
+    note: "自動生成 2026-11-01 claude-opus-5-5: generally [B1]"
+  - answer: impression
+    sentence: I got the impression that she wasn't happy with the plan.
+    meaning: 印象、感じ
+    translation: 彼女はその計画に満足していないような感じがした。
+    note: "自動生成 2026-11-01 claude-opus-5-5: impression [B1]"
+  - answer: documentary
+    sentence: We watched a great documentary about the ocean last night.
+    meaning: ドキュメンタリー
+    translation: 昨夜、海についての素晴らしいドキュメンタリーを見ました。
+    note: "自動生成 2026-11-01 claude-opus-5-5: documentary [B1]"
+  - answer: curious
+    sentence: I'm curious about what happened at the meeting yesterday.
+    meaning: 知りたがって、興味がある
+    translation: 昨日の会議で何があったのか気になります。
+    note: "自動生成 2026-11-01 claude-opus-5-5: curious [B1]"
+  - answer: chemistry
+    sentence: My sister is studying chemistry at college this year.
+    meaning: 化学
+    translation: 姉は今年、大学で化学を勉強しています。
+    note: "自動生成 2026-11-01 claude-opus-5-5: chemistry [B1]"
+  - answer: dramatic
+    sentence: There's been a dramatic change in the weather since Monday.
+    meaning: 劇的な
+    translation: 月曜日から天気が劇的に変わった。
+    note: "自動生成 2026-11-01 claude-opus-5-5: dramatic [B1]"
+  - answer: aggressive
+    sentence: Our neighbor's dog gets aggressive when people walk past the house.
+    meaning: 攻撃的な
+    translation: 隣の家の犬は、人が家の前を通ると攻撃的になる。
+    note: "自動生成 2026-11-01 claude-opus-5-5: aggressive [B1]"
+  - answer: largely
+    sentence: The party was largely planned by my brother and his friends.
+    meaning: 主に、大部分は
+    translation: そのパーティーは主に兄と彼の友達が計画した。
+    note: "自動生成 2026-11-01 claude-opus-5-5: largely [B1]"
+  - answer: attraction
+    sentence: The old castle is the town's main tourist attraction.
+    meaning: 呼び物、名所
+    translation: その古い城は町の一番の観光名所です。
+    note: "自動生成 2026-11-01 claude-opus-5-5: attraction [B1]"
+  - answer: ignore
+    sentence: Just ignore him; he's always in a bad mood.
+    meaning: 無視する
+    translation: 彼のことは気にしないで。いつも機嫌が悪いんだから。
+    note: "自動生成 2026-11-01 claude-opus-5-5: ignore [B1]"
+  - answer: artist
+    sentence: My sister is an artist who paints old buildings.
+    meaning: 画家、芸術家
+    translation: 私の姉は古い建物を描く画家です。
+    note: "自動生成 2026-11-01 claude-opus-5-5: artist [B1]"
+  - answer: bunch
+    sentence: I bought a bunch of bananas at the store.
+    meaning: 房、束
+    translation: 店でバナナを一房買いました。
+    note: "自動生成 2026-11-01 claude-opus-5-5: bunch [B1]"
+  - answer: handy
+    sentence: This little knife is really handy when we go camping.
+    meaning: 便利な
+    translation: この小さなナイフはキャンプに行くときにとても便利です。
+    note: "自動生成 2026-11-01 claude-opus-5-5: handy [B1]"
+  - answer: occasions
+    sentence: We only use these nice plates on special occasions.
+    meaning: 機会、行事
+    translation: このすてきなお皿は特別なときにしか使いません。
+    note: "自動生成 2026-11-01 claude-opus-5-5: occasion [B1]"
+  - answer: keyboard
+    sentence: I spilled coffee on my keyboard, and now it won't work.
+    meaning: キーボード
+    translation: キーボードにコーヒーをこぼして、今は動かなくなってしまった。
+    note: "自動生成 2026-11-01 claude-opus-5-5: keyboard [B1]"
+  - answer: mild
+    sentence: The weather has been pretty mild this winter.
+    meaning: 穏やかな、温暖な
+    translation: 今年の冬はかなり暖かい天気が続いています。
+    note: "自動生成 2026-11-01 claude-opus-5-5: mild [B1]"
+  - answer: translate
+    sentence: Could you translate this menu for me, please?
+    meaning: 翻訳する
+    translation: このメニューを訳していただけますか？
+    note: "自動生成 2026-11-01 claude-opus-5-5: translate [B1]"
+  - answer: giant
+    sentence: There's a giant spider in the bathroom, and I'm scared!
+    meaning: 巨大な
+    translation: お風呂場に巨大なクモがいて、怖いよ！
+    note: "自動生成 2026-11-01 claude-opus-5-5: giant [B1]"
+  - answer: instance
+    sentence: I love winter sports, for instance skiing and skating.
+    meaning: 例（for instance＝例えば）
+    translation: 私は冬のスポーツが大好きです。例えばスキーやスケートです。
+    note: "自動生成 2026-11-01 claude-opus-5-5: instance [B1]"
+  - answer: promotion
+    sentence: She finally got the promotion she's been working so hard for.
+    meaning: 昇進
+    translation: 彼女はずっと一生懸命頑張ってきた昇進をついに手に入れた。
+    note: "自動生成 2026-11-01 claude-opus-5-5: promotion [B1]"
+  - answer: deserve
+    sentence: You worked all weekend, so you deserve a long break.
+    meaning: 〜に値する
+    translation: 週末ずっと働いたんだから、長い休みを取って当然だよ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: deserve [B1]"
+  - answer: naturally
+    sentence: My sister is naturally good at math, unlike me.
+    meaning: 生まれつき
+    translation: 私と違って、姉は生まれつき数学が得意だ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: naturally [B1]"
+  - answer: property
+    sentence: Please don't park on private property without asking first.
+    meaning: 所有地、敷地
+    translation: 先に許可を取らずに私有地に駐車しないでください。
+    note: "自動生成 2026-11-01 claude-opus-5-5: property [B1]"
+  - answer: crashed
+    sentence: My laptop crashed right before I saved my homework.
+    meaning: (コンピューターが)クラッシュする
+    translation: 宿題を保存する直前にノートパソコンがクラッシュした。
+    note: "自動生成 2026-11-01 claude-opus-5-5: crash [B1]"
+  - answer: relate
+    sentence: I can totally relate to how you're feeling right now.
+    meaning: 共感する
+    translation: 今あなたが感じていること、すごくよくわかるよ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: relate [B1]"
+  - answer: hidden
+    sentence: We found a hidden beach that most tourists don't know about.
+    meaning: 隠れた
+    translation: ほとんどの観光客が知らない隠れたビーチを見つけた。
+    note: "自動生成 2026-11-01 claude-opus-5-5: hidden [B1]"
+  - answer: flash
+    sentence: Please turn off the flash when you take photos in the museum.
+    meaning: (カメラの)フラッシュ
+    translation: 博物館で写真を撮るときはフラッシュを切ってください。
+    note: "自動生成 2026-11-01 claude-opus-5-5: flash [B1]"
+  - answer: resist
+    sentence: I couldn't resist buying another pair of shoes on sale.
+    meaning: 我慢する、こらえる
+    translation: セール中の靴をもう一足買うのを我慢できなかった。
+    note: "自動生成 2026-11-01 claude-opus-5-5: resist [B1]"
+  - answer: unclear
+    sentence: It's still unclear why the train stopped for an hour.
+    meaning: 不明な
+    translation: なぜ電車が一時間も止まったのかはまだわかっていない。
+    note: "自動生成 2026-11-01 claude-opus-5-5: unclear [B1]"
+  - answer: main
+    sentence: The main reason I moved here was the cheap rent.
+    meaning: 主な
+    translation: ここに引っ越した主な理由は家賃が安かったことです。
+    note: "自動生成 2026-11-01 claude-opus-5-5: main [B1]"
+  - answer: normally
+    sentence: I normally take the bus, but it's raining today.
+    meaning: 普段は
+    translation: 普段はバスに乗るけど、今日は雨が降っているんだ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: normally [B1]"
+  - answer: possibility
+    sentence: Is there any possibility we could change the meeting to Friday?
+    meaning: 可能性
+    translation: 会議を金曜日に変更できる可能性はありますか？
+    note: "自動生成 2026-11-01 claude-opus-5-5: possibility [B1]"
+  - answer: ordinary
+    sentence: It started as an ordinary day, until my car broke down.
+    meaning: 普通の
+    translation: 車が故障するまでは、普通の一日として始まったんだ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: ordinary [B1]"
+  - answer: violence
+    sentence: I stopped watching that show because of all the violence.
+    meaning: 暴力
+    translation: 暴力シーンが多すぎて、あの番組を見るのをやめたよ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: violence [B1]"
+  - answer: mission
+    sentence: The space mission will start early next month.
+    meaning: 任務、ミッション
+    translation: その宇宙ミッションは来月初めに始まります。
+    note: "自動生成 2026-11-01 claude-opus-5-5: mission [B1]"
+  - answer: behalf
+    sentence: I'm writing on behalf of my mother, who can't use email.
+    meaning: 代わりに、代理で
+    translation: メールが使えない母の代わりに書いています。
+    note: "自動生成 2026-11-01 claude-opus-5-5: behalf [B1]"
+  - answer: flow
+    sentence: Open the window to let some fresh air flow in.
+    meaning: 流れる
+    translation: 窓を開けて新鮮な空気を入れよう。
+    note: "自動生成 2026-11-01 claude-opus-5-5: flow [B1]"
+  - answer: demonstrated
+    sentence: The teacher demonstrated how to fold the paper into a bird.
+    meaning: 実演する
+    translation: 先生は紙を折って鳥にする方法を実演してくれました。
+    note: "自動生成 2026-11-01 claude-opus-5-5: demonstrate [B1]"
+  - answer: define
+    sentence: How would you define success in your own life?
+    meaning: 定義する
+    translation: あなた自身の人生において、成功をどう定義しますか？
+    note: "自動生成 2026-11-01 claude-opus-5-5: define [B1]"
+  - answer: finger
+    sentence: I cut my finger while I was cooking dinner.
+    meaning: 指
+    translation: 夕食を作っているときに指を切ってしまった。
+    note: "自動生成 2026-11-01 claude-opus-5-5: finger [B1]"
+  - answer: dozen
+    sentence: Can you pick up a dozen eggs on your way home?
+    meaning: 1ダース、12個
+    translation: 帰りに卵を1ダース買ってきてくれる？
+    note: "自動生成 2026-11-01 claude-opus-5-5: dozen [B1]"
+  - answer: wherever
+    sentence: Sit wherever you like, we're not very busy tonight.
+    meaning: どこでも
+    translation: お好きな席にどうぞ、今夜はあまり混んでいませんので。
+    note: "自動生成 2026-11-01 claude-opus-5-5: wherever [B1]"
+  - answer: northern
+    sentence: It snows a lot in the northern part of the country.
+    meaning: 北の、北部の
+    translation: その国の北部では雪がたくさん降る。
+    note: "自動生成 2026-11-01 claude-opus-5-5: northern [B1]"
+  - answer: advance
+    sentence: We booked our tickets in advance, so we didn't wait in line.
+    meaning: 前もって（in advance）
+    translation: 前もってチケットを予約していたので、列に並ばずに済んだ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: advance [B1]"
+  - answer: freezer
+    sentence: There's some ice cream left in the freezer if you want it.
+    meaning: 冷凍庫
+    translation: 欲しければ冷凍庫にアイスクリームが少し残っているよ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: freezer [B1]"
+  - answer: selection
+    sentence: This store has a great selection of cheap used books.
+    meaning: 品ぞろえ
+    translation: この店は安い古本の品ぞろえがすごくいい。
+    note: "自動生成 2026-11-01 claude-opus-5-5: selection [B1]"
+  - answer: victory
+    sentence: The fans celebrated the team's first victory of the season.
+    meaning: 勝利
+    translation: ファンはチームの今シーズン初勝利を祝った。
+    note: "自動生成 2026-11-01 claude-opus-5-5: victory [B1]"
+  - answer: cotton
+    sentence: I prefer cotton shirts because they're cool in summer.
+    meaning: 綿、コットン
+    translation: 夏は涼しいので、綿のシャツの方が好きだ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: cotton [B1]"
+  - answer: historical
+    sentence: My dad loves watching historical dramas on TV.
+    meaning: 歴史の、歴史上の
+    translation: 父はテレビで時代劇を見るのが大好きだ。
+    note: "自動生成 2026-11-01 claude-opus-5-5: historical [B1]"
