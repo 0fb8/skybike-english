@@ -1,4 +1,6 @@
 // 上画面: 空・雲・島・海・自転車・飛行船
+import { setupCanvas } from "./canvas";
+
 export interface SceneState {
   altitude: number; // 0..100
   flying: boolean;
@@ -11,13 +13,16 @@ export interface SceneState {
 
 export class Scene {
   private g: CanvasRenderingContext2D;
+  private W: number;
+  private H: number;
   private clouds = Array.from({ length: 7 }, () => ({ x: Math.random() * 480, y: 70 + Math.random() * 180, s: 0.6 + Math.random() * 0.8 }));
   private islands = [{ x: 520, w: 120 }];
   private waveT = 0;
   private airshipX = 600;
 
-  constructor(private canvas: HTMLCanvasElement) {
-    this.g = canvas.getContext("2d")!;
+  constructor(canvas: HTMLCanvasElement) {
+    const c = setupCanvas(canvas);
+    this.g = c.g; this.W = c.width; this.H = c.height;
   }
 
   update(dt: number, s: SceneState) {
@@ -37,7 +42,7 @@ export class Scene {
   showAirship() { this.airshipX = 520; }
 
   draw(now: number, s: SceneState) {
-    const g = this.g, W = this.canvas.width, H = this.canvas.height, sea = H - 70;
+    const g = this.g, W = this.W, H = this.H, sea = H - 70;
     const grd = g.createLinearGradient(0, 0, 0, sea);
     grd.addColorStop(0, "#7cc3f0"); grd.addColorStop(1, "#d9f0fb");
     g.fillStyle = grd; g.fillRect(0, 0, W, H);

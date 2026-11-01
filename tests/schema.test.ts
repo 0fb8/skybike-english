@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { QuestionSchema } from "../src/content/schema";
+import { QuestionSchema, QuestionSetSchema } from "../src/content/schema";
 import { splitAtAnswer } from "../src/content/text";
 
 const base = { answer: "postpone", sentence: "We had to postpone the meeting.", meaning: "延期する", translation: "会議を延期しなければならなかった。" };
@@ -20,6 +20,16 @@ describe("QuestionSchema", () => {
   });
   it("未知の項目は弾く（綴りミスの検出）", () => {
     expect(QuestionSchema.safeParse({ ...base, meening: "x" }).success).toBe(false);
+  });
+});
+
+describe("QuestionSetSchema", () => {
+  const set = (questions: object[]) => ({ id: "s", title: "t", questions });
+  it("同じ answer が2つあると弾く", () => {
+    expect(QuestionSetSchema.safeParse(set([base, { ...base, sentence: "Let's postpone it." }])).success).toBe(false);
+  });
+  it("id を付ければ同じ answer を使える", () => {
+    expect(QuestionSetSchema.safeParse(set([base, { ...base, id: "postpone-2", sentence: "Let's postpone it." }])).success).toBe(true);
   });
 });
 

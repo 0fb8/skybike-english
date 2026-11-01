@@ -1,12 +1,12 @@
 // 到着画面の世界地図（正距円筒図法）
 import { CITIES, LAND } from "../data/route";
 import { positionAt, unwrapLon } from "../lib/geo";
+import { setupCanvas } from "./canvas";
 
 const LAT_TOP = 82, LAT_BOTTOM = -58;
 
 export function drawMap(canvas: HTMLCanvasElement, opts: { totalKm: number; nextIndex: number; name: string; legs: number[] }) {
-  const g = canvas.getContext("2d")!;
-  const W = canvas.width, H = canvas.height;
+  const { g, width: W, height: H } = setupCanvas(canvas);
   const proj = (lon: number, lat: number): [number, number] => [((lon + 180) / 360) * W, ((LAT_TOP - lat) / (LAT_TOP - LAT_BOTTOM)) * H];
 
   g.fillStyle = "#cfe8f7"; g.fillRect(0, 0, W, H);

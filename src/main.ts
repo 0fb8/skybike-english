@@ -1,200 +1,140 @@
-// 画面とゲーム進行の制御
+// 画面の組み立て。ゲームの進行は game/game.ts、ここは
+//   入力 → Game のメソッド呼び出し
+//   Game の state → 画面（毎フレーム、変化があったところだけ書き換える）
+//   Game のイベント → 読み上げ・保存
+// をつなぐだけにする。
 import "./style.css";
-import type { Config, Manifest, Question } from "./content/schema";
+import { config, sets } from "virtual:content";
+import type { PlayQuestion } from "./content/schema";
 import { escapeHtml as esc, splitAtAnswer } from "./content/text";
 import { CITIES } from "./data/route";
+import { Game, type AnswerResult, type GameEvent, type GameState, type Mode } from "./game/game";
 import { legDistances } from "./lib/geo";
-import { advance, altitudeGain, crashSetback, newProgress, QuestionBag, type Progress } from "./lib/quiz";
-import { speak, stopSpeaking } from "./lib/speech";
-import { loadJSON, saveJSON } from "./lib/storage";
+import { QuestionBag } from "./lib/quiz";
+import { loadSave, writeSave } from "./lib/save";
+import { speak, stopSpeaking, unlockAudio } from "./lib/speech";
+import { audioUrl, pickAccentQuestion, ttsAccent } from "./lib/voices";
 import { drawMap } from "./render/map";
 import { Scene } from "./render/scene";
 
 const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
 const LEGS = legDistances(CITIES);
+const SPEAK_DELAY_MS = 200;
 
-type Mode = "loading" | "menu" | "play" | "review" | "crash" | "arrive";
-type KeyedQuestion = Question & { key: string };
+// ---------- 保存データと出題 ----------
+const save = loadSave();
+const loadedSets = new Map<string, PlayQuestion[]>();
+let pool = new Map<string, PlayQuestion>();
+let bag: QuestionBag | null = null;
 
-// ---------- state ----------
-let CFG: Config;
-let sets: (Manifest["sets"][number] & { questions: Question[] })[] = [];
-let P: Progress = { ...newProgress(), ...loadJSON<Partial<Progress>>("progress", {}) };
-let enabledSets: string[] | null = loadJSON<string[] | null>("sets", null);
-let bag: QuestionBag;
+const activeSetIds = () => sets.filter((s) => (save.enabledSets ? save.enabledSets.includes(s.id) : s.enabled)).map((s) => s.id);
 
-let mode: Mode = "loading";
-let alt = 55, boostUntil = 0, typed = "", isAirship = false;
-let Q: KeyedQuestion | null = null;
-let qStart = 0, speaking = false, missed = false, crashT = 0, flash = 0;
-
-const perLeg = () => CFG.questionsPerLeg;
-const nextCity = () => CITIES[(P.leg + 1) % CITIES.length];
-const save = () => { saveJSON("progress", P); saveJSON("bag", bag?.remaining ?? []); };
-
-// ---------- loading ----------
-async function loadAll() {
-  const base = import.meta.env.BASE_URL;
-  const manifest: Manifest = await (await fetch(`${base}data/manifest.json`, { cache: "no-store" })).json();
-  CFG = manifest.config;
-  sets = await Promise.all(
-    manifest.sets.map(async (s) => ({ ...s, questions: (await (await fetch(base + s.file, { cache: "no-store" })).json()) as Question[] })),
-  );
-  rebuildBag();
+/** 選ばれている問題集を読み込み、出題の袋を作り直す */
+async function preparePool(): Promise<void> {
+  const ids = activeSetIds();
+  await Promise.all(sets.filter((s) => ids.includes(s.id) && !loadedSets.has(s.id)).map(async (s) => loadedSets.set(s.id, await s.load())));
+  pool = new Map(ids.flatMap((id) => loadedSets.get(id) ?? []).map((q) => [q.key, q]));
+  bag = new QuestionBag([...pool.keys()], config.order, bag?.remaining ?? save.bag);
 }
 
-function activeSetIds() {
-  return sets.filter((s) => (enabledSets ? enabledSets.includes(s.id) : s.enabled)).map((s) => s.id);
-}
-function pool(): Map<string, KeyedQuestion> {
-  const ids = new Set(activeSetIds());
-  const m = new Map<string, KeyedQuestion>();
-  for (const s of sets) if (ids.has(s.id)) s.questions.forEach((q, i) => m.set(`${s.id}:${i}`, { ...q, key: `${s.id}:${i}` }));
-  return m;
-}
-function rebuildBag() {
-  bag = new QuestionBag([...pool().keys()], CFG.order, loadJSON<string[]>("bag", []));
+function persist() {
+  save.progress = game.state.progress;
+  if (bag) save.bag = bag.remaining;
+  writeSave(save);
 }
 
-// ---------- speech ----------
-function sayQuestion(first: boolean) {
-  if (!Q) return;
-  const langs = isAirship ? nextCity().accent : CFG.speech.voice;
-  const rate = isAirship ? CFG.speech.airshipRate : CFG.speech.rate;
-  if (first) speaking = true;
-  speak(Q.sentence, langs, rate, () => {
-    if (first && speaking) { speaking = false; qStart = performance.now(); }
-  });
+// ---------- ゲーム ----------
+const nextCity = () => CITIES[(game.state.progress.leg + 1) % CITIES.length];
+const nextAccent = () => ttsAccent(nextCity().accent, config);
+
+function drawQuestion({ airship }: { airship: boolean }): PlayQuestion | undefined {
+  // 飛行船は、次の都市のなまりで音声を作ってある問題から出す（無ければ通常の順番で出し、ブラウザの声でなまりを試みる）
+  const special = airship ? pickAccentQuestion(pool.values(), nextAccent()) : undefined;
+  if (special) return special;
+  const k = bag?.next();
+  return k ? pool.get(k) : undefined;
 }
 
-// ---------- rendering helpers ----------
-function blankSentence(q: Question) {
+function onGameEvent(e: GameEvent) {
+  switch (e.type) {
+    case "speak": {
+      const q = game.state.question;
+      const req = {
+        text: e.text,
+        url: q ? audioUrl(q, e.airship, nextAccent()) : undefined,
+        langs: e.airship ? nextCity().accent : config.speech.voice,
+        rate: e.airship ? config.speech.airshipRate : config.speech.rate,
+      };
+      if (!e.first) { speak(req); break; }
+      setTimeout(() => {
+        if (game.state.turn !== e.turn || game.state.mode !== "play") return;
+        speak(req, () => game.speechEnded(e.turn, performance.now()));
+      }, SPEAK_DELAY_MS);
+      break;
+    }
+    case "stopSpeaking": stopSpeaking(); break;
+    case "wrongLetter": feedback(`× ${e.letter}`, "ng"); break;
+    case "progress": persist(); break;
+    case "noQuestions": feedback("出題できる問題がありません", "ng"); break;
+  }
+}
+
+const game = new Game({
+  config,
+  legs: LEGS,
+  progress: save.progress,
+  draw: drawQuestion,
+  emit: onGameEvent,
+});
+
+async function start() {
+  unlockAudio(); // クリックの処理中に呼ぶ必要がある
+  const ni = document.getElementById("nameInput") as HTMLInputElement | null;
+  if (ni) game.setName(ni.value.trim() || "あなた");
+  if (!activeSetIds().length) { feedback("問題集を1つ以上選んでください", "ng"); return; }
+  const btn = document.getElementById("btnStart") as HTMLButtonElement | null;
+  if (btn) btn.disabled = true;
+  try {
+    await preparePool();
+  } catch (err) {
+    feedback("問題データを読み込めませんでした", "ng");
+    console.error(err);
+    if (btn) btn.disabled = false;
+    return;
+  }
+  game.start(performance.now());
+}
+
+// ---------- 表示部品 ----------
+function blankSentence(q: PlayQuestion) {
   const parts = splitAtAnswer(q.sentence, q.answer);
   if (!parts) return esc(q.sentence);
-  const blank = CFG.display.showLetterCount ? "_ ".repeat(q.answer.length).trim() : "＿＿＿";
+  const blank = config.display.showLetterCount ? "_ ".repeat(q.answer.length).trim() : "＿＿＿";
   return `${esc(parts.before)}<span class="blank">${blank}</span>${esc(parts.after)}`;
 }
-function highlightSentence(q: Question) {
+function highlightSentence(q: PlayQuestion) {
   const parts = splitAtAnswer(q.sentence, q.answer);
   if (!parts) return esc(q.sentence);
   return `${esc(parts.before)}<span class="hit">${esc(parts.match)}</span>${esc(parts.after)}`;
 }
-function reviewHtml(ok: boolean, msg: string, q: Question) {
-  return `<div class="${ok ? "ok" : "ng"}">${esc(msg)}</div><div>${highlightSentence(q)}</div>` +
-    (q.translation ? `<div class="tr">${esc(q.translation)}</div>` : "");
-}
-function renderQuestion() {
-  if (!Q) { $("wordBar").innerHTML = ""; $("meaning").textContent = ""; return; }
-  const rest = CFG.display.showLetterCount ? `<span class="rest">${"·".repeat(Math.max(0, Q.answer.length - typed.length - 1))}</span>` : "";
-  $("wordBar").innerHTML = esc(typed) + (typed.length < Q.answer.length ? `<span class="cur"></span>${rest}` : "");
-  const showMeaning = isAirship ? CFG.airship.showMeaning : CFG.display.showMeaning;
-  $("meaning").innerHTML = isAirship
-    ? `✈ 飛行船！ <b>${esc(nextCity().region)}</b>なまり${showMeaning ? "：" + esc(Q.meaning) : "の例文を聞き取ろう"}`
-    : showMeaning ? esc(Q.meaning) : "";
-  if (mode === "play") {
-    $("sentenceBox").innerHTML = CFG.display.sentence === "hidden"
-      ? `<span class="muted">🔊 例文を聞いて、空欄に入る単語を書こう</span>`
-      : `<div>${blankSentence(Q)}</div>`;
-  }
-}
-function updateInfo() {
-  const n = perLeg();
-  $("dest").textContent = "→ " + nextCity().ja;
-  $("remain").textContent = "あと " + Math.max(0, Math.round((LEGS[P.leg] * (n - P.legDone)) / n)).toLocaleString() + "km";
-  $("count").textContent = mode === "play" || mode === "review" ? `${Math.floor(P.legDone)} / ${n}問` : "";
+function reviewHtml(r: AnswerResult) {
+  return `<div class="${r.ok ? "ok" : "ng"}">${esc(r.message)}</div><div>${highlightSentence(r.question)}</div>` +
+    (r.question.translation ? `<div class="tr">${esc(r.question.translation)}</div>` : "");
 }
 function feedback(text: string, cls = "") {
   const e = $("feedback");
   e.textContent = text; e.className = cls;
-  clearTimeout((feedback as any).t);
-  if (text) (feedback as any).t = setTimeout(() => (e.textContent = ""), 1600);
+  clearTimeout(feedbackTimer);
+  if (text) feedbackTimer = setTimeout(() => (e.textContent = ""), 1600);
 }
+let feedbackTimer: ReturnType<typeof setTimeout> | undefined;
 
-// ---------- question flow ----------
-function nextQuestion() {
-  const key = bag.next();
-  Q = key ? pool().get(key) ?? null : null;
-  if (!Q) { menu(); feedback("出題できる問題がありません", "ng"); return; }
-  typed = ""; missed = false; mode = "play";
-  isAirship = performance.now() >= boostUntil && Math.random() < CFG.airship.probability;
-  if (isAirship) scene.showAirship();
-  renderQuestion(); updateInfo();
-  setTimeout(() => sayQuestion(true), 200);
-}
-
-function inputLetter(ch: string) {
-  if (mode !== "play" || !Q) return;
-  if (ch === Q.answer[typed.length]) {
-    typed += ch; renderQuestion();
-    if (typed === Q.answer) onCorrect();
-  } else {
-    alt = Math.max(0, alt - CFG.altitude.wrongPenalty); flash = 1; missed = true;
-    feedback(`× ${ch}`, "ng");
-  }
-}
-
-function onCorrect() {
-  const seconds = speaking ? 0 : (performance.now() - qStart) / 1000;
-  speaking = false;
-  alt = Math.min(100, alt + altitudeGain(CFG.altitude, seconds));
-  const boosting = performance.now() < boostUntil;
-  P.answered++; if (!missed) P.correctFirst++;
-  let msg = seconds < 4 ? "すばらしい！ ↑↑" : seconds < 9 ? "OK！ ↑" : "なんとか…";
-  if (isAirship) {
-    boostUntil = performance.now() + CFG.airship.boostSeconds * 1000;
-    msg = `飛行船クリア！ ${CFG.airship.boostSeconds}秒間スピード${CFG.airship.multiplier}倍！`;
-  }
-  const r = advance(P, boosting ? CFG.airship.multiplier : 1, perLeg(), LEGS);
-  P = r.progress;
-  afterAnswer(true, msg, r.arrived);
-}
-
-function onPass() {
-  if (mode !== "play" || !Q) return;
-  speaking = false; stopSpeaking();
-  alt = Math.max(0, alt - CFG.altitude.passPenalty);
-  P.answered++;
-  afterAnswer(false, `正解は ${Q.answer}（${Q.meaning}）`, false);
-}
-
-function afterAnswer(ok: boolean, msg: string, arrived: boolean) {
-  save(); updateInfo();
-  const go = () => (arrived ? arrive() : nextQuestion());
-  if (CFG.display.showReview && Q) {
-    mode = "review";
-    $("sentenceBox").innerHTML = reviewHtml(ok, msg, Q);
-    setTimeout(() => { if (mode === "review") go(); }, CFG.display.reviewMs + (ok ? 0 : 800));
-  } else {
-    feedback(msg, ok ? "ok" : "ng");
-    setTimeout(go, 450);
-  }
-}
-
-function crash() {
-  mode = "crash"; crashT = 0; speaking = false; stopSpeaking();
-  const r = crashSetback(P, CFG.altitude.crashSetback, perLeg(), LEGS);
-  P = r.progress; save(); updateInfo();
-  if (Q) $("sentenceBox").innerHTML = reviewHtml(false, `ザブーン！ 海に墜落… ${r.back}問ぶん戻された`, Q);
-  Q = null; renderQuestion();
-  setTimeout(() => { if (mode === "crash") { alt = CFG.altitude.start; nextQuestion(); } }, 2800);
-}
-
-// ---------- screens ----------
-function showPanel(html: string) { $("playArea").style.display = "none"; const p = $("panel"); p.innerHTML = html; p.classList.add("show"); }
-function hidePanel() { $("panel").classList.remove("show"); $("playArea").style.display = "flex"; }
-function showMap(on: boolean) {
-  $("mapScreen").classList.toggle("show", on);
-  if (!on) return;
-  $("mapName").textContent = P.name || "あなた";
-  $("mapTotal").textContent = Math.round(P.totalKm).toLocaleString();
-  drawMap($<HTMLCanvasElement>("mapCanvas"), { totalKm: P.totalKm, nextIndex: (P.leg + 1) % CITIES.length, name: P.name || "あなた", legs: LEGS });
-}
-const stampsHtml = () => `<div class="stamps">
-  <div class="stamp ${P.laps >= 1 ? "" : "empty"}"><span>✈</span>一周</div>
-  <div class="stamp ${P.laps >= 2 ? "" : "empty"}"><span>🌐</span>二周</div></div>`;
-const statsHtml = () => {
-  const rate = P.answered ? Math.round((P.correctFirst / P.answered) * 100) : 0;
-  return `<div class="stats">周回 ${P.laps}　解答 ${P.answered}問　ノーミス正解率 ${rate}%</div>`;
+const stampsHtml = (laps: number) => `<div class="stamps">
+  <div class="stamp ${laps >= 1 ? "" : "empty"}"><span>✈</span>一周</div>
+  <div class="stamp ${laps >= 2 ? "" : "empty"}"><span>🌐</span>二周</div></div>`;
+const statsHtml = (s: GameState) => {
+  const p = s.progress, rate = p.answered ? Math.round((p.correctFirst / p.answered) * 100) : 0;
+  return `<div class="stats">周回 ${p.laps}　解答 ${p.answered}問　ノーミス正解率 ${rate}%</div>`;
 };
 const setsHtml = () => {
   const on = new Set(activeSetIds());
@@ -202,98 +142,138 @@ const setsHtml = () => {
     `<label><input type="checkbox" data-set="${esc(s.id)}" ${on.has(s.id) ? "checked" : ""}> ${esc(s.title)}（${s.count}問）</label>`).join("")}</div>`;
 };
 
-function menu() {
-  mode = "menu"; Q = null; renderQuestion(); showMap(true); updateInfo();
-  const remaining = P.legDone ? `・残り${perLeg() - Math.floor(P.legDone)}問` : "";
+// ---------- 画面（モードが変わったときに切り替える） ----------
+function showPanel(html: string) { $("playArea").style.display = "none"; const p = $("panel"); p.innerHTML = html; p.classList.add("show"); }
+function hidePanel() { $("panel").classList.remove("show"); $("playArea").style.display = "flex"; }
+function showMap(on: boolean) {
+  $("mapScreen").classList.toggle("show", on);
+  if (!on) return;
+  const p = game.state.progress, name = p.name || "あなた";
+  $("mapName").textContent = name;
+  $("mapTotal").textContent = Math.round(p.totalKm).toLocaleString();
+  drawMap($<HTMLCanvasElement>("mapCanvas"), { totalKm: p.totalKm, nextIndex: (p.leg + 1) % CITIES.length, name, legs: LEGS });
+}
+
+function showMenu(s: GameState) {
+  const p = s.progress;
+  const remaining = p.legDone ? `・残り${game.perLeg - Math.floor(p.legDone)}問` : "";
+  showMap(true);
   showPanel(`
-    ${P.name ? `<h2>${esc(P.name)} さん、おかえり！</h2>` : `<h2>空とぶ自転車で世界一周</h2><div>なまえ：<input id="nameInput" maxlength="8" placeholder="なまえ"></div>`}
-    <div>次の目的地は <b>${esc(nextCity().name)}</b>（${perLeg()}問${remaining}）</div>
+    ${p.name ? `<h2>${esc(p.name)} さん、おかえり！</h2>` : `<h2>空とぶ自転車で世界一周</h2><div>なまえ：<input id="nameInput" maxlength="8" placeholder="なまえ"></div>`}
+    <div>次の目的地は <b>${esc(nextCity().name)}</b>（${game.perLeg}問${remaining}）</div>
     <button class="big" id="btnStart">スタート</button>
-    ${setsHtml()}${stampsHtml()}${statsHtml()}`);
+    ${setsHtml()}${stampsHtml(p.laps)}${statsHtml(s)}`);
   document.querySelectorAll<HTMLInputElement>("[data-set]").forEach((cb) => (cb.onchange = () => {
-    enabledSets = [...document.querySelectorAll<HTMLInputElement>("[data-set]:checked")].map((c) => c.dataset.set!);
-    saveJSON("sets", enabledSets); rebuildBag();
+    save.enabledSets = [...document.querySelectorAll<HTMLInputElement>("[data-set]:checked")].map((c) => c.dataset.set!);
+    writeSave(save);
   }));
   $("btnStart").onclick = start;
 }
 
-function arrive() {
-  mode = "arrive"; Q = null; renderQuestion(); stopSpeaking();
-  const here = CITIES[P.leg];
-  const lapMsg = P.leg !== 0 ? "" :
-    P.laps === 1 ? "<div class='ok'>世界一周達成！ 飛行機のハンコをゲット！</div>" :
-    P.laps === 2 ? "<div class='ok'>二周達成！ 地球儀のハンコをゲット！</div>" :
-    `<div class='ok'>${P.laps}周目達成！</div>`;
-  showMap(true); updateInfo();
+function showArrive(s: GameState) {
+  const p = s.progress, here = CITIES[p.leg];
+  const lapMsg = p.leg !== 0 ? "" :
+    p.laps === 1 ? "<div class='ok'>世界一周達成！ 飛行機のハンコをゲット！</div>" :
+    p.laps === 2 ? "<div class='ok'>二周達成！ 地球儀のハンコをゲット！</div>" :
+    `<div class='ok'>${p.laps}周目達成！</div>`;
+  showMap(true);
   showPanel(`<span class="end">終了</span>
     <h2>${esc(here.ja)}（${esc(here.name)}）に到着！</h2>${lapMsg}
     <div>次の目的地は <b>${esc(nextCity().name)}</b></div>
     <button class="big" id="btnStart">スタート</button>
-    ${stampsHtml()}${statsHtml()}`);
+    ${stampsHtml(p.laps)}${statsHtml(s)}`);
   $("btnStart").onclick = start;
 }
 
-function start() {
-  const ni = document.getElementById("nameInput") as HTMLInputElement | null;
-  if (ni) { P.name = ni.value.trim() || "あなた"; save(); }
-  if (!pool().size) { feedback("問題集を1つ以上選んでください", "ng"); return; }
-  showMap(false); hidePanel();
-  alt = CFG.altitude.start;
-  nextQuestion();
+function onModeChange(from: Mode | null, to: Mode, s: GameState) {
+  if (to === "idle") showMenu(s);
+  else if (to === "arrived") showArrive(s);
+  else if (from === null || from === "idle" || from === "arrived") { showMap(false); hidePanel(); }
+  if (to === "review" && !config.display.showReview && s.result) feedback(s.result.message, s.result.ok ? "ok" : "ng");
+  if (to === "play" && s.isAirship) scene.showAirship();
 }
 
-// ---------- main loop ----------
+// ---------- プレイ中の表示（関係する値が変わったときだけ書き換える） ----------
+function renderPlay(s: GameState) {
+  const q = s.question, d = config.display;
+  if (!q) { $("wordBar").innerHTML = ""; $("meaning").textContent = ""; }
+  else {
+    const rest = d.showLetterCount ? `<span class="rest">${"·".repeat(Math.max(0, q.answer.length - s.typed.length - 1))}</span>` : "";
+    $("wordBar").innerHTML = esc(s.typed) + (s.typed.length < q.answer.length ? `<span class="cur"></span>${rest}` : "");
+    const showMeaning = s.isAirship ? config.airship.showMeaning : d.showMeaning;
+    $("meaning").innerHTML = s.isAirship
+      ? `✈ 飛行船！ <b>${esc(nextCity().region)}</b>なまり${showMeaning ? "：" + esc(q.meaning) : "の例文を聞き取ろう"}`
+      : showMeaning ? esc(q.meaning) : "";
+  }
+  if (s.mode === "play" && q) {
+    $("sentenceBox").innerHTML = d.sentence === "hidden"
+      ? `<span class="muted">🔊 例文を聞いて、空欄に入る単語を書こう</span>`
+      : `<div>${blankSentence(q)}</div>`;
+  } else if (s.result && (s.mode === "crash" || (s.mode === "review" && d.showReview))) {
+    $("sentenceBox").innerHTML = reviewHtml(s.result);
+  }
+  const p = s.progress, n = game.perLeg;
+  $("dest").textContent = "→ " + nextCity().ja;
+  $("remain").textContent = "あと " + Math.max(0, Math.round((LEGS[p.leg] * (n - p.legDone)) / n)).toLocaleString() + "km";
+  $("count").textContent = s.mode === "play" || s.mode === "review" ? `${Math.floor(p.legDone)} / ${n}問` : "";
+}
+
+// ---------- メインループ ----------
 const scene = new Scene($<HTMLCanvasElement>("scene"));
 let last = performance.now();
+let lastMode: Mode | null = null;
+let lastView = "";
+
 function loop(now: number) {
   const dt = Math.min(0.05, (now - last) / 1000); last = now;
-  const boosting = now < boostUntil;
-  const flying = mode === "play" || mode === "review";
-  if (mode === "play" && Q && !speaking) {
-    alt -= (CFG.altitude.decayPerSec + P.laps * CFG.altitude.decayIncreasePerLap) * dt;
-    if (alt <= 0) { alt = 0; crash(); }
-  }
-  if (mode === "crash") crashT += dt;
-  if (flash > 0) flash = Math.max(0, flash - dt * 3);
-  const s = { altitude: alt, flying, boosting: boosting && flying, crashing: mode === "crash", crashT, airshipVisible: isAirship && !!Q, flash };
-  scene.update(dt, s);
-  scene.draw(now, s);
+  game.tick(now, dt);
+  const s = game.state;
 
-  $("altFill").style.height = alt + "%";
-  $("altFill").style.background = alt < 25 ? "#e9426b" : alt < 50 ? "#f2b632" : "#2fb36b";
-  $("boost").style.display = s.boosting ? "block" : "none";
-  $("count").style.display = s.boosting ? "none" : "block";
-  if (s.boosting) $("boost").textContent = `×${CFG.airship.multiplier} スピード! ${Math.ceil((boostUntil - now) / 1000)}`;
+  if (s.mode !== lastMode) { onModeChange(lastMode, s.mode, s); lastMode = s.mode; }
+  const view = [s.mode, s.turn, s.typed, s.isAirship, s.result?.message, s.progress.legDone, s.progress.leg].join("|");
+  if (view !== lastView) { renderPlay(s); lastView = view; }
+
+  const boosting = game.isBoosting(now) && game.isFlying();
+  const sceneState = {
+    altitude: s.altitude, flying: game.isFlying(), boosting, crashing: s.mode === "crash", crashT: s.crashT,
+    airshipVisible: s.isAirship && !!s.question, flash: s.flash,
+  };
+  scene.update(dt, sceneState);
+  scene.draw(now, sceneState);
+
+  $("altFill").style.height = s.altitude + "%";
+  $("altFill").style.background = s.altitude < 25 ? "#e9426b" : s.altitude < 50 ? "#f2b632" : "#2fb36b";
+  $("boost").style.display = boosting ? "block" : "none";
+  $("count").style.display = boosting ? "none" : "block";
+  if (boosting) $("boost").textContent = `×${config.airship.multiplier} スピード! ${Math.ceil((s.boostUntil - now) / 1000)}`;
   requestAnimationFrame(loop);
 }
 
-// ---------- input ----------
+// ---------- 入力 ----------
 function buildKeyboard() {
   const kb = $("kbd");
   const add = (label: string, fn: () => void, cls = "") => {
     const b = document.createElement("button"); b.textContent = label; b.className = cls; b.onclick = fn; kb.appendChild(b);
   };
-  for (const ch of "qwertyuiopasdfghjklzxcvbnm") add(ch, () => inputLetter(ch));
-  add("書き直し", () => { if (mode === "play") { typed = ""; renderQuestion(); } }, "wide");
-  add("⌫", () => { if (mode === "play") { typed = typed.slice(0, -1); renderQuestion(); } }, "wide");
+  for (const ch of "qwertyuiopasdfghjklzxcvbnm") add(ch, () => game.letter(ch, performance.now()));
+  add("書き直し", () => game.clearTyped(), "wide");
+  add("⌫", () => game.backspace(), "wide");
 }
 document.addEventListener("keydown", (e) => {
   const t = e.target as HTMLElement;
   const startBtn = document.getElementById("btnStart");
+  const mode = game.state.mode;
   if (t.tagName === "INPUT" && (t as HTMLInputElement).type !== "checkbox") { if (e.key === "Enter") startBtn?.click(); return; }
-  if (e.key === "Enter" && startBtn && (mode === "menu" || mode === "arrive")) { startBtn.click(); e.preventDefault(); return; }
+  if (e.key === "Enter" && startBtn && (mode === "idle" || mode === "arrived")) { startBtn.click(); e.preventDefault(); return; }
   if (mode !== "play") return;
-  if (/^[a-zA-Z]$/.test(e.key)) { inputLetter(e.key.toLowerCase()); e.preventDefault(); }
-  else if (e.key === "Backspace") { typed = typed.slice(0, -1); renderQuestion(); e.preventDefault(); }
-  else if (e.key === " ") { sayQuestion(false); e.preventDefault(); }
+  if (/^[a-zA-Z]$/.test(e.key)) { game.letter(e.key.toLowerCase(), performance.now()); e.preventDefault(); }
+  else if (e.key === "Backspace") { game.backspace(); e.preventDefault(); }
+  else if (e.key === " ") { game.replay(); e.preventDefault(); }
 });
-$("btnListen").onclick = () => sayQuestion(false);
-$("btnPass").onclick = onPass;
-$("btnQuit").onclick = () => { save(); speaking = false; stopSpeaking(); menu(); };
+$("btnListen").onclick = () => game.replay();
+$("btnPass").onclick = () => game.pass(performance.now());
+$("btnQuit").onclick = () => game.quit();
 
-// ---------- boot ----------
+// ---------- 起動 ----------
 buildKeyboard();
-showPanel("<div>読み込み中…</div>");
-loadAll()
-  .then(() => { requestAnimationFrame(loop); menu(); })
-  .catch((err) => showPanel(`<div class="ng">問題データを読み込めませんでした</div><div class="small">${esc(String(err))}</div>`));
+requestAnimationFrame(loop);

@@ -1,4 +1,4 @@
-// ブラウザ内保存（使えない環境でも落ちないようにする）
+// ブラウザ内保存（使えない環境でも落ちないようにする）。保存データの形式は save.ts が決める。
 const PREFIX = "skybike:";
 
 export function loadJSON<T>(key: string, fallback: T): T {
@@ -15,5 +15,13 @@ export function saveJSON(key: string, value: unknown): void {
     localStorage.setItem(PREFIX + key, JSON.stringify(value));
   } catch {
     /* 保存できなくてもゲームは続ける */
+  }
+}
+
+export function removeKey(key: string): void {
+  try {
+    localStorage.removeItem(PREFIX + key);
+  } catch {
+    /* noop */
   }
 }

@@ -27,8 +27,25 @@ display:
 speech:
   rate: 0.9
   airshipRate: 0.9
-  # 通常問題で使う声の言語（先頭から順に探す）
+  # 音声ファイルが無いときに、ブラウザ内蔵の声で読む言語（先頭から順に探す）
   voice: [en-US, en-GB]
+  # 事前生成する音声（npm run tts で生成。生成していない問題はブラウザの声で読む）
+  # 声を変えると、その声の音声はすべて作り直しになる
+  tts:
+    provider: polly
+    region: us-east-1
+    default: { voiceId: Joanna, engine: neural }
+    # 飛行船のなまり。キーは都市ごとの言語（src/data/route.ts の accent）
+    # ここに無い言語（ja-JP・fr-FR など）はブラウザの声で読む
+    accents:
+      en-US: { voiceId: Joanna, engine: neural }
+      en-GB: { voiceId: Amy, engine: neural }
+      en-AU: { voiceId: Olivia, engine: neural }
+      en-NZ: { voiceId: Aria, engine: neural }
+      en-ZA: { voiceId: Ayanda, engine: neural }
+      en-IN: { voiceId: Kajal, engine: neural }
+    # なまりごとに音声を作る問題数（飛行船ではこの中から出題する）
+    accentQuestions: 20
 
 altitude:
   # 高度は 0〜100。0 で墜落。読み上げが終わってから減り始める。

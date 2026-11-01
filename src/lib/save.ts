@@ -1,0 +1,70 @@
+// 保存データの形式。形式を変えるときは SAVE_VERSION を上げ、migrate() に古い形からの変換を足す。
+import { newProgress, type Progress } from "./quiz";
+import { loadJSON, removeKey, saveJSON } from "./storage";
+
+export const SAVE_VERSION = 1;
+const KEY = "save";
+
+export interface SaveData {
+  version: typeof SAVE_VERSION;
+  progress: Progress;
+  /** 出題待ちの問題のキー（PlayQuestion.key） */
+  bag: string[];
+  /** プレイヤーが選んだ問題集。null は config.yaml の初期設定に従う */
+  enabledSets: string[] | null;
+}
+
+export const emptySave = (): SaveData => ({ version: SAVE_VERSION, progress: newProgress(), bag: [], enabledSets: null });
+
+const isObj = (v: unknown): v is Record<string, unknown> => typeof v === "object" && v !== null && !Array.isArray(v);
+const strings = (v: unknown): string[] | null => (Array.isArray(v) && v.every((x) => typeof x === "string") ? v : null);
+
+/** 壊れた値や欠けた項目は初期値で埋める（保存データが原因でゲームが起動しなくなることを防ぐ） */
+export function sanitizeProgress(v: unknown): Progress {
+  const p = newProgress();
+  if (!isObj(v)) return p;
+  if (typeof v.name === "string") p.name = v.name.slice(0, 20);
+  for (const k of ["leg", "legDone", "totalKm", "laps", "answered", "correctFirst"] as const) {
+    const n = v[k];
+    if (typeof n === "number" && Number.isFinite(n) && n >= 0) p[k] = n;
+  }
+  p.leg = Math.floor(p.leg);
+  return p;
+}
+
+/** 保存されていた値（どの版でも）を現在の形にする */
+export function migrate(raw: unknown): SaveData {
+  if (!isObj(raw) || raw.version !== SAVE_VERSION) return emptySave();
+  return {
+    version: SAVE_VERSION,
+    progress: sanitizeProgress(raw.progress),
+    bag: strings(raw.bag) ?? [],
+    enabledSets: raw.enabledSets === null ? null : strings(raw.enabledSets),
+  };
+}
+
+/** 版番号を持つ前の保存形式（progress / sets / bag を別々のキーに保存していた） */
+function fromLegacy(): SaveData | null {
+  const progress = loadJSON<unknown>("progress", undefined);
+  if (progress === undefined) return null;
+  const save: SaveData = {
+    ...emptySave(),
+    progress: sanitizeProgress(progress),
+    enabledSets: strings(loadJSON<unknown>("sets", null)),
+    // 旧形式の bag は問題の並び順に依存したキーなので引き継がない（次の出題で引き直すだけ）
+  };
+  for (const k of ["progress", "sets", "bag"]) removeKey(k);
+  return save;
+}
+
+export function loadSave(): SaveData {
+  const raw = loadJSON<unknown>(KEY, undefined);
+  if (raw !== undefined) return migrate(raw);
+  const legacy = fromLegacy();
+  if (legacy) { writeSave(legacy); return legacy; }
+  return emptySave();
+}
+
+export function writeSave(data: SaveData): void {
+  saveJSON(KEY, data);
+}

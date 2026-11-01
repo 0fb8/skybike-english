@@ -52,12 +52,6 @@ export function loadContent(contentDir: string): ContentResult {
     const set = parsed.data;
     if (set.id !== fileId) errors.push(`${path}: id "${set.id}" がファイル名 "${fileId}" と一致しません`);
 
-    const seen = new Map<string, number>();
-    set.questions.forEach((q, i) => {
-      const key = `${q.answer}\u0000${q.sentence}`;
-      if (seen.has(key)) errors.push(`${path}: questions[${i}] は questions[${seen.get(key)}] と完全に重複しています`);
-      seen.set(key, i);
-    });
     sets.push(set);
   }
 

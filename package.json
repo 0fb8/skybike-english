@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "description": "空とぶ自転車で世界一周しながら英単語を書き取るブラウザゲーム",
   "scripts": {
-    "content": "tsx scripts/build-content.ts",
-    "content:check": "tsx scripts/build-content.ts --check",
-    "dev": "npm run content && vite",
-    "build": "npm run content && tsc && vite build",
+    "content:check": "tsx scripts/check-content.ts",
+    "tts": "tsx scripts/tts/generate.ts",
+    "dev": "vite",
+    "build": "tsc && vite build",
     "preview": "vite preview",
     "typecheck": "tsc",
     "test": "vitest run",
@@ -14,6 +14,7 @@
     "check": "npm run content:check && npm run typecheck && npm run test"
   },
   "devDependencies": {
+    "@aws-sdk/client-polly": "^3.1161.0",
     "@types/node": "^26.6.6",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2",
@@ -25,6 +26,6 @@
   "private": true,
   "type": "module",
   "engines": {
-    "node": ">=20.11"
+    "node": ">=22.12"
   }
 }
