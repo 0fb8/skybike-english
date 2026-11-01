@@ -1,0 +1,446 @@
+# 問題集: 英検2級・TOEIC600レベル
+# 書式は docs/CONTENT.md を参照
+id: eiken2
+title: 英検2級・TOEIC600レベル
+description: 日常・ビジネスの基本語彙
+questions:
+  - answer: postpone
+    sentence: We had to postpone the meeting until next Monday.
+    meaning: 延期する
+    translation: 会議を来週の月曜日まで延期しなければならなかった。
+  - answer: available
+    sentence: Is this meeting room available tomorrow afternoon?
+    meaning: 利用できる
+    translation: この会議室は明日の午後に使えますか。
+  - answer: reserve
+    sentence: I would like to reserve a table for four at seven.
+    meaning: 予約する
+    translation: 7時に4人で席を予約したいのですが。
+  - answer: delivered
+    sentence: The package will be delivered by Friday.
+    meaning: 配達される
+    translation: 荷物は金曜日までに配達されます。
+  - answer: refund
+    sentence: If you are not satisfied, we will give you a full refund.
+    meaning: 返金
+    translation: ご満足いただけない場合は全額返金いたします。
+  - answer: receipt
+    sentence: Please keep your receipt in case you need to return the item.
+    meaning: 領収書・レシート
+    translation: 返品する場合に備えてレシートを保管してください。
+  - answer: schedule
+    sentence: The train left ten minutes behind schedule.
+    meaning: 予定
+    translation: 列車は予定より10分遅れて出発した。
+  - answer: attend
+    sentence: More than two hundred people will attend the conference.
+    meaning: 出席する
+    translation: 200人以上がその会議に出席する予定だ。
+  - answer: apply
+    sentence: She decided to apply for the position in the sales department.
+    meaning: 応募する
+    translation: 彼女は営業部の職に応募することにした。
+  - answer: experience
+    sentence: Do you have any experience working with customers?
+    meaning: 経験
+    translation: 接客の経験はありますか。
+  - answer: requires
+    sentence: This job requires a good knowledge of English.
+    meaning: 必要とする
+    translation: この仕事には十分な英語の知識が必要だ。
+  - answer: increased
+    sentence: Sales increased by ten percent last year.
+    meaning: 増加した
+    translation: 昨年、売上は10パーセント増加した。
+  - answer: decreased
+    sentence: The number of visitors has decreased since the new road opened.
+    meaning: 減少した
+    translation: 新しい道路が開通して以来、訪問者数は減少している。
+  - answer: product
+    sentence: Our new product will be launched next spring.
+    meaning: 製品
+    translation: 当社の新製品は来春発売されます。
+  - answer: customer
+    sentence: The customer was unhappy with the slow service.
+    meaning: 顧客
+    translation: その客は遅いサービスに不満だった。
+  - answer: complained
+    sentence: Several guests complained about the noise from the street.
+    meaning: 苦情を言った
+    translation: 何人かの宿泊客が通りの騒音について苦情を言った。
+  - answer: improve
+    sentence: We need to improve our website to attract more users.
+    meaning: 改善する
+    translation: より多くの利用者を引きつけるためにウェブサイトを改善する必要がある。
+  - answer: department
+    sentence: He works in the accounting department.
+    meaning: 部署
+    translation: 彼は経理部で働いている。
+  - answer: colleague
+    sentence: I went to lunch with a colleague from my old office.
+    meaning: 同僚
+    translation: 前の職場の同僚と昼食に行った。
+  - answer: suggested
+    sentence: My manager suggested that I take a few days off.
+    meaning: 提案した
+    translation: 上司は私に数日休みを取るよう提案した。
+  - answer: recommend
+    sentence: Can you recommend a good restaurant near the station?
+    meaning: 勧める
+    translation: 駅の近くでおすすめのレストランはありますか。
+  - answer: inviting
+    sentence: Thank you for inviting me to your party.
+    meaning: 招待すること
+    translation: パーティーに招待してくれてありがとう。
+  - answer: decline
+    sentence: He had to decline the offer because of his health.
+    meaning: 断る
+    translation: 彼は健康上の理由でその申し出を断らなければならなかった。
+  - answer: accept
+    sentence: I am happy to accept your kind invitation.
+    meaning: 受け入れる
+    translation: ご親切なお招きを喜んでお受けします。
+  - answer: environment
+    sentence: We should do more to protect the environment.
+    meaning: 環境
+    translation: 私たちは環境を守るためにもっと努力すべきだ。
+  - answer: pollution
+    sentence: Air pollution is a serious problem in many large cities.
+    meaning: 汚染
+    translation: 大気汚染は多くの大都市で深刻な問題だ。
+  - answer: recycle
+    sentence: Our town started to recycle plastic bottles last year.
+    meaning: リサイクルする
+    translation: 私たちの町は昨年ペットボトルのリサイクルを始めた。
+  - answer: energy
+    sentence: Solar energy is becoming cheaper every year.
+    meaning: エネルギー
+    translation: 太陽エネルギーは年々安くなっている。
+  - answer: reduce
+    sentence: The company is trying to reduce its costs.
+    meaning: 減らす
+    translation: その会社はコストを削減しようとしている。
+  - answer: waste
+    sentence: Try not to waste water when you brush your teeth.
+    meaning: 無駄にする
+    translation: 歯を磨くときは水を無駄にしないようにしよう。
+  - answer: opportunity
+    sentence: Studying abroad was a great opportunity for me.
+    meaning: 機会
+    translation: 留学は私にとって素晴らしい機会だった。
+  - answer: effort
+    sentence: Thanks to everyone's effort, the event was a success.
+    meaning: 努力
+    translation: 皆の努力のおかげで、イベントは成功した。
+  - answer: achieve
+    sentence: She worked hard to achieve her goal.
+    meaning: 達成する
+    translation: 彼女は目標を達成するために一生懸命働いた。
+  - answer: succeeded
+    sentence: He finally succeeded in passing the exam.
+    meaning: 成功した
+    translation: 彼はついに試験に合格した。
+  - answer: failure
+    sentence: The project ended in failure because of poor planning.
+    meaning: 失敗
+    translation: 計画が不十分だったため、そのプロジェクトは失敗に終わった。
+  - answer: advantage
+    sentence: One advantage of living in the city is good public transport.
+    meaning: 利点
+    translation: 都会に住む利点の一つは公共交通機関が充実していることだ。
+  - answer: disadvantage
+    sentence: The main disadvantage of this plan is its high cost.
+    meaning: 欠点
+    translation: この計画の主な欠点は費用が高いことだ。
+  - answer: benefits
+    sentence: Regular exercise has many health benefits.
+    meaning: 利益・恩恵
+    translation: 定期的な運動には健康上の利点がたくさんある。
+  - answer: affect
+    sentence: Lack of sleep can affect your concentration.
+    meaning: 影響する
+    translation: 睡眠不足は集中力に影響することがある。
+  - answer: influence
+    sentence: Her teacher had a strong influence on her career.
+    meaning: 影響
+    translation: 先生は彼女の進路に強い影響を与えた。
+  - answer: compare
+    sentence: It is difficult to compare these two products.
+    meaning: 比較する
+    translation: この2つの製品を比べるのは難しい。
+  - answer: prefer
+    sentence: I prefer tea to coffee in the morning.
+    meaning: より好む
+    translation: 朝はコーヒーより紅茶のほうが好きだ。
+  - answer: considering
+    sentence: We are considering moving to a larger apartment.
+    meaning: 検討している
+    translation: もっと広いアパートへの引っ越しを検討している。
+  - answer: discuss
+    sentence: Let's discuss this problem at the next meeting.
+    meaning: 話し合う
+    translation: この問題は次の会議で話し合おう。
+  - answer: solve
+    sentence: It took us three hours to solve the problem.
+    meaning: 解決する
+    translation: その問題を解決するのに3時間かかった。
+  - answer: caused
+    sentence: Heavy rain caused a delay to our flight.
+    meaning: 引き起こした
+    translation: 大雨のせいで私たちの便が遅れた。
+  - answer: delay
+    sentence: There was a long delay at the airport this morning.
+    meaning: 遅れ
+    translation: 今朝は空港で長い遅れが出た。
+  - answer: cancelled
+    sentence: The concert was cancelled because of the storm.
+    meaning: 中止された
+    translation: 嵐のためコンサートは中止された。
+  - answer: local
+    sentence: We bought fresh vegetables at the local market.
+    meaning: 地元の
+    translation: 地元の市場で新鮮な野菜を買った。
+  - answer: traditional
+    sentence: They served a traditional Japanese breakfast.
+    meaning: 伝統的な
+    translation: 伝統的な和朝食が出された。
+  - answer: culture
+    sentence: Learning a language helps you understand its culture.
+    meaning: 文化
+    translation: 言語を学ぶとその文化を理解しやすくなる。
+  - answer: population
+    sentence: The population of the city has doubled in twenty years.
+    meaning: 人口
+    translation: その都市の人口は20年で2倍になった。
+  - answer: government
+    sentence: The government announced a new plan to support small businesses.
+    meaning: 政府
+    translation: 政府は中小企業を支援する新しい計画を発表した。
+  - answer: announced
+    sentence: The winner will be announced at the end of the ceremony.
+    meaning: 発表される
+    translation: 受賞者は式の最後に発表される。
+  - answer: expect
+    sentence: We expect the weather to improve by the weekend.
+    meaning: 予想する
+    translation: 週末までに天気は回復すると予想している。
+  - answer: probably
+    sentence: It will probably rain this evening.
+    meaning: たぶん
+    translation: 今晩はたぶん雨が降るだろう。
+  - answer: actually
+    sentence: I thought he was American, but actually he is Canadian.
+    meaning: 実は
+    translation: 彼はアメリカ人だと思っていたが、実はカナダ人だ。
+  - answer: especially
+    sentence: I love fruit, especially strawberries.
+    meaning: 特に
+    translation: 果物が大好きで、特にイチゴが好きだ。
+  - answer: instead
+    sentence: If you don't like coffee, we have tea instead.
+    meaning: 代わりに
+    translation: コーヒーがお嫌いなら、代わりに紅茶もあります。
+  - answer: although
+    sentence: Although it was raining, we went for a walk.
+    meaning: 〜だけれども
+    translation: 雨が降っていたが、私たちは散歩に出かけた。
+  - answer: however
+    sentence: The plan sounds good. However, it may be too expensive.
+    meaning: しかしながら
+    translation: その計画はよさそうだ。しかし、費用がかかりすぎるかもしれない。
+  - answer: purpose
+    sentence: What is the purpose of your visit?
+    meaning: 目的
+    translation: 訪問の目的は何ですか。
+  - answer: destination
+    sentence: Our final destination is a small island in the south.
+    meaning: 目的地
+    translation: 私たちの最終目的地は南の小さな島だ。
+  - answer: passengers
+    sentence: All passengers must show their tickets before boarding.
+    meaning: 乗客
+    translation: 乗客は全員、搭乗前に切符を見せなければならない。
+  - answer: luggage
+    sentence: You can leave your luggage at the front desk.
+    meaning: 手荷物
+    translation: 手荷物はフロントに預けられます。
+  - answer: vehicles
+    sentence: Electric vehicles are becoming more popular.
+    meaning: 乗り物・車両
+    translation: 電気自動車の人気が高まっている。
+  - answer: repair
+    sentence: It will cost a lot to repair the roof.
+    meaning: 修理する
+    translation: 屋根の修理には多額の費用がかかるだろう。
+  - answer: replace
+    sentence: We need to replace the old printer.
+    meaning: 取り替える
+    translation: 古いプリンターを交換する必要がある。
+  - answer: equipment
+    sentence: The gym has a lot of modern equipment.
+    meaning: 設備・機器
+    translation: そのジムには最新の設備がたくさんある。
+  - answer: instructions
+    sentence: Please read the instructions carefully before you start.
+    meaning: 指示・説明書
+    translation: 始める前に説明書をよく読んでください。
+  - answer: permission
+    sentence: You need permission to take photos inside the museum.
+    meaning: 許可
+    translation: 美術館の中で写真を撮るには許可が必要だ。
+  - answer: allowed
+    sentence: Pets are not allowed in this hotel.
+    meaning: 許可されている
+    translation: このホテルではペットは禁止されている。
+  - answer: prevent
+    sentence: Washing your hands can prevent many illnesses.
+    meaning: 防ぐ
+    translation: 手洗いで多くの病気を防ぐことができる。
+  - answer: protect
+    sentence: Sunscreen helps protect your skin.
+    meaning: 守る
+    translation: 日焼け止めは肌を守るのに役立つ。
+  - answer: medicine
+    sentence: Take this medicine three times a day after meals.
+    meaning: 薬
+    translation: この薬を1日3回食後に飲んでください。
+  - answer: patient
+    sentence: The doctor is with another patient right now.
+    meaning: 患者
+    translation: 医師は今、別の患者を診ています。
+  - answer: healthy
+    sentence: Eating a healthy diet is important for everyone.
+    meaning: 健康的な
+    translation: 健康的な食事は誰にとっても大切だ。
+  - answer: nutrition
+    sentence: Good nutrition is essential for growing children.
+    meaning: 栄養
+    translation: 成長期の子どもには十分な栄養が欠かせない。
+  - answer: nervous
+    sentence: I always get nervous before giving a speech.
+    meaning: 緊張した
+    translation: スピーチの前はいつも緊張する。
+  - answer: confident
+    sentence: She felt confident about her presentation.
+    meaning: 自信がある
+    translation: 彼女はプレゼンに自信があった。
+  - answer: disappointed
+    sentence: I was disappointed with the ending of the movie.
+    meaning: がっかりした
+    translation: その映画の結末にはがっかりした。
+  - answer: surprised
+    sentence: We were surprised to see so many people at the event.
+    meaning: 驚いた
+    translation: イベントにあんなに多くの人がいて驚いた。
+  - answer: relieved
+    sentence: I was relieved to hear that everyone was safe.
+    meaning: ほっとした
+    translation: 全員無事だと聞いてほっとした。
+  - answer: grateful
+    sentence: I am grateful for all your help.
+    meaning: 感謝している
+    translation: いろいろと助けていただき感謝しています。
+  - answer: encouraged
+    sentence: My parents always encouraged me to try new things.
+    meaning: 励ました
+    translation: 両親はいつも新しいことに挑戦するよう励ましてくれた。
+  - answer: contact
+    sentence: Please contact us if you have any questions.
+    meaning: 連絡する
+    translation: ご質問があればご連絡ください。
+  - answer: respond
+    sentence: He did not respond to my email.
+    meaning: 返答する
+    translation: 彼は私のメールに返事をくれなかった。
+  - answer: confirm
+    sentence: Could you confirm the time of the meeting?
+    meaning: 確認する
+    translation: 会議の時間を確認していただけますか。
+  - answer: notice
+    sentence: Did you notice anything strange about him?
+    meaning: 気づく
+    translation: 彼について何か変わったことに気づきましたか。
+  - answer: realize
+    sentence: I didn't realize how late it was.
+    meaning: 気づく・悟る
+    translation: こんなに遅い時間だとは気づかなかった。
+  - answer: manages
+    sentence: She manages a team of ten people.
+    meaning: 管理する
+    translation: 彼女は10人のチームを管理している。
+  - answer: employees
+    sentence: The company has about five hundred employees.
+    meaning: 従業員
+    translation: その会社には約500人の従業員がいる。
+  - answer: salary
+    sentence: He asked his boss for a higher salary.
+    meaning: 給料
+    translation: 彼は上司に昇給を求めた。
+  - answer: budget
+    sentence: We have to finish the project within our budget.
+    meaning: 予算
+    translation: 予算内でプロジェクトを終えなければならない。
+  - answer: profit
+    sentence: The shop made a small profit last month.
+    meaning: 利益
+    translation: その店は先月わずかな利益を出した。
+  - answer: expand
+    sentence: The company plans to expand into Asia.
+    meaning: 拡大する
+    translation: その会社はアジアへの進出を計画している。
+  - answer: survey
+    sentence: According to a recent survey, many people work from home once a week.
+    meaning: 調査
+    translation: 最近の調査によると、多くの人が週に1回在宅勤務をしている。
+  - answer: average
+    sentence: The average temperature in August is about thirty degrees.
+    meaning: 平均の
+    translation: 8月の平均気温は約30度だ。
+  - answer: majority
+    sentence: The majority of students live in dormitories.
+    meaning: 大多数
+    translation: 学生の大多数は寮に住んでいる。
+  - answer: provides
+    sentence: The hotel provides free breakfast for all guests.
+    meaning: 提供する
+    translation: そのホテルは宿泊客全員に無料の朝食を提供している。
+  - answer: include
+    sentence: Does the price include tax?
+    meaning: 含む
+    translation: その価格は税込みですか。
+  - answer: separate
+    sentence: Please keep paper and plastic separate.
+    meaning: 別々の
+    translation: 紙とプラスチックは分けておいてください。
+  - answer: rent
+    sentence: They rent a small apartment near the university.
+    meaning: 賃借する
+    translation: 彼らは大学の近くに小さなアパートを借りている。
+  - answer: neighborhood
+    sentence: This is a quiet neighborhood with many parks.
+    meaning: 近所・地域
+    translation: ここは公園の多い静かな地域だ。
+  - answer: convenient
+    sentence: The hotel is in a convenient location near the station.
+    meaning: 便利な
+    translation: そのホテルは駅に近い便利な場所にある。
+  - answer: crowded
+    sentence: The trains are always crowded in the morning.
+    meaning: 混雑した
+    translation: 朝の電車はいつも混んでいる。
+  - answer: temperature
+    sentence: The temperature dropped below zero last night.
+    meaning: 気温
+    translation: 昨夜、気温は氷点下まで下がった。
+  - answer: forecast
+    sentence: The weather forecast says it will snow tomorrow.
+    meaning: 予報
+    translation: 天気予報によると明日は雪が降るそうだ。
+  - answer: volunteer
+    sentence: She works as a volunteer at the local library.
+    meaning: ボランティア
+    translation: 彼女は地元の図書館でボランティアとして働いている。
+  - answer: donated
+    sentence: We donated our old clothes to a charity.
+    meaning: 寄付した
+    translation: 古着を慈善団体に寄付した。

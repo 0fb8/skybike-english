@@ -1,0 +1,30 @@
+{
+  "name": "skybike-english",
+  "version": "0.1.0",
+  "description": "空とぶ自転車で世界一周しながら英単語を書き取るブラウザゲーム",
+  "scripts": {
+    "content": "tsx scripts/build-content.ts",
+    "content:check": "tsx scripts/build-content.ts --check",
+    "dev": "npm run content && vite",
+    "build": "npm run content && tsc && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "check": "npm run content:check && npm run typecheck && npm run test"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.5",
+    "vitest": "^5.0.5",
+    "yaml": "^2.9.1",
+    "zod": "^4.6.7"
+  },
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20.11"
+  }
+}

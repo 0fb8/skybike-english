@@ -1,0 +1,446 @@
+# 問題集: 英検準1級・TOEIC800レベル
+# 書式は docs/CONTENT.md を参照
+id: pre1
+title: 英検準1級・TOEIC800レベル
+description: ビジネス・社会・科学の発展語彙
+questions:
+  - answer: inevitable
+    sentence: Some delays are inevitable when you travel during the holidays.
+    meaning: 避けられない
+    translation: 休暇中に旅行すると多少の遅れは避けられない。
+  - answer: reluctant
+    sentence: He was reluctant to share his opinion in the meeting.
+    meaning: 気が進まない
+    translation: 彼は会議で自分の意見を言うのに気が進まなかった。
+  - answer: substantial
+    sentence: The company made a substantial investment in new technology.
+    meaning: かなりの
+    translation: その会社は新技術にかなりの投資を行った。
+  - answer: comprehensive
+    sentence: The report gives a comprehensive overview of the market.
+    meaning: 包括的な
+    translation: その報告書は市場を包括的に概観している。
+  - answer: implemented
+    sentence: The new policy will be implemented next April.
+    meaning: 実施される
+    translation: 新しい方針は来年4月に実施される。
+  - answer: allocate
+    sentence: We need to allocate more resources to customer support.
+    meaning: 割り当てる
+    translation: 顧客サポートにもっと資源を割り当てる必要がある。
+  - answer: compensate
+    sentence: The airline offered to compensate passengers for the delay.
+    meaning: 補償する
+    translation: 航空会社は遅延について乗客に補償すると申し出た。
+  - answer: reimburse
+    sentence: The company will reimburse your travel expenses.
+    meaning: 払い戻す
+    translation: 会社が出張費を払い戻します。
+  - answer: expenditure
+    sentence: Government expenditure on education has risen sharply.
+    meaning: 支出
+    translation: 政府の教育支出は急増している。
+  - answer: revenue
+    sentence: Advertising revenue fell by fifteen percent this quarter.
+    meaning: 収益
+    translation: 今四半期の広告収入は15パーセント減少した。
+  - answer: merger
+    sentence: The merger between the two banks was approved last week.
+    meaning: 合併
+    translation: 2つの銀行の合併は先週承認された。
+  - answer: acquisition
+    sentence: The acquisition of the startup cost over a billion dollars.
+    meaning: 買収
+    translation: そのスタートアップの買収には10億ドル以上かかった。
+  - answer: negotiating
+    sentence: They are still negotiating the terms of the contract.
+    meaning: 交渉している
+    translation: 彼らはまだ契約条件を交渉している。
+  - answer: tentative
+    sentence: We have a tentative agreement, but nothing is final yet.
+    meaning: 暫定的な
+    translation: 暫定的な合意はあるが、まだ何も確定していない。
+  - answer: adjacent
+    sentence: The parking lot is adjacent to the main building.
+    meaning: 隣接した
+    translation: 駐車場は本館に隣接している。
+  - answer: renovated
+    sentence: The hotel lobby is being renovated this month.
+    meaning: 改装される
+    translation: ホテルのロビーは今月改装中だ。
+  - answer: vacancy
+    sentence: There is a vacancy in the marketing team.
+    meaning: 欠員・空き
+    translation: マーケティングチームに欠員がある。
+  - answer: candidates
+    sentence: We interviewed five candidates for the position.
+    meaning: 候補者
+    translation: その職について5人の候補者を面接した。
+  - answer: qualified
+    sentence: She is highly qualified for this role.
+    meaning: 資格のある・適任の
+    translation: 彼女はこの役職に十分適任だ。
+  - answer: credentials
+    sentence: Please submit your credentials along with your application.
+    meaning: 資格証明書・経歴
+    translation: 応募書類とともに資格を証明する書類を提出してください。
+  - answer: extension
+    sentence: The client agreed to a one-week extension of the deadline.
+    meaning: 延長
+    translation: クライアントは締め切りの1週間延長に同意した。
+  - answer: comply
+    sentence: All products must comply with safety regulations.
+    meaning: 従う
+    translation: すべての製品は安全規制に従わなければならない。
+  - answer: regulations
+    sentence: Strict regulations govern the use of personal data.
+    meaning: 規制
+    translation: 個人データの利用には厳しい規制がある。
+  - answer: mandatory
+    sentence: Attendance at the safety training is mandatory.
+    meaning: 義務的な
+    translation: 安全研修への出席は必須だ。
+  - answer: optional
+    sentence: The guided tour is optional and costs extra.
+    meaning: 任意の
+    translation: ガイド付きツアーは任意で、追加料金がかかる。
+  - answer: feasible
+    sentence: Is it feasible to finish the project by the end of the month?
+    meaning: 実現可能な
+    translation: 月末までにプロジェクトを終えるのは実現可能ですか。
+  - answer: viable
+    sentence: Solar power has become a viable alternative to coal.
+    meaning: 実行可能な・成り立つ
+    translation: 太陽光発電は石炭に代わる現実的な選択肢になった。
+  - answer: sustainable
+    sentence: We aim to build a more sustainable business model.
+    meaning: 持続可能な
+    translation: 私たちはより持続可能なビジネスモデルの構築を目指している。
+  - answer: deteriorate
+    sentence: His health began to deteriorate after the operation.
+    meaning: 悪化する
+    translation: 手術の後、彼の健康は悪化し始めた。
+  - answer: alleviate
+    sentence: The new bridge should alleviate traffic congestion.
+    meaning: 和らげる
+    translation: 新しい橋で交通渋滞が緩和されるはずだ。
+  - answer: congestion
+    sentence: Traffic congestion gets worse every year in the city center.
+    meaning: 渋滞・混雑
+    translation: 都心の交通渋滞は年々ひどくなっている。
+  - answer: commute
+    sentence: My daily commute takes about an hour by train.
+    meaning: 通勤
+    translation: 毎日の通勤は電車で約1時間かかる。
+  - answer: accommodate
+    sentence: The hall can accommodate up to five hundred guests.
+    meaning: 収容する
+    translation: そのホールは最大500人を収容できる。
+  - answer: itinerary
+    sentence: I will email you the itinerary for the business trip.
+    meaning: 旅程
+    translation: 出張の旅程をメールでお送りします。
+  - answer: inquiry
+    sentence: Thank you for your inquiry about our services.
+    meaning: 問い合わせ
+    translation: 当社のサービスについてお問い合わせいただきありがとうございます。
+  - answer: prompt
+    sentence: Thank you for your prompt reply.
+    meaning: 迅速な
+    translation: 迅速なご返信ありがとうございます。
+  - answer: dispute
+    sentence: The two companies are in a dispute over the patent.
+    meaning: 紛争・争い
+    translation: 2社はその特許をめぐって争っている。
+  - answer: resolved
+    sentence: The issue was resolved after a long discussion.
+    meaning: 解決された
+    translation: 長い話し合いの末、その問題は解決した。
+  - answer: consensus
+    sentence: The committee finally reached a consensus.
+    meaning: 合意
+    translation: 委員会はついに合意に達した。
+  - answer: unanimous
+    sentence: The decision to close the factory was unanimous.
+    meaning: 満場一致の
+    translation: 工場閉鎖の決定は満場一致だった。
+  - answer: controversial
+    sentence: The new tax has become a controversial issue.
+    meaning: 物議を醸す
+    translation: 新しい税は物議を醸す問題になっている。
+  - answer: advocate
+    sentence: She is a strong advocate of equal rights.
+    meaning: 支持者・擁護者
+    translation: 彼女は平等な権利の強力な支持者だ。
+  - answer: undermined
+    sentence: The scandal undermined public trust in the government.
+    meaning: 損なった
+    translation: その不祥事は政府に対する国民の信頼を損なった。
+  - answer: enhance
+    sentence: The new software will enhance our productivity.
+    meaning: 高める
+    translation: 新しいソフトウェアは私たちの生産性を高めるだろう。
+  - answer: productivity
+    sentence: Remote work has improved productivity in many firms.
+    meaning: 生産性
+    translation: リモートワークは多くの企業で生産性を向上させた。
+  - answer: efficient
+    sentence: This machine is more energy efficient than the old one.
+    meaning: 効率的な
+    translation: この機械は古いものよりエネルギー効率が良い。
+  - answer: obsolete
+    sentence: Fax machines are almost obsolete these days.
+    meaning: 時代遅れの
+    translation: ファックスは最近ではほとんど時代遅れだ。
+  - answer: innovative
+    sentence: The company is known for its innovative designs.
+    meaning: 革新的な
+    translation: その会社は革新的なデザインで知られている。
+  - answer: prototype
+    sentence: The engineers tested the prototype last week.
+    meaning: 試作品
+    translation: 技術者たちは先週試作品をテストした。
+  - answer: durable
+    sentence: These boots are light but very durable.
+    meaning: 丈夫な
+    translation: このブーツは軽いがとても丈夫だ。
+  - answer: warranty
+    sentence: The laptop comes with a two-year warranty.
+    meaning: 保証
+    translation: そのノートパソコンには2年保証が付いている。
+  - answer: defective
+    sentence: We will replace any defective items free of charge.
+    meaning: 欠陥のある
+    translation: 欠陥品は無料で交換いたします。
+  - answer: inventory
+    sentence: We need to check the inventory before the sale.
+    meaning: 在庫
+    translation: セールの前に在庫を確認する必要がある。
+  - answer: shipment
+    sentence: The shipment was delayed due to bad weather.
+    meaning: 出荷・積み荷
+    translation: 悪天候のため出荷が遅れた。
+  - answer: invoice
+    sentence: Please send the invoice to our accounting department.
+    meaning: 請求書
+    translation: 請求書は経理部にお送りください。
+  - answer: subsidiary
+    sentence: The firm opened a subsidiary in Singapore.
+    meaning: 子会社
+    translation: その会社はシンガポールに子会社を設立した。
+  - answer: headquarters
+    sentence: The company's headquarters are located in London.
+    meaning: 本社
+    translation: その会社の本社はロンドンにある。
+  - answer: delegate
+    sentence: A good manager knows how to delegate tasks.
+    meaning: 委任する
+    translation: 良い管理職は仕事の任せ方を知っている。
+  - answer: supervises
+    sentence: She supervises the night shift at the factory.
+    meaning: 監督する
+    translation: 彼女は工場の夜勤を監督している。
+  - answer: subordinates
+    sentence: He always treats his subordinates with respect.
+    meaning: 部下
+    translation: 彼はいつも部下に敬意を持って接する。
+  - answer: incentive
+    sentence: The bonus is an incentive for staff to work harder.
+    meaning: 動機付け・報奨
+    translation: ボーナスは社員がもっと働くための動機付けだ。
+  - answer: retain
+    sentence: It is hard to retain skilled workers in this industry.
+    meaning: 保持する・引き留める
+    translation: この業界では熟練労働者を引き留めるのが難しい。
+  - answer: resign
+    sentence: He decided to resign from his post.
+    meaning: 辞任する
+    translation: 彼は職を辞することにした。
+  - answer: dismissed
+    sentence: The manager dismissed the idea as unrealistic.
+    meaning: 退けた
+    translation: 部長はその案を非現実的だとして退けた。
+  - answer: abundant
+    sentence: The region has abundant natural resources.
+    meaning: 豊富な
+    translation: その地域は天然資源が豊富だ。
+  - answer: scarce
+    sentence: Fresh water is becoming scarce in some areas.
+    meaning: 乏しい
+    translation: 一部の地域では真水が不足しつつある。
+  - answer: drought
+    sentence: The long drought destroyed most of the crops.
+    meaning: 干ばつ
+    translation: 長い干ばつで作物の大半がだめになった。
+  - answer: emissions
+    sentence: We must cut carbon emissions by half.
+    meaning: 排出（量）
+    translation: 炭素排出量を半分に削減しなければならない。
+  - answer: biodiversity
+    sentence: Deforestation is a major threat to biodiversity.
+    meaning: 生物多様性
+    translation: 森林破壊は生物多様性に対する大きな脅威だ。
+  - answer: conserve
+    sentence: Please help us conserve energy by turning off the lights.
+    meaning: 節約する・保護する
+    translation: 電気を消して省エネにご協力ください。
+  - answer: extinct
+    sentence: Many species could become extinct within decades.
+    meaning: 絶滅した
+    translation: 多くの種が数十年以内に絶滅するおそれがある。
+  - answer: phenomenon
+    sentence: Global warming is a complex phenomenon.
+    meaning: 現象
+    translation: 地球温暖化は複雑な現象だ。
+  - answer: hypothesis
+    sentence: The scientists tested their hypothesis in the lab.
+    meaning: 仮説
+    translation: 科学者たちは研究室で仮説を検証した。
+  - answer: evidence
+    sentence: There is no evidence that the drug is effective.
+    meaning: 証拠
+    translation: その薬が効くという証拠はない。
+  - answer: analyzed
+    sentence: We analyzed the data from the survey.
+    meaning: 分析した
+    translation: 私たちは調査のデータを分析した。
+  - answer: interpret
+    sentence: It is difficult to interpret these results.
+    meaning: 解釈する
+    translation: これらの結果を解釈するのは難しい。
+  - answer: significant
+    sentence: There was a significant increase in sales.
+    meaning: 著しい・重要な
+    translation: 売上が大幅に増加した。
+  - answer: approximately
+    sentence: The flight takes approximately twelve hours.
+    meaning: およそ
+    translation: 飛行時間はおよそ12時間だ。
+  - answer: consequently
+    sentence: He missed the train and consequently arrived late.
+    meaning: その結果
+    translation: 彼は電車に乗り遅れ、その結果遅刻した。
+  - answer: nevertheless
+    sentence: The task was difficult; nevertheless, we finished on time.
+    meaning: それにもかかわらず
+    translation: その仕事は難しかったが、それでも私たちは時間通りに終えた。
+  - answer: furthermore
+    sentence: The hotel is cheap. Furthermore, it is close to the beach.
+    meaning: さらに
+    translation: そのホテルは安い。さらに、ビーチにも近い。
+  - answer: whereas
+    sentence: Some people like summer, whereas others prefer winter.
+    meaning: 〜である一方
+    translation: 夏が好きな人もいれば、冬のほうが好きな人もいる。
+  - answer: elaborate
+    sentence: Could you elaborate on your proposal?
+    meaning: 詳しく述べる
+    translation: ご提案について詳しく説明していただけますか。
+  - answer: clarify
+    sentence: Let me clarify a few points before we continue.
+    meaning: 明確にする
+    translation: 続ける前にいくつかの点をはっきりさせておきます。
+  - answer: emphasized
+    sentence: The speaker emphasized the importance of teamwork.
+    meaning: 強調した
+    translation: 講演者はチームワークの大切さを強調した。
+  - answer: acknowledged
+    sentence: He acknowledged that he had made a mistake.
+    meaning: 認めた
+    translation: 彼は自分が間違いを犯したことを認めた。
+  - answer: anticipate
+    sentence: We anticipate strong demand for the new model.
+    meaning: 予想する
+    translation: 新モデルには強い需要があると見込んでいる。
+  - answer: demand
+    sentence: There is a growing demand for electric cars.
+    meaning: 需要
+    translation: 電気自動車の需要が高まっている。
+  - answer: fluctuate
+    sentence: Prices fluctuate depending on the season.
+    meaning: 変動する
+    translation: 価格は季節によって変動する。
+  - answer: surge
+    sentence: There was a surge in online shopping during the holidays.
+    meaning: 急増
+    translation: 休暇中にネット通販が急増した。
+  - answer: recession
+    sentence: Many small businesses closed during the recession.
+    meaning: 不況
+    translation: 不況の間に多くの中小企業が廃業した。
+  - answer: stimulate
+    sentence: The government cut taxes to stimulate the economy.
+    meaning: 刺激する
+    translation: 政府は景気を刺激するために減税した。
+  - answer: diminish
+    sentence: The pain will diminish over time.
+    meaning: 減少する・和らぐ
+    translation: 痛みは時間とともに和らぐだろう。
+  - answer: ambiguous
+    sentence: The instructions were ambiguous and confused everyone.
+    meaning: あいまいな
+    translation: 指示があいまいで皆を混乱させた。
+  - answer: meticulous
+    sentence: She is meticulous about checking every detail.
+    meaning: 細心の
+    translation: 彼女は細部まで念入りに確認する。
+  - answer: diligent
+    sentence: He is a diligent student who never misses class.
+    meaning: 勤勉な
+    translation: 彼は授業を決して休まない勤勉な学生だ。
+  - answer: versatile
+    sentence: She is a versatile actor who can play any role.
+    meaning: 多才な
+    translation: 彼女はどんな役でもこなせる多才な俳優だ。
+  - answer: transparent
+    sentence: The company promised to be more transparent about its finances.
+    meaning: 透明性のある
+    translation: その会社は財務についてもっと透明性を高めると約束した。
+  - answer: accountable
+    sentence: Leaders should be held accountable for their decisions.
+    meaning: 責任がある
+    translation: 指導者は自らの決定に責任を負うべきだ。
+  - answer: vulnerable
+    sentence: Elderly people are more vulnerable to the flu.
+    meaning: 影響を受けやすい・弱い
+    translation: 高齢者はインフルエンザにかかりやすい。
+  - answer: hazardous
+    sentence: Workers must wear masks when handling hazardous materials.
+    meaning: 有害な・危険な
+    translation: 危険物を扱うときは作業員はマスクを着けなければならない。
+  - answer: precaution
+    sentence: Take every precaution to avoid accidents.
+    meaning: 予防措置
+    translation: 事故を避けるためにあらゆる予防策を講じてください。
+  - answer: evacuate
+    sentence: Residents were told to evacuate before the typhoon arrived.
+    meaning: 避難する
+    translation: 住民は台風が来る前に避難するよう指示された。
+  - answer: commemorate
+    sentence: A statue was built to commemorate the victory.
+    meaning: 記念する
+    translation: その勝利を記念して像が建てられた。
+  - answer: prestigious
+    sentence: He graduated from a prestigious university.
+    meaning: 名門の・一流の
+    translation: 彼は名門大学を卒業した。
+  - answer: contemporary
+    sentence: The museum focuses on contemporary art.
+    meaning: 現代の
+    translation: その美術館は現代美術を中心に扱っている。
+  - answer: diverse
+    sentence: Tokyo has a diverse population.
+    meaning: 多様な
+    translation: 東京には多様な人々が暮らしている。
+  - answer: integrate
+    sentence: It took time for the new members to integrate into the team.
+    meaning: 溶け込む・統合する
+    translation: 新メンバーがチームに溶け込むには時間がかかった。
+  - answer: coincide
+    sentence: This year the festival will coincide with the national holiday.
+    meaning: 同時に起こる・重なる
+    translation: 今年はお祭りが祝日と重なる。
+  - answer: persuaded
+    sentence: I finally persuaded my father to buy a new car.
+    meaning: 説得した
+    translation: ついに父を説得して新しい車を買わせた。

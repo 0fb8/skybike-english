@@ -1,0 +1,50 @@
+# ゲーム全体の設定。値を変えて `npm run dev` で確認できます。
+# 項目の意味と型は src/content/schema.ts を参照（ビルド時に検証されます）。
+
+# 出題に使う問題集（content/questions/<id>.yaml の id）。
+# enabled: false にすると、初期状態ではチェックが外れた状態で表示されます。
+questionSets:
+  - id: eiken2
+    enabled: true
+  - id: pre1
+    enabled: true
+
+# 1区間（都市→都市）あたりの問題数
+questionsPerLeg: 15
+
+# shuffle: ランダム / sequential: ファイルの順番どおり
+order: shuffle
+
+display:
+  # blank: 空欄つき例文を表示 / hidden: 例文は表示しない（音だけ）
+  sentence: blank
+  showLetterCount: true
+  showMeaning: true
+  # 解答後に例文全体と和訳を表示する
+  showReview: true
+  reviewMs: 2600
+
+speech:
+  rate: 0.9
+  airshipRate: 0.9
+  # 通常問題で使う声の言語（先頭から順に探す）
+  voice: [en-US, en-GB]
+
+altitude:
+  # 高度は 0〜100。0 で墜落。読み上げが終わってから減り始める。
+  start: 55
+  decayPerSec: 2.0
+  decayIncreasePerLap: 0.4
+  gainMax: 28
+  gainMin: 8
+  gainFalloffPerSec: 1.6
+  wrongPenalty: 5
+  passPenalty: 12
+  # 墜落時に戻される割合（1区間の問題数に対して）
+  crashSetback: 0.3
+
+airship:
+  probability: 0.12
+  boostSeconds: 25
+  multiplier: 2
+  showMeaning: false

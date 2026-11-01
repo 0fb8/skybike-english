@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>そらとぶ自転車 英単語世界一周</title>
+</head>
+<body>
+  <div id="device">
+    <div class="screen" id="top">
+      <canvas id="scene" width="480" height="360"></canvas>
+      <div id="hud">
+        <div id="wordBar"></div>
+        <div id="info"><span class="tag" id="dest">→ ---</span><span class="tag" id="remain">あと 0km</span></div>
+        <div id="altMeter"><div id="altFill"></div></div>
+        <div id="count"></div>
+        <div id="boost"></div>
+        <div id="meaning"></div>
+      </div>
+      <div class="overlay" id="mapScreen">
+        <div id="mapHead"><span class="tag" id="mapName">---</span><span>総距離 <b id="mapTotal">0</b>km</span></div>
+        <canvas id="mapCanvas" width="480" height="290"></canvas>
+      </div>
+    </div>
+
+    <div class="screen" id="bottom">
+      <div id="playArea">
+        <div class="row">
+          <button class="b-quit" id="btnQuit">やめる</button>
+          <button id="btnPass">パス</button>
+          <button class="b-listen" id="btnListen">🔊 聴く</button>
+        </div>
+        <div id="sentenceBox"></div>
+        <div id="feedback"></div>
+        <div id="kbd"></div>
+      </div>
+      <div id="panel"></div>
+    </div>
+    <div class="small center">キーボードでも入力できます（Backspace＝1文字消す・Space＝聴く・Enter＝スタート）。</div>
+  </div>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
