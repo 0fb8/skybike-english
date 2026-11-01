@@ -1,9 +1,10 @@
 // 保存データの形式。形式を変えるときは SAVE_VERSION を上げ、migrate() に古い形からの変換を足す。
+import { CITIES, LEGACY_ROUTE_V2 } from "../data/route";
 import { sanitizeHistory, type History } from "./history";
 import { newProgress, type Progress } from "./quiz";
 import { loadJSON, removeKey, saveJSON } from "./storage";
 
-export const SAVE_VERSION = 2;
+export const SAVE_VERSION = 3;
 const KEY = "save";
 
 export interface SaveData {
@@ -37,13 +38,19 @@ export function sanitizeProgress(v: unknown): Progress {
   return p;
 }
 
-/** 保存されていた値（どの版でも）を現在の形にする */
+/**
+ * 保存されていた値（どの版でも）を現在の形にする。
+ *   版 1 → 2: 出題の記録（history）を追加
+ *   版 2 → 3: ルートが 12 都市から 71 地点に。今いる都市を名前で新しいルートの位置に置き換える（周回数はそのまま）
+ */
 export function migrate(raw: unknown): SaveData {
-  // 版 1 → 2: 出題の記録（history）を追加。ほかは同じ
-  if (!isObj(raw) || (raw.version !== 1 && raw.version !== SAVE_VERSION)) return emptySave();
+  if (!isObj(raw) || typeof raw.version !== "number" || raw.version < 1 || raw.version > SAVE_VERSION) return emptySave();
+  const progress = sanitizeProgress(raw.progress);
+  if (raw.version < 3) progress.leg = Math.max(0, CITIES.findIndex((c) => c.name === LEGACY_ROUTE_V2[progress.leg]));
+  if (progress.leg >= CITIES.length) progress.leg = 0; // ルートが短くなったときは出発地へ
   return {
     version: SAVE_VERSION,
-    progress: sanitizeProgress(raw.progress),
+    progress,
     bag: strings(raw.bag) ?? [],
     enabledSets: raw.enabledSets === null ? null : strings(raw.enabledSets),
     history: raw.version === 1 ? {} : sanitizeHistory(raw.history),

@@ -76,6 +76,8 @@ export interface GameOptions {
   /** 次の問題を引く。airship のときは飛行船向きの問題（なまりの音声があるもの）を優先してよい。尽きたら undefined */
   draw: (opts: { airship: boolean }) => PlayQuestion | undefined;
   emit: (e: GameEvent) => void;
+  /** この区間で 1 問ごとに飛行船が出る確率。省略すると config の airship.probability（区間によって出さないときは 0 を返す） */
+  airshipChance?: () => number;
   random?: () => number;
 }
 
@@ -185,7 +187,8 @@ export class Game {
 
   private next(now: number): void {
     const s = this.state;
-    const airship = !this.isBoosting(now) && this.random() < this.cfg.airship.probability;
+    const chance = this.o.airshipChance?.() ?? this.cfg.airship.probability;
+    const airship = !this.isBoosting(now) && this.random() < chance;
     const q = this.o.draw({ airship });
     if (!q) {
       Object.assign(s, { mode: "idle", question: null, result: null, legDone: 0 });

@@ -164,6 +164,16 @@ describe("Game", () => {
     expect(outcomes(b.events)).toEqual([]);
   });
 
+  it("飛行船の出現率は区間ごとに変えられる（0 なら出ない）", () => {
+    const events: GameEvent[] = [];
+    const game = new Game({
+      config: { ...config, airship: { ...config.airship, probability: 1 } }, legs: [1000, 1000], progress: newProgress(),
+      draw: () => q("I'm ok."), emit: (e) => events.push(e), random: () => 0, airshipChance: () => 0,
+    });
+    game.start(0);
+    expect(game.state.isAirship).toBe(false);
+  });
+
   it("問題が尽きたらメニューに戻る", () => {
     const { game, events } = setup({ questions: [] });
     game.start(0);

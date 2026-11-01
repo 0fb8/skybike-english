@@ -15,24 +15,3 @@ export function haversine(a: { lat: number; lon: number }, b: { lat: number; lon
 export function legDistances(cities: City[]): number[] {
   return cities.map((c, i) => haversine(c, cities[(i + 1) % cities.length]));
 }
-
-/** 経度差が 180 度を超えるとき、日付変更線をまたぐ側へ寄せる */
-export function unwrapLon(fromLon: number, toLon: number): number {
-  if (toLon - fromLon > 180) return toLon - 360;
-  if (fromLon - toLon > 180) return toLon + 360;
-  return toLon;
-}
-
-/** 周回上の累積距離 km における位置（区間内は線形補間） */
-export function positionAt(cities: City[], legs: number[], km: number): { lat: number; lon: number; leg: number } {
-  const lap = legs.reduce((a, b) => a + b, 0);
-  let k = ((km % lap) + lap) % lap;
-  let i = 0;
-  while (k > legs[i]) { k -= legs[i]; i = (i + 1) % cities.length; }
-  const a = cities[i], b = cities[(i + 1) % cities.length];
-  const t = legs[i] ? k / legs[i] : 0;
-  let lon = a.lon + (unwrapLon(a.lon, b.lon) - a.lon) * t;
-  if (lon > 180) lon -= 360;
-  if (lon < -180) lon += 360;
-  return { lat: a.lat + (b.lat - a.lat) * t, lon, leg: i };
-}

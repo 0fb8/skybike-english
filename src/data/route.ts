@@ -1,39 +1,110 @@
-// 世界一周のルート（東京から東回り）と地図用の大陸の輪郭（[経度, 緯度]）。
+// 世界一周のルート（東京を出発し、地球のいろいろな地域と北極・南極を巡って東京に戻る）。
+// 1 区間（ある地点 → 次の地点）が 1 回のゲーム。名前は英語で表示する。
+
+export interface Accent {
+  /** 飛行船の例文を読む声の言語（先頭から順に、config.yaml の speech.tts.accents → ブラウザの声で探す） */
+  langs: string[];
+  /** 表示名（例: Australian English） */
+  label: string;
+}
 
 export interface City {
   name: string;
-  ja: string;
   lat: number;
   lon: number;
-  /** 飛行船の問題で使う声の言語（先頭から順に探す） */
-  accent: string[];
-  region: string;
+  /** この地点へ向かう区間で飛行船（訛りの例文）が出る。無い区間では出ない */
+  accent?: Accent;
 }
 
+const AU: Accent = { langs: ["en-AU"], label: "Australian English" };
+const NZ: Accent = { langs: ["en-NZ", "en-AU"], label: "New Zealand English" };
+const ZA: Accent = { langs: ["en-ZA", "en-GB"], label: "South African English" };
+const IN: Accent = { langs: ["en-IN"], label: "Indian English" };
+const GB: Accent = { langs: ["en-GB"], label: "British English" };
+
 export const CITIES: City[] = [
-  { name: "Tokyo", ja: "東京", lat: 35.7, lon: 139.7, accent: ["ja-JP"], region: "日本" },
-  { name: "Sydney", ja: "シドニー", lat: -33.9, lon: 151.2, accent: ["en-AU"], region: "オーストラリア" },
-  { name: "Christchurch", ja: "クライストチャーチ", lat: -43.5, lon: 172.6, accent: ["en-NZ", "en-AU"], region: "ニュージーランド" },
-  { name: "Honolulu", ja: "ホノルル", lat: 21.3, lon: -157.9, accent: ["en-US"], region: "ハワイ" },
-  { name: "San Francisco", ja: "サンフランシスコ", lat: 37.8, lon: -122.4, accent: ["en-US"], region: "アメリカ西海岸" },
-  { name: "New York", ja: "ニューヨーク", lat: 40.7, lon: -74.0, accent: ["en-US"], region: "アメリカ東海岸" },
-  { name: "London", ja: "ロンドン", lat: 51.5, lon: -0.1, accent: ["en-GB"], region: "イギリス" },
-  { name: "Paris", ja: "パリ", lat: 48.9, lon: 2.35, accent: ["fr-FR", "fr-CA"], region: "フランス" },
-  { name: "Rome", ja: "ローマ", lat: 41.9, lon: 12.5, accent: ["it-IT"], region: "イタリア" },
-  { name: "Cairo", ja: "カイロ", lat: 30.0, lon: 31.2, accent: ["en-ZA", "en-GB"], region: "エジプト" },
-  { name: "Mumbai", ja: "ムンバイ", lat: 19.1, lon: 72.9, accent: ["en-IN", "hi-IN"], region: "インド" },
-  { name: "Singapore", ja: "シンガポール", lat: 1.35, lon: 103.8, accent: ["en-SG", "en-IN"], region: "シンガポール" },
+  // 東アジア・東南アジア
+  { name: "Tokyo", lat: 35.68, lon: 139.69 },
+  { name: "Seoul", lat: 37.57, lon: 126.98 },
+  { name: "Beijing", lat: 39.9, lon: 116.41 },
+  { name: "Shanghai", lat: 31.23, lon: 121.47 },
+  { name: "Taipei", lat: 25.03, lon: 121.57 },
+  { name: "Hong Kong", lat: 22.32, lon: 114.17 },
+  { name: "Manila", lat: 14.6, lon: 120.98 },
+  { name: "Ho Chi Minh City", lat: 10.82, lon: 106.63 },
+  { name: "Bangkok", lat: 13.76, lon: 100.5 },
+  { name: "Kuala Lumpur", lat: 3.14, lon: 101.69 },
+  { name: "Singapore", lat: 1.35, lon: 103.82 },
+  { name: "Jakarta", lat: -6.21, lon: 106.85 },
+  { name: "Bali", lat: -8.65, lon: 115.22 },
+  // オセアニア
+  { name: "Darwin", lat: -12.46, lon: 130.84 },
+  { name: "Brisbane", lat: -27.47, lon: 153.03 },
+  { name: "Sydney", lat: -33.87, lon: 151.21, accent: AU },
+  { name: "Melbourne", lat: -37.81, lon: 144.96 },
+  { name: "Auckland", lat: -36.85, lon: 174.76, accent: NZ },
+  { name: "Christchurch", lat: -43.53, lon: 172.64 },
+  // 南極
+  { name: "McMurdo Station", lat: -77.85, lon: 166.67 },
+  { name: "South Pole", lat: -90, lon: 0 },
+  { name: "Rothera Station", lat: -67.57, lon: -68.13 },
+  // 南米
+  { name: "Ushuaia", lat: -54.8, lon: -68.3 },
+  { name: "Santiago", lat: -33.45, lon: -70.67 },
+  { name: "Buenos Aires", lat: -34.6, lon: -58.38 },
+  { name: "São Paulo", lat: -23.55, lon: -46.63 },
+  { name: "Rio de Janeiro", lat: -22.91, lon: -43.17 },
+  // アフリカ
+  { name: "Cape Town", lat: -33.92, lon: 18.42, accent: ZA },
+  { name: "Johannesburg", lat: -26.2, lon: 28.05 },
+  { name: "Nairobi", lat: -1.29, lon: 36.82 },
+  { name: "Addis Ababa", lat: 9.03, lon: 38.74 },
+  { name: "Cairo", lat: 30.04, lon: 31.24 },
+  // 中東・南アジア
+  { name: "Dubai", lat: 25.2, lon: 55.27 },
+  { name: "Mumbai", lat: 19.08, lon: 72.88, accent: IN },
+  { name: "Delhi", lat: 28.61, lon: 77.21 },
+  // ヨーロッパ
+  { name: "Istanbul", lat: 41.01, lon: 28.98 },
+  { name: "Athens", lat: 37.98, lon: 23.73 },
+  { name: "Rome", lat: 41.9, lon: 12.5 },
+  { name: "Barcelona", lat: 41.39, lon: 2.17 },
+  { name: "Madrid", lat: 40.42, lon: -3.7 },
+  { name: "Lisbon", lat: 38.72, lon: -9.14 },
+  { name: "Paris", lat: 48.86, lon: 2.35 },
+  { name: "London", lat: 51.51, lon: -0.13, accent: GB },
+  { name: "Amsterdam", lat: 52.37, lon: 4.9 },
+  { name: "Berlin", lat: 52.52, lon: 13.4 },
+  { name: "Moscow", lat: 55.76, lon: 37.62 },
+  { name: "Saint Petersburg", lat: 59.93, lon: 30.36 },
+  { name: "Helsinki", lat: 60.17, lon: 24.94 },
+  { name: "Stockholm", lat: 59.33, lon: 18.07 },
+  { name: "Oslo", lat: 59.91, lon: 10.75 },
+  // 北極
+  { name: "Tromsø", lat: 69.65, lon: 18.96 },
+  { name: "Longyearbyen", lat: 78.22, lon: 15.65 },
+  { name: "North Pole", lat: 90, lon: 0 },
+  { name: "Reykjavik", lat: 64.15, lon: -21.94 },
+  { name: "Nuuk", lat: 64.18, lon: -51.72 },
+  // 北米・中米・南米北部
+  { name: "Montreal", lat: 45.5, lon: -73.57 },
+  { name: "Toronto", lat: 43.65, lon: -79.38 },
+  { name: "Chicago", lat: 41.88, lon: -87.63 },
+  { name: "New York", lat: 40.71, lon: -74.01 },
+  { name: "Washington, D.C.", lat: 38.91, lon: -77.04 },
+  { name: "Miami", lat: 25.76, lon: -80.19 },
+  { name: "Havana", lat: 23.11, lon: -82.37 },
+  { name: "Mexico City", lat: 19.43, lon: -99.13 },
+  { name: "Bogotá", lat: 4.71, lon: -74.07 },
+  { name: "Lima", lat: -12.05, lon: -77.04 },
+  // 北米西海岸・太平洋
+  { name: "Los Angeles", lat: 34.05, lon: -118.24 },
+  { name: "San Francisco", lat: 37.77, lon: -122.42 },
+  { name: "Seattle", lat: 47.61, lon: -122.33 },
+  { name: "Vancouver", lat: 49.28, lon: -123.12 },
+  { name: "Anchorage", lat: 61.22, lon: -149.9 },
+  { name: "Honolulu", lat: 21.31, lon: -157.86 },
 ];
 
-export const LAND: [number, number][][] = [
-  [[-168,65],[-140,70],[-95,72],[-80,62],[-60,55],[-65,45],[-80,30],[-82,25],[-97,26],[-90,18],[-83,10],[-80,8],[-86,13],[-105,20],[-117,32],[-125,42],[-125,50],[-140,60],[-165,60]],
-  [[-80,8],[-60,10],[-50,0],[-35,-7],[-40,-22],[-58,-38],[-68,-55],[-75,-50],[-72,-30],[-80,-5]],
-  [[-10,36],[-10,44],[-5,48],[5,52],[10,57],[20,60],[25,70],[60,70],[100,78],[140,72],[180,68],[178,62],[160,58],[140,52],[135,43],[127,38],[122,30],[110,20],[105,10],[100,13],[98,8],[92,22],[80,15],[77,8],[72,20],[60,25],[50,30],[48,28],[55,25],[57,22],[45,13],[35,30],[30,40],[25,37],[20,40],[15,38],[10,44],[3,43],[-5,36]],
-  [[-17,15],[-17,21],[-10,30],[-5,36],[10,37],[20,32],[32,31],[35,28],[43,12],[51,12],[40,-2],[40,-15],[33,-26],[20,-35],[15,-28],[12,-15],[9,-1],[5,5],[-8,4]],
-  [[114,-22],[122,-18],[130,-12],[137,-12],[142,-11],[146,-19],[153,-27],[150,-37],[140,-38],[132,-32],[115,-34]],
-  [[130,31],[134,34],[140,36],[142,40],[141,45],[145,44],[141,41],[140,35],[135,33]],
-  [[-5,50],[1,51],[0,53],[-2,57],[-5,58],[-6,55],[-3,54]],
-  [[172,-34],[178,-38],[175,-41],[168,-46],[167,-45],[173,-40]],
-  [[-50,60],[-20,70],[-20,80],[-60,82],[-70,76],[-55,68]],
-  [[95,5],[105,-6],[115,-8],[110,-2],[118,5],[110,2],[100,2]],
-];
+/** 保存データの版 2 までのルート（12 都市）。今いる地点を名前で引き継ぐのに使う */
+export const LEGACY_ROUTE_V2 = ["Tokyo", "Sydney", "Christchurch", "Honolulu", "San Francisco", "New York", "London", "Paris", "Rome", "Cairo", "Mumbai", "Singapore"];

@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { CITIES } from "../src/data/route";
 import { newProgress } from "../src/lib/quiz";
 import { emptySave, migrate, sanitizeProgress, SAVE_VERSION } from "../src/lib/save";
 
@@ -8,9 +9,18 @@ describe("save", () => {
     data.progress.leg = 3;
     expect(migrate(JSON.parse(JSON.stringify(data)))).toEqual(data);
   });
-  it("版 1 の保存データは進み具合を残したまま版 2 にする（記録は空から）", () => {
-    const v1 = { version: 1, progress: { ...newProgress(), leg: 4, name: "a" }, bag: ["b1/yoga"], enabledSets: ["b1"] };
+  it("版 1 の保存データは進み具合を残したまま今の版にする（記録は空から）", () => {
+    const v1 = { version: 1, progress: { ...newProgress(), leg: 0, laps: 2, name: "a" }, bag: ["b1/yoga"], enabledSets: ["b1"] };
     expect(migrate(v1)).toEqual({ ...emptySave(), progress: v1.progress, bag: ["b1/yoga"], enabledSets: ["b1"] });
+  });
+  it("版 2 までの今いる都市は、名前で新しいルートの位置に置き換える", () => {
+    const v2 = { version: 2, progress: { ...newProgress(), leg: 1, laps: 1 }, bag: [], enabledSets: null, history: {} };
+    const m = migrate(v2);
+    expect(CITIES[m.progress.leg].name).toBe("Sydney");
+    expect(m.progress.laps).toBe(1);
+  });
+  it("ルートより先の地点は出発地に戻す", () => {
+    expect(migrate({ ...emptySave(), progress: { ...newProgress(), leg: CITIES.length + 3 } }).progress.leg).toBe(0);
   });
   it("壊れた記録は捨てる", () => {
     const raw = { ...emptySave(), history: { a: { last: "correct", at: 1, correct: 1, failed: 0 }, b: { last: "maybe", at: 1 }, c: null } };

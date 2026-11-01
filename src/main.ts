@@ -15,8 +15,7 @@ import { QuestionBag, totalKm } from "./lib/quiz";
 import { loadSave, writeSave } from "./lib/save";
 import { prefetchAudio, speak, stopSpeaking, unlockAudio } from "./lib/speech";
 import { audioUrl, pickAccentQuestion, pickSpeaker, ttsAccent } from "./lib/voices";
-import { fitCanvas } from "./render/canvas";
-import { drawMap } from "./render/map";
+import { Globe } from "./render/globe";
 import { Scene } from "./render/scene";
 
 const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
@@ -47,7 +46,7 @@ function persist() {
 
 // ---------- ゲーム ----------
 const nextCity = () => CITIES[(game.state.progress.leg + 1) % CITIES.length];
-const nextAccent = () => ttsAccent(nextCity().accent, config);
+const nextAccent = () => ttsAccent(nextCity().accent?.langs ?? [], config);
 
 function drawQuestion({ airship }: { airship: boolean }): PlayQuestion | undefined {
   // 飛行船は、次の都市のなまりで音声を作ってある問題から出す（無ければ通常の順番で出し、ブラウザの声でなまりを試みる）
@@ -76,7 +75,7 @@ function onGameEvent(e: GameEvent) {
       const req = {
         text: e.text,
         url: q ? audioUrl(q, e.airship, nextAccent(), speaker.name) : undefined,
-        langs: e.airship ? nextCity().accent : config.speech.voice,
+        langs: e.airship ? nextCity().accent?.langs ?? config.speech.voice : config.speech.voice,
         rate: e.airship ? config.speech.airshipRate : config.speech.rate,
       };
       if (!e.first) { speak(req); break; }
@@ -102,6 +101,8 @@ const game = new Game({
   progress: save.progress,
   draw: drawQuestion,
   emit: onGameEvent,
+  // 飛行船は、訛りのある地点へ向かう区間でだけ出る
+  airshipChance: () => (nextCity().accent ? config.airship.probability : 0),
 });
 
 async function start() {
@@ -153,7 +154,7 @@ const stampsHtml = (laps: number) => `<div class="stamps">
   <div class="stamp ${laps >= 2 ? "" : "empty"}"><span>🌐</span>二周</div></div>`;
 const statsHtml = (s: GameState) => {
   const p = s.progress, rate = p.answered ? Math.round((p.correctFirst / p.answered) * 100) : 0;
-  return `<div class="stats">周回 ${p.laps}　解答 ${p.answered}問　ノーミス正解率 ${rate}%</div>`;
+  return `<div class="stats">地点 ${p.leg + 1} / ${CITIES.length}　周回 ${p.laps}　解答 ${p.answered}問　ノーミス正解率 ${rate}%</div>`;
 };
 const setsHtml = () => {
   const on = new Set(activeSetIds());
@@ -175,23 +176,22 @@ function showPage(html: string, { map, cls = "" }: { map: boolean; cls?: string 
 function hidePage() { $("page").classList.remove("show"); }
 const pageWithMap = () => $("page").classList.contains("show") && !$("page").classList.contains("no-map");
 
+const globe = new Globe($<HTMLCanvasElement>("mapCanvas"));
 function drawWorldMap() {
-  const canvas = $<HTMLCanvasElement>("mapCanvas");
-  fitCanvas(canvas); // 表示されている幅に合わせて描く
   const p = game.state.progress, name = p.name || "あなた";
   $("mapName").textContent = name;
   const km = totalKm(p, LEGS);
   $("mapTotal").textContent = Math.round(km).toLocaleString();
-  drawMap($<HTMLCanvasElement>("mapCanvas"), { totalKm: km, nextIndex: (p.leg + 1) % CITIES.length, name, legs: LEGS });
+  globe.show({ cities: CITIES, here: p.leg % CITIES.length, name });
 }
 
 function showMenu(s: GameState) {
   const p = s.progress, here = CITIES[p.leg % CITIES.length];
-  const failed = s.lastFlightFailed ? `<div class="ng">海に墜落して渡航失敗… ${esc(here.ja)}からもう一度！</div>` : "";
+  const failed = s.lastFlightFailed ? `<div class="ng">海に墜落して渡航失敗… ${esc(here.name)} からもう一度！</div>` : "";
   showPage(`
     ${p.name ? `<h2>${esc(p.name)} さん、おかえり！</h2>` : `<h2>空とぶ自転車で世界一周</h2><div>なまえ：<input id="nameInput" maxlength="8" placeholder="なまえ"></div>`}
     ${failed}
-    <div>${esc(here.ja)}から <b>${esc(nextCity().name)}</b> へ（${game.perLeg}問）</div>
+    <div>${esc(here.name)} → <b>${esc(nextCity().name)}</b>（${game.perLeg}問）</div>
     <button class="big" id="btnStart">スタート</button>
     ${reviewButtonHtml()}
     ${setsHtml()}${stampsHtml(p.laps)}${statsHtml(s)}
@@ -211,7 +211,7 @@ function showArrive(s: GameState) {
     p.laps === 2 ? "<div class='ok'>二周達成！ 地球儀のハンコをゲット！</div>" :
     `<div class='ok'>${p.laps}周目達成！</div>`;
   showPage(`<span class="end">終了</span>
-    <h2>${esc(here.ja)}（${esc(here.name)}）に到着！</h2>${lapMsg}
+    <h2>${esc(here.name)} に到着！</h2>${lapMsg}
     <div>次の目的地は <b>${esc(nextCity().name)}</b></div>
     <button class="big" id="btnStart">スタート</button>
     ${reviewButtonHtml()}
@@ -319,7 +319,7 @@ function renderPlay(s: GameState) {
   const q = s.question;
   // ステージ下の案内（出題中は日本語の答えを出さない）
   $("meaning").innerHTML = !q ? "" : s.isAirship
-    ? `✈ 飛行船！ <b>${esc(nextCity().region)}</b>なまりの例文を聞き取ろう`
+    ? `✈ 飛行船！ <b>${esc(nextCity().accent?.label ?? "")}</b> の例文を聞き取ろう`
     : "🔊 例文をまるごと書き取ろう";
   if (s.mode === "play" && q) {
     $("sentenceBox").innerHTML = dictationHtml(q, s.typed);
@@ -327,7 +327,7 @@ function renderPlay(s: GameState) {
     $("sentenceBox").innerHTML = reviewHtml(s.result);
   }
   const p = s.progress, n = game.perLeg;
-  $("dest").textContent = "→ " + nextCity().ja;
+  $("dest").textContent = "→ " + nextCity().name;
   $("remain").textContent = "あと " + Math.max(0, Math.round((LEGS[p.leg] * (n - s.legDone)) / n)).toLocaleString() + "km";
   $("count").textContent = s.mode === "play" || s.mode === "review" ? `${Math.floor(s.legDone)} / ${n}問` : "";
 }
@@ -335,7 +335,7 @@ function renderPlay(s: GameState) {
 // ---------- メインループ ----------
 const scene = new Scene($<HTMLCanvasElement>("scene"));
 // ウィンドウの大きさが変わったら、空の場面と地図を描き直す
-window.addEventListener("resize", () => { scene.resize(); if (pageWithMap()) drawWorldMap(); });
+window.addEventListener("resize", () => { scene.resize(); if (pageWithMap()) globe.redraw(); });
 let last = performance.now();
 let lastMode: Mode | null = null;
 let lastView = "";

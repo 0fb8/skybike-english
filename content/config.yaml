@@ -70,8 +70,10 @@ altitude:
   # 正しい文字を 1 文字書くたびに上がる量（例文は平均 40 文字ほど）
   gainPerLetter: 2.5
 
+# 飛行船: 訛りのある地点（src/data/route.ts の accent）へ向かう区間でだけ出る。それ以外の区間では出ない
 airship:
-  probability: 0.12
+  # 飛行船が出る区間での、1 問ごとの出現率
+  probability: 0.35
   boostSeconds: 25
   multiplier: 2
 
