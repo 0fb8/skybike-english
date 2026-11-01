@@ -55,31 +55,44 @@ if (args.has("--dry-run")) {
 
 if (missing.length) {
   const provider = await createProvider(tts);
-  let done = 0, failed = 0;
-  const queue = [...missing];
-  const worker = async () => {
-    for (let j: AudioJob | undefined; (j = queue.shift()); ) {
-      try {
-        const r = await provider.synthesize(j.text, j.voice);
-        // mp3 があれば「生成済み」とみなすので、mp3 は最後に置く
-        if (r.marks !== undefined) await store.put(`${j.hash}.marks.jsonl`, r.marks);
-        await store.put(`${j.hash}.mp3`, r.audio);
-        existing.set(`${j.hash}.mp3`, r.audio.byteLength);
-        done++;
-      } catch (e) {
-        failed++;
-        console.error(`✖ ${j.key} (${j.slot}, ${j.voice.voiceId}): ${(e as Error).message}`);
-        if (failed === 1 && /credential|security token|not authorized|AccessDenied/i.test(String(e))) {
-          console.error("  → AWS の認証情報と権限を確認してください（README「音声の生成」）");
-          queue.length = 0;
+  let done = 0, stopped = false;
+
+  /** queue の音声を CONCURRENCY 本並行で作る。失敗したものを返す */
+  const run = async (queue: AudioJob[], total: number): Promise<AudioJob[]> => {
+    const failedJobs: AudioJob[] = [];
+    let n = 0;
+    const worker = async () => {
+      for (let j: AudioJob | undefined; !stopped && (j = queue.shift()); ) {
+        try {
+          const r = await provider.synthesize(j.text, j.voice);
+          // mp3 があれば「生成済み」とみなすので、mp3 は最後に置く
+          if (r.marks !== undefined) await store.put(`${j.hash}.marks.jsonl`, r.marks);
+          await store.put(`${j.hash}.mp3`, r.audio);
+          existing.set(`${j.hash}.mp3`, r.audio.byteLength);
+          done++;
+        } catch (e) {
+          failedJobs.push(j);
+          console.error(`✖ ${j.key} (${j.slot}, ${j.voice.voiceId}): ${(e as Error).message}`);
+          if (/credential|security token|not authorized|AccessDenied/i.test(String(e))) {
+            console.error("  → AWS の認証情報と権限を確認してください（README「音声の生成」）");
+            stopped = true; // 何度やっても同じなので打ち切る
+          }
         }
+        if (++n % 20 === 0) console.log(`  … ${n} / ${total}`);
       }
-      if ((done + failed) % 20 === 0) console.log(`  … ${done + failed} / ${missing.length}`);
-    }
+    };
+    await Promise.all(Array.from({ length: CONCURRENCY }, worker));
+    return failedJobs;
   };
-  await Promise.all(Array.from({ length: CONCURRENCY }, worker));
-  console.log(`✔ ${done} 件を生成しました${failed ? `（${failed} 件失敗）` : ""}`);
-  if (failed) process.exitCode = 1;
+
+  let failed = await run([...missing], missing.length);
+  // 接続の切断など一時的な失敗は、最後にもう一度だけまとめて試す
+  if (failed.length && !stopped) {
+    console.log(`  失敗した ${failed.length} 件をもう一度試します`);
+    failed = await run([...failed], failed.length);
+  }
+  console.log(`✔ ${done} 件を生成しました${failed.length ? `（${failed.length} 件失敗）` : ""}`);
+  if (failed.length) process.exitCode = 1;
 }
 
 const keep = new Set(unique.map((j) => j.hash));
@@ -92,3 +105,6 @@ for (const [f, bytes] of existing) {
 if (stale.length && args.has("--prune")) await store.remove(stale);
 console.log(`${store.label}: 音声 ${files} 件・${(size / 1024 / 1024).toFixed(1)} MB` +
   (stale.length ? `、使われていないファイル ${stale.length} 件${args.has("--prune") ? "を削除しました" : "（--prune で削除）"}` : ""));
+
+// 通信の後片付けが残っていてもプロセスが終わらずに止まらないよう、ここで終える（CI が終わらなくなるのを防ぐ）
+process.exit(process.exitCode ?? 0);

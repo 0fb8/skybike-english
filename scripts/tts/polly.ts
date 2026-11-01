@@ -7,7 +7,8 @@ export class PollyProvider implements TtsProvider {
   private client: PollyClient;
 
   constructor(region: string) {
-    this.client = new PollyClient({ region });
+    // 応答が返らないまま止まらないよう待ち時間に上限を付け、一時的な失敗（接続の切断など）は SDK に再試行させる
+    this.client = new PollyClient({ region, maxAttempts: 5, requestHandler: { connectionTimeout: 10_000, requestTimeout: 60_000 } });
   }
 
   async synthesize(text: string, voice: TtsVoice): Promise<TtsResult> {

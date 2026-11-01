@@ -10,7 +10,8 @@ export class S3Store implements AudioStore {
   private client: S3Client;
 
   constructor(region: string, private bucket: string, private prefix: string) {
-    this.client = new S3Client({ region });
+    // 応答が返らないまま止まらないよう待ち時間に上限を付け、一時的な失敗は SDK に再試行させる
+    this.client = new S3Client({ region, maxAttempts: 5, requestHandler: { connectionTimeout: 10_000, requestTimeout: 60_000 } });
     this.label = `s3://${bucket}/${prefix}/`;
   }
 
