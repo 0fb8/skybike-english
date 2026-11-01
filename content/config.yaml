@@ -51,9 +51,9 @@ speech:
     accentQuestions: 20
     # 音声の置き場所（S3）と配信元（CloudFront）。infra/ で `npx cdk deploy` したときの出力を書く（README「音声の生成」）
     # 書かなければリポジトリ直下の audio/ に生成してビルドに含める
-    # storage:
-    #   bucket: skybikeenglishaudio-audio9ab18887-xxxxxxxxxxxx
-    #   baseUrl: https://xxxxxxxxxxxxxx.cloudfront.net
+    storage:
+      bucket: skybikeenglishaudio-audio9ab18887-0bukq4vj0c7e
+      baseUrl: https://d26s0gkykn7rvi.cloudfront.net
 
 altitude:
   # 高度は 0〜100。時間とともに下がり、0 で墜落（その区間は失敗してメニューに戻る）。
