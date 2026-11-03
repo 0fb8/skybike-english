@@ -30,6 +30,10 @@ describe("save", () => {
     expect(migrate({ version: SAVE_VERSION + 1 })).toEqual(emptySave());
     expect(migrate("garbage")).toEqual(emptySave());
   });
+  it("以前の既定の名前「あなた」は名前なしに戻す（名前を入れ直せるように）", () => {
+    expect(sanitizeProgress({ name: "あなた" }).name).toBe("");
+    expect(sanitizeProgress({ name: "Ken" }).name).toBe("Ken");
+  });
   it("progress の不正な値は初期値で埋める", () => {
     expect(sanitizeProgress({ name: "a", leg: -1, laps: 2 })).toMatchObject({ name: "a", leg: 0, laps: 2 });
   });

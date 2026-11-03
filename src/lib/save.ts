@@ -27,7 +27,8 @@ const strings = (v: unknown): string[] | null => (Array.isArray(v) && v.every((x
 export function sanitizeProgress(v: unknown): Progress {
   const p = newProgress();
   if (!isObj(v)) return p;
-  if (typeof v.name === "string") p.name = v.name.slice(0, 20);
+  // 以前は名前を入れずに始めると「あなた」が名前として保存され、変えられなかった。名前なしに戻す
+  if (typeof v.name === "string" && v.name !== "あなた") p.name = v.name.slice(0, 20);
   // 以前の形式にあった legDone / totalKm（区間の途中の進み）は読まない → 出発地からやり直し
   for (const k of ["leg", "laps", "answered", "correctFirst"] as const) {
     const n = v[k];

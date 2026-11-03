@@ -109,7 +109,7 @@ const game = new Game({
 async function start() {
   unlockAudio(); // クリックの処理中に呼ぶ必要がある
   const ni = document.getElementById("nameInput") as HTMLInputElement | null;
-  if (ni) game.setName(ni.value.trim() || "あなた");
+  if (ni) game.setName(ni.value.trim()); // 空なら名前なし（表示は「あなた」）
   if (!activeSetIds().length) { feedback("問題集を1つ以上選んでください", "ng"); return; }
   const btn = document.getElementById("btnStart") as HTMLButtonElement | null;
   if (btn) btn.disabled = true;
@@ -190,7 +190,8 @@ function showMenu(s: GameState) {
   const p = s.progress, here = CITIES[p.leg % CITIES.length];
   const failed = s.lastFlightFailed ? `<div class="ng">${CRASH_PLACE[nextCity().scenery].place}に墜落して渡航失敗… ${esc(here.name)} からもう一度！</div>` : "";
   showPage(`
-    ${p.name ? `<h2>${esc(p.name)} さん、おかえり！</h2>` : `<h2>空とぶ自転車で世界一周</h2><div>なまえ：<input id="nameInput" maxlength="8" placeholder="なまえ"></div>`}
+    <h2 id="menuTitle">${menuTitle(p.name)}</h2>
+    <div>なまえ：<input id="nameInput" maxlength="8" placeholder="なまえ" value="${esc(p.name)}"></div>
     ${failed}
     <div>${esc(here.name)} → <b>${esc(nextCity().name)}</b>（${game.perLeg}問）</div>
     <button class="big" id="btnStart">スタート</button>
@@ -202,8 +203,16 @@ function showMenu(s: GameState) {
     writeSave(save);
   }));
   $("btnStart").onclick = start;
+  // 名前はいつでも変えられる（入力欄から離れたとき・Enter で保存し、見出しと地球儀の名前も変える）
+  $<HTMLInputElement>("nameInput").onchange = (e) => {
+    game.setName((e.target as HTMLInputElement).value.trim());
+    $("menuTitle").innerHTML = menuTitle(game.state.progress.name);
+    drawWorldMap();
+  };
   bindReviewButton(() => showMenu(game.state));
 }
+
+const menuTitle = (name: string) => (name ? `${esc(name)} さん、おかえり！` : "空とぶ自転車で世界一周");
 
 function showArrive(s: GameState) {
   const p = s.progress, here = CITIES[p.leg];
